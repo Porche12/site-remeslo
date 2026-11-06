@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Карточки 2ГИС & Яндекс Карты — Арт-пространство «Пантеон»</title>
+  <meta name="description" content="Интерактивный предпросмотр и кабинет карточек товаров и услуг для 2ГИС и Яндекс Карт арт-пространства «Пантеон» в Калининграде.">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ym: {
+              bg: '#f4f4f7',
+              surface: '#ffffff',
+              blue: '#2d68ff',
+              blueDark: '#1b54e4',
+              green: '#25b44b',
+              greenDark: '#1fa241',
+              dark: '#1e2022',
+              gray: '#727478',
+              lightGray: '#f0f1f4',
+              border: '#e4e6ea',
+              amber: '#ff9800',
+              accentRed: '#f44336'
+            },
+            panteon: {
+              terracotta: '#c86d44',
+              gold: '#d4af37',
+              dark: '#181513'
+            }
+          },
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+            serif: ['Georgia', 'Cambria', '"Times New Roman"', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Smooth horizontal scroll without scrollbar */
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Device frame simulation */
+    .mobile-phone-frame {
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.3), 0 0 0 12px #26272b, 0 0 0 14px #424449;
+      border-radius: 44px;
+    }
+
+    /* Story ring pulse */
+    .story-ring-active {
+      background: linear-gradient(135deg, #2d68ff 0%, #00c6ff 50%, #c86d44 100%);
+      padding: 2.5px;
+    }
+
+    /* Modal slide animation */
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .modal-sheet {
+      animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Toast notification */
+    #copy-toast {
+      transition: all 0.25s ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-800 antialiased min-h-screen py-4 lg:py-8 px-2 sm:px-4">
+
+  <!-- ================= TOP TOOLBAR (DESKTOP CONTROLS) ================= -->
+  <div class="max-w-5xl mx-auto mb-6 bg-slate-800/90 backdrop-blur-md rounded-2xl border border-slate-700 p-4 text-white shadow-xl flex flex-wrap items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-panteon-terracotta flex items-center justify-center font-bold text-lg text-white shadow-md">
+        П
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <h1 class="font-bold text-base sm:text-lg">Витрина 2ГИС & Яндекс Карты</h1>
+          <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+            Готово к экспорту
+          </span>
+        </div>
+        <p class="text-xs text-slate-400">
+          Арт-пространство «Пантеон» • Калининград, Ленинский пр-т, 151
+        </p>
+      </div>
+    </div>
+
+    <!-- Actions / Switcher -->
+    <div class="flex flex-wrap items-center gap-2.5">
+      <!-- Back to site -->
+      <a href="index.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-xs text-slate-200 transition">
+        <i data-lucide="globe" class="w-4 h-4 text-amber-400"></i>
+        <span>Темный сайт</span>
+      </a>
+      <a href="light.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-xs text-slate-200 transition">
+        <span>☀️ Светлый лен</span>
+      </a>
+
+      <!-- Quick Export Text Mode -->
+      <button onclick="toggleExportDrawer()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-panteon-terracotta hover:bg-amber-600 text-xs font-semibold text-white shadow-md transition">
+        <i data-lucide="copy" class="w-4 h-4"></i>
+        <span>Тексты для кабинета карт</span>
+      </button>
+
+      <!-- Frame View Toggle on Desktop -->
+      <button id="view-toggle-btn" onclick="toggleDesktopView()" class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-xs text-slate-200 transition">
+        <i data-lucide="smartphone" class="w-4 h-4"></i>
+        <span id="view-toggle-text">На всю ширину</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= MAIN CONTAINER ================= -->
+  <div class="flex justify-center items-start">
+
+    <!-- SMARTPHONE / MAPS PROFILE FRAME -->
+    <div id="device-wrapper" class="w-full max-w-md mobile-phone-frame bg-ym-bg overflow-hidden transition-all duration-300 relative border border-slate-700/50">
+
+      <!-- SMARTPHONE STATUS BAR & NOTCH -->
+      <div class="bg-black text-white px-7 pt-3 pb-1.5 flex justify-between items-center text-xs font-semibold select-none">
+        <span>12:45</span>
+        <div class="w-24 h-4 bg-black rounded-full mx-auto -mt-1 flex items-center justify-center">
+          <div class="w-3 h-3 bg-slate-900 rounded-full border border-slate-800"></div>
+        </div>
+        <div class="flex items-center gap-1.5 text-[11px]">
+          <i data-lucide="wifi" class="w-3.5 h-3.5"></i>
+          <i data-lucide="battery-charging" class="w-4 h-4 text-emerald-400"></i>
+        </div>
+      </div>
+
+      <!-- ================= MAPS APP TOP APP BAR ================= -->
+      <div class="bg-white px-3 py-2.5 border-b border-ym-border flex items-center gap-2 sticky top-0 z-30 shadow-sm">
+        <button onclick="window.history.back()" class="p-1.5 rounded-full hover:bg-ym-lightGray text-ym-dark">
+          <i data-lucide="arrow-left" class="w-5 h-5"></i>
+        </button>
+
+        <!-- Search Input with Name -->
+        <div class="flex-1 bg-ym-lightGray rounded-xl px-3 py-1.5 flex items-center gap-2">
+          <i data-lucide="search" class="w-4 h-4 text-ym-gray"></i>
+          <span class="text-xs font-medium text-ym-dark truncate">Пантеон арт-пространство</span>
+        </div>
+
+        <button onclick="shareProfile()" class="p-1.5 rounded-full hover:bg-ym-lightGray text-ym-gray">
+          <i data-lucide="share-2" class="w-4 h-4"></i>
+        </button>
+        <button onclick="toggleExportDrawer()" class="p-1.5 rounded-full hover:bg-ym-lightGray text-ym-gray">
+          <i data-lucide="more-vertical" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- ================= HERO COVER PHOTO CAROUSEL ================= -->
+      <div class="relative bg-slate-900 aspect-[16/9] overflow-hidden group">
+        <img id="main-hero-img" src="assets/img/00_oblozhka_profilya_glavnaya_1200x1200.jpg" alt="Пантеон арт-пространство Калининград" class="w-full h-full object-cover transition duration-500">
+
+        <!-- Top Avatar Badge on left (matching the reference screenshot) -->
+        <div class="absolute top-3 left-3 bg-gradient-to-br from-amber-500 to-amber-700 p-1.5 rounded-2xl shadow-lg border-2 border-white/80">
+          <div class="w-9 h-9 bg-panteon-dark rounded-xl flex items-center justify-center text-amber-300 font-serif font-black text-xl shadow-inner">
+            П
+          </div>
+        </div>
+
+        <!-- Slider Pagination Indicator (10 bars like screenshot) -->
+        <div class="absolute top-3 inset-x-16 flex gap-1 justify-center">
+          <div class="h-1 flex-1 bg-white rounded-full"></div>
+          <div class="h-1 flex-1 bg-white/40 rounded-full"></div>
+          <div class="h-1 flex-1 bg-white/40 rounded-full"></div>
+          <div class="h-1 flex-1 bg-white/40 rounded-full"></div>
+          <div class="h-1 flex-1 bg-white/40 rounded-full"></div>
+          <div class="h-1 flex-1 bg-white/40 rounded-full"></div>
+          <div class="h-1 flex-1 bg-white/40 rounded-full"></div>
+        </div>
+
+        <!-- Photo Counter Badge -->
+        <div class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white text-[11px] font-medium px-2.5 py-1 rounded-full flex items-center gap-1.5 shadow">
+          <i data-lucide="camera" class="w-3.5 h-3.5"></i>
+          <span>28 фото</span>
+        </div>
+
+        <!-- Verified Organisation Pill -->
+        <div class="absolute bottom-3 left-3 bg-ym-blue text-white text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1 shadow">
+          <i data-lucide="check" class="w-3 h-3 stroke-[3]"></i>
+          <span>Проверено 2ГИС & Яндекс</span>
+        </div>
+      </div>
+
+      <!-- ================= BUSINESS INFO SECTION ================= -->
+      <div class="bg-white p-4 border-b border-ym-border">
+        
+        <!-- Title & Badges -->
+        <div class="flex items-center gap-1.5">
+          <h2 class="text-xl font-bold text-ym-dark">Пантеон</h2>
+          <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-ym-green text-white">
+            <i data-lucide="check" class="w-3 h-3 stroke-[3]"></i>
+          </span>
+        </div>
+
+        <!-- Rubric & Subcategories -->
+        <p class="text-xs text-ym-gray mt-0.5">
+          Арт-пространство, музей, фотостудия, организация детских праздников
+        </p>
+
+        <!-- Rating & Reviews -->
+        <div class="flex items-center gap-2 mt-2 text-xs">
+          <div class="flex text-ym-amber">
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-ym-amber"></i>
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-ym-amber"></i>
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-ym-amber"></i>
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-ym-amber"></i>
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-ym-amber"></i>
+          </div>
+          <span class="font-bold text-ym-dark text-sm">5,0</span>
+          <span class="text-ym-gray">199 отзывов (Яндекс & 2ГИС)</span>
+        </div>
+
+        <!-- Working Status -->
+        <div class="flex items-center gap-1.5 mt-2 text-xs">
+          <span class="w-2 h-2 rounded-full bg-ym-green animate-pulse"></span>
+          <span class="font-semibold text-ym-dark">Открыто до 18:00</span>
+          <span class="text-ym-gray">• по предварительному звонку</span>
+          <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-ym-gray"></i>
+        </div>
+
+        <!-- Action Buttons Row (Маршрут / Сайт / Закладки / Поделиться) -->
+        <div class="grid grid-cols-4 gap-2 mt-4">
+          <!-- Route -->
+          <a href="https://yandex.ru/maps/?rtext=~54.697843,20.505322" target="_blank" class="flex flex-col items-center justify-center py-2 px-1 bg-ym-blue hover:bg-ym-blueDark text-white rounded-xl text-center transition shadow-sm">
+            <i data-lucide="navigation" class="w-4 h-4 mb-1"></i>
+            <span class="text-[11px] font-semibold">Маршрут</span>
+          </a>
+
+          <!-- Website -->
+          <a href="index.html" class="flex flex-col items-center justify-center py-2 px-1 bg-ym-lightGray hover:bg-slate-200 text-ym-dark rounded-xl text-center transition">
+            <i data-lucide="globe" class="w-4 h-4 mb-1 text-ym-blue"></i>
+            <span class="text-[11px] font-semibold">Сайт</span>
+          </a>
+
+          <!-- Bookmark -->
+          <button onclick="bookmarkCard()" class="flex flex-col items-center justify-center py-2 px-1 bg-ym-lightGray hover:bg-slate-200 text-ym-dark rounded-xl text-center transition">
+            <i data-lucide="bookmark" class="w-4 h-4 mb-1 text-ym-gray"></i>
+            <span class="text-[11px] font-semibold">В закладки</span>
+          </button>
+
+          <!-- WhatsApp / Chat -->
+          <a href="https://wa.me/79216137540?text=Здравствуйте!%20Пишу%20вам%20из%202ГИС/Яндекс%20Карт,%20хочу%20уточнить%20по%20посещению%20Пантеона" target="_blank" class="flex flex-col items-center justify-center py-2 px-1 bg-ym-lightGray hover:bg-slate-200 text-ym-dark rounded-xl text-center transition">
+            <i data-lucide="message-circle" class="w-4 h-4 mb-1 text-emerald-600"></i>
+            <span class="text-[11px] font-semibold">Чат</span>
+          </a>
+        </div>
+
+        <!-- Promo Banner (as seen in screenshot with asterisk icon) -->
+        <div class="mt-3.5 p-2.5 rounded-xl bg-amber-50/80 border border-amber-200/80 flex items-start gap-2.5 text-xs">
+          <div class="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center flex-shrink-0 text-[10px] font-bold">
+            ★
+          </div>
+          <div class="flex-1">
+            <p class="text-slate-800 leading-snug">
+              <strong class="font-bold text-amber-900">Акция для выпускников:</strong> бесплатная аренда арт-пространства при заказе фотоальбомов! Входной билет — от 280 ₽.
+            </p>
+            <span class="text-[10px] text-amber-700 font-medium">Промо-предложение</span>
+          </div>
+        </div>
+
+        <!-- Green Call CTA Button (like Kingstore in screenshot) -->
+        <a href="tel:+79216137540" class="mt-3.5 w-full py-3 bg-ym-green hover:bg-ym-greenDark text-white font-bold text-sm rounded-xl flex items-center justify-center gap-2 shadow-sm transition">
+          <i data-lucide="phone-call" class="w-4 h-4"></i>
+          <span>Показать телефон: +7 (921) 613-75-40</span>
+        </a>
+
+      </div>
+
+      <!-- ================= SECTION TABS (Обзор / Товары и услуги / Новости / Фото) ================= -->
+      <div class="bg-white border-b border-ym-border px-3 flex gap-5 text-xs font-semibold text-ym-gray overflow-x-auto hide-scrollbar sticky top-[57px] z-20">
+        <button onclick="switchTab('goods')" id="tab-btn-goods" class="py-3 border-b-2 border-ym-blue text-ym-blue font-bold whitespace-nowrap flex items-center gap-1.5">
+          <span>Товары и услуги</span>
+          <span class="px-1.5 py-0.2 bg-blue-100 text-ym-blue text-[10px] rounded-full">9</span>
+        </button>
+        <button onclick="switchTab('stories')" id="tab-btn-stories" class="py-3 border-b-2 border-transparent hover:text-ym-dark whitespace-nowrap flex items-center gap-1.5">
+          <span>Истории & Витрина</span>
+        </button>
+        <button onclick="switchTab('about')" id="tab-btn-about" class="py-3 border-b-2 border-transparent hover:text-ym-dark whitespace-nowrap">
+          <span>Обзор & Адрес</span>
+        </button>
+        <button onclick="toggleExportDrawer()" class="py-3 border-b-2 border-transparent hover:text-ym-dark whitespace-nowrap text-panteon-terracotta flex items-center gap-1">
+          <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+          <span>Копировать для кабинета</span>
+        </button>
+      </div>
+
+      <!-- ================= MAIN CONTENT AREA ================= -->
+      <div class="p-3">
+
+        <!-- ================= 1. PROMO STORIES CAROUSEL (EXACT MATCH TO KINGSTORE SCREENSHOT) ================= -->
+        <div class="mb-4">
+          <div class="flex items-center justify-between mb-2 px-1">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-ym-gray">
+              Акции и ключевые направления
+            </h3>
+            <span class="text-[11px] text-ym-blue font-semibold">9 карточек</span>
+          </div>
+
+          <!-- Carousel Container (Horizontal snap scroll) -->
+          <div class="flex gap-2.5 overflow-x-auto hide-scrollbar pb-2 pt-1 px-1">
+
+            <!-- Story 1: Express Photo -->
+            <div onclick="openCardModal(1)" class="flex-shrink-0 w-28 cursor-pointer group">
+              <div class="story-ring-active rounded-2xl p-[2px] transition transform group-hover:scale-[1.03]">
+                <div class="w-full aspect-[9/13] rounded-[14px] overflow-hidden relative bg-slate-900 shadow">
+                  <img src="assets/img/01_express_fotosessiya_20min_1200x1200.jpg" alt="Экспресс фотосессия" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30"></div>
+                  <div class="absolute top-1.5 left-1.5 right-1.5">
+                    <span class="px-1.5 py-0.5 rounded text-[8px] font-black bg-amber-500 text-black uppercase tracking-tight">ХИТ 20 МИН</span>
+                  </div>
+                  <div class="absolute bottom-2 left-2 right-2 text-white">
+                    <span class="text-[11px] font-bold block leading-tight text-amber-300">3 500 ₽</span>
+                    <span class="text-[9px] text-slate-200">Экспресс</span>
+                  </div>
+                </div>
+              </div>
+              <span class="text-[11px] font-semibold text-ym-dark mt-1.5 text-center block leading-tight truncate px-0.5">
+                Экспресс-съемка
+              </span>
+            </div>
+
+            <!-- Story 2: Fashion Photo -->
+            <div onclick="openCardModal(2)" class="flex-shrink-0 w-28 cursor-pointer group">
+              <div class="rounded-2xl p-[2px] border-2 border-ym-blue transition transform group-hover:scale-[1.03]">
+                <div class="w-full aspect-[9/13] rounded-[14px] overflow-hidden relative bg-slate-900 shadow">
+                  <img src="assets/img/02_individualnaya_fashion_fotosessiya_1200x1200.jpg" alt="Fashion фотосессия" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30"></div>
+                  <div class="absolute top-1.5 left-1.5 right-1.5">
+                    <span class="px-1.5 py-0.5 rounded text-[8px] font-black bg-rose-500 text-white uppercase tracking-tight">FASHION</span>
+                  </div>
+                  <div class="absolute bottom-2 left-2 right-2 text-white">
+                    <span class="text-[11px] font-bold block leading-tight text-white">5 000 ₽</span>
+                    <span class="text-[9px] text-slate-200">1 час студии</span>
+                  </div>
+                </div>
+              </div>
+              <span class="text-[11px] font-semibold text-ym-dark mt-1.5 text-center block leading-tight truncate px-0.5">
+                Fashion съемка
+              </span>
+            </div>
+
+            <!-- Story 3: Grad Albums -->
+            <div onclick="openCardModal(3)" class="flex-shrink-0 w-28 cursor-pointer group">
+              <div class="story-ring-active rounded-2xl p-[2px] transition transform group-hover:scale-[1.03]">
+                <div class="w-full aspect-[9/13] rounded-[14px] overflow-hidden relative bg-slate-900 shadow">
+                  <img src="assets/img/03_vypusknye_fotoalbomy_knigi_1200x1200.jpg" alt="Выпускные альбомы" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30"></div>
+                  <div class="absolute top-1.5 left-1.5 right-1.5">
+                    <span class="px-1.5 py-0.5 rounded text-[8px] font-black bg-emerald-500 text-white uppercase tracking-tight">АКЦИЯ</span>
+                  </div>
+                  <div class="absolute bottom-2 left-2 right-2 text-white">
+                    <span class="text-[11px] font-bold block leading-tight text-emerald-300">2 500 ₽</span>
+                    <span class="text-[9px] text-slate-200">LayFlat 180°</span>
+                  </div>
+                </div>
+              </div>
+              <span class="text-[11px] font-semibold text-ym-dark mt-1.5 text-center block leading-tight truncate px-0.5">
+                Выпускные альбомы
+              </span>
+            </div>
+
+            <!-- Story 4: Kids Birthday -->
+            <div onclick="openCardModal(4)" class="flex-shrink-0 w-28 cursor-pointer group">
+              <div class="rounded-2xl p-[2px] border-2 border-ym-blue transition transform group-hover:scale-[1.03]">
+                <div class="w-full aspect-[9/13] rounded-[14px] overflow-hidden relative bg-slate-900 shadow">
+                  <img src="assets/img/04_detskiy_den_rozhdeniya_skazka_1200x1200.jpg" alt="Детский день рождения" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30"></div>
+                  <div class="absolute top-1.5 left-1.5 right-1.5">
+                    <span class="px-1.5 py-0.5 rounded text-[8px] font-black bg-purple-500 text-white uppercase tracking-tight">ПУЗЫРИ & КРОЛИКИ</span>
+                  </div>
+                  <div class="absolute bottom-2 left-2 right-2 text-white">
+                    <span class="text-[11px] font-bold block leading-tight text-white">500 ₽/гость</span>
+                    <span class="text-[9px] text-slate-200">Детский праздник</span>
+                  </div>
+                </div>
+              </div>
+              <span class="text-[11px] font-semibold text-ym-dark mt-1.5 text-center block leading-tight truncate px-0.5">
+                День рождения
+              </span>
+            </div>
+
+            <!-- Story 5: Excursion + MK -->
+            <div onclick="openCardModal(5)" class="flex-shrink-0 w-28 cursor-pointer group">
+              <div class="rounded-2xl p-[2px] border-2 border-ym-blue transition transform group-hover:scale-[1.03]">
+                <div class="w-full aspect-[9/13] rounded-[14px] overflow-hidden relative bg-slate-900 shadow">
+                  <img src="assets/img/05_immersivnaya_ekskursiya_masterklass_1200x1200.jpg" alt="Экскурсия + МК" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30"></div>
+                  <div class="absolute top-1.5 left-1.5 right-1.5">
+                    <span class="px-1.5 py-0.5 rounded text-[8px] font-black bg-cyan-500 text-white uppercase tracking-tight">2 ЧАСА</span>
+                  </div>
+                  <div class="absolute bottom-2 left-2 right-2 text-white">
+                    <span class="text-[11px] font-bold block leading-tight text-cyan-300">500 ₽</span>
+                    <span class="text-[9px] text-slate-200">Экскурсия + МК</span>
+                  </div>
+                </div>
+              </div>
+              <span class="text-[11px] font-semibold text-ym-dark mt-1.5 text-center block leading-tight truncate px-0.5">
+                Иммерсивная экск.
+              </span>
+            </div>
+
+            <!-- Story 6: Women Club -->
+            <div onclick="openCardModal(6)" class="flex-shrink-0 w-28 cursor-pointer group">
+              <div class="rounded-2xl p-[2px] border-2 border-ym-blue transition transform group-hover:scale-[1.03]">
+                <div class="w-full aspect-[9/13] rounded-[14px] overflow-hidden relative bg-slate-900 shadow">
+                  <img src="assets/img/06_zhenskiy_klub_volshebnaya_sreda_1200x1200.jpg" alt="Женский клуб" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30"></div>
+                  <div class="absolute top-1.5 left-1.5 right-1.5">
+                    <span class="px-1.5 py-0.5 rounded text-[8px] font-black bg-pink-500 text-white uppercase tracking-tight">СРЕДА</span>
+                  </div>
+                  <div class="absolute bottom-2 left-2 right-2 text-white">
+                    <span class="text-[11px] font-bold block leading-tight text-white">380 ₽</span>
+                    <span class="text-[9px] text-slate-200">Женский клуб</span>
+                  </div>
+                </div>
+              </div>
+              <span class="text-[11px] font-semibold text-ym-dark mt-1.5 text-center block leading-tight truncate px-0.5">
+                Волшебная среда
+              </span>
+            </div>
+
+            <!-- Story 7: Rent Loft -->
+            <div onclick="openCardModal(7)" class="flex-shrink-0 w-28 cursor-pointer group">
+              <div class="rounded-2xl p-[2px] border-2 border-ym-blue transition transform group-hover:scale-[1.03]">
+                <div class="w-full aspect-[9/13] rounded-[14px] overflow-hidden relative bg-slate-900 shadow">
+                  <img src="assets/img/07_arenda_art_prostranstva_loft_1200x1200.jpg" alt="Аренда лофта" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30"></div>
+                  <div class="absolute top-1.5 left-1.5 right-1.5">
+                    <span class="px-1.5 py-0.5 rounded text-[8px] font-black bg-orange-500 text-white uppercase tracking-tight">ЛОФТ</span>
+                  </div>
+                  <div class="absolute bottom-2 left-2 right-2 text-white">
+                    <span class="text-[11px] font-bold block leading-tight text-orange-300">1 500 ₽/ч</span>
+                    <span class="text-[9px] text-slate-200">Аренда залов</span>
+                  </div>
+                </div>
+              </div>
+              <span class="text-[11px] font-semibold text-ym-dark mt-1.5 text-center block leading-tight truncate px-0.5">
+                Аренда лофта
+              </span>
+            </div>
+
+            <!-- Story 8: Entrance Ticket -->
+            <div onclick="openCardModal(8)" class="flex-shrink-0 w-28 cursor-pointer group">
+              <div class="rounded-2xl p-[2px] border-2 border-ym-blue transition transform group-hover:scale-[1.03]">
+                <div class="w-full aspect-[9/13] rounded-[14px] overflow-hidden relative bg-slate-900 shadow">
+                  <img src="assets/img/08_vhodnoy_bilet_galereya_panteon_1200x1200.jpg" alt="Входной билет" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30"></div>
+                  <div class="absolute top-1.5 left-1.5 right-1.5">
+                    <span class="px-1.5 py-0.5 rounded text-[8px] font-black bg-teal-500 text-white uppercase tracking-tight">ВХОД</span>
+                  </div>
+                  <div class="absolute bottom-2 left-2 right-2 text-white">
+                    <span class="text-[11px] font-bold block leading-tight text-white">280 ₽</span>
+                    <span class="text-[9px] text-slate-200">Билет в галерею</span>
+                  </div>
+                </div>
+              </div>
+              <span class="text-[11px] font-semibold text-ym-dark mt-1.5 text-center block leading-tight truncate px-0.5">
+                Вход в галерею
+              </span>
+            </div>
+
+            <!-- Story 9: Gift Certificate -->
+            <div onclick="openCardModal(9)" class="flex-shrink-0 w-28 cursor-pointer group">
+              <div class="rounded-2xl p-[2px] border-2 border-ym-blue transition transform group-hover:scale-[1.03]">
+                <div class="w-full aspect-[9/13] rounded-[14px] overflow-hidden relative bg-slate-900 shadow">
+                  <img src="assets/img/09_podarochniy_sertifikat_1200x1200.jpg" alt="Подарочный сертификат" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30"></div>
+                  <div class="absolute top-1.5 left-1.5 right-1.5">
+                    <span class="px-1.5 py-0.5 rounded text-[8px] font-black bg-yellow-500 text-black uppercase tracking-tight">ПОДАРОК</span>
+                  </div>
+                  <div class="absolute bottom-2 left-2 right-2 text-white">
+                    <span class="text-[11px] font-bold block leading-tight text-yellow-300">от 1 000 ₽</span>
+                    <span class="text-[9px] text-slate-200">Сертификат</span>
+                  </div>
+                </div>
+              </div>
+              <span class="text-[11px] font-semibold text-ym-dark mt-1.5 text-center block leading-tight truncate px-0.5">
+                Сертификаты
+              </span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ================= 2. CATEGORY FILTER CHIPS ================= -->
+        <div class="flex gap-2 overflow-x-auto hide-scrollbar mb-3 pb-1">
+          <button onclick="filterCategory('all')" id="filter-all" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-ym-dark text-white shadow-sm whitespace-nowrap">
+            Все (9)
+          </button>
+          <button onclick="filterCategory('photo')" id="filter-photo" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-white border border-ym-border text-ym-dark hover:bg-ym-lightGray whitespace-nowrap">
+            📸 Фотосессии & Альбомы
+          </button>
+          <button onclick="filterCategory('events')" id="filter-events" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-white border border-ym-border text-ym-dark hover:bg-ym-lightGray whitespace-nowrap">
+            🎨 Билеты, МК & Экскурсии
+          </button>
+          <button onclick="filterCategory('rental')" id="filter-rental" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-white border border-ym-border text-ym-dark hover:bg-ym-lightGray whitespace-nowrap">
+            🏛️ Аренда & Праздники
+          </button>
+        </div>
+
+        <!-- ================= 3. GOODS & SERVICES CARDS GRID ================= -->
+        <div id="goods-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <!-- Dynamically populated by JS from CARDS_DATA -->
+        </div>
+
+        <!-- ================= 4. ABOUT / ADDRESS TAB CONTENT (HIDDEN BY DEFAULT) ================= -->
+        <div id="about-tab-content" class="hidden bg-white rounded-2xl p-4 border border-ym-border space-y-4">
+          <h3 class="font-bold text-sm text-ym-dark">О компании на картах</h3>
+          
+          <div class="space-y-2 text-xs text-slate-600">
+            <div class="flex items-start gap-2.5">
+              <i data-lucide="map-pin" class="w-4 h-4 text-panteon-terracotta flex-shrink-0 mt-0.5"></i>
+              <div>
+                <strong class="text-ym-dark">Адрес:</strong> 236039, Россия, Калининград, Ленинский проспект, 151
+                <p class="text-[11px] text-ym-gray mt-0.5">1 этаж, отдельный вход со стороны Ленинского проспекта</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-2.5">
+              <i data-lucide="phone" class="w-4 h-4 text-panteon-terracotta flex-shrink-0 mt-0.5"></i>
+              <div>
+                <strong class="text-ym-dark">Телефон:</strong> +7 (921) 613-75-40
+                <p class="text-[11px] text-ym-gray mt-0.5">Руководитель и мастер-фотограф: Ольга Вознесенская</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-2.5">
+              <i data-lucide="clock" class="w-4 h-4 text-panteon-terracotta flex-shrink-0 mt-0.5"></i>
+              <div>
+                <strong class="text-ym-dark">Время работы:</strong> Ежедневно до 18:00
+                <p class="text-[11px] text-ym-gray mt-0.5">По предварительному звонку или бронированию</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-2.5">
+              <i data-lucide="sparkles" class="w-4 h-4 text-panteon-terracotta flex-shrink-0 mt-0.5"></i>
+              <div>
+                <strong class="text-ym-dark">Особенности:</strong> Авторские фотозоны ручной работы, живые декоративные кролики, выставки художников, мастер-классы, аренда под закрытые мероприятия.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- BOTTOM SAFE AREA -->
+      <div class="h-8 bg-white"></div>
+
+    </div>
+  </div>
+
+  <!-- ================= CARD DETAIL MODAL SHEET ================= -->
+  <div id="card-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="bg-white w-full max-w-lg rounded-t-3xl sm:rounded-2xl max-h-[90vh] flex flex-col overflow-hidden modal-sheet shadow-2xl">
+      
+      <!-- Modal Header Bar -->
+      <div class="p-3 border-b border-ym-border flex items-center justify-between bg-slate-50">
+        <div class="flex items-center gap-2">
+          <span id="modal-category-badge" class="px-2 py-0.5 text-[10px] font-bold rounded bg-blue-100 text-ym-blue uppercase">
+            Рубрика
+          </span>
+          <span class="text-xs text-ym-gray">Карточка товара 2ГИС / Яндекс</span>
+        </div>
+        <button onclick="closeCardModal()" class="w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 flex items-center justify-center text-slate-700">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body (Scrollable) -->
+      <div class="overflow-y-auto p-4 sm:p-5 space-y-4">
+        
+        <!-- Big Cover Image -->
+        <div class="aspect-[4/3] rounded-2xl overflow-hidden bg-slate-900 relative shadow-inner">
+          <img id="modal-image" src="" alt="" class="w-full h-full object-cover">
+          <div class="absolute bottom-3 left-3 bg-black/70 backdrop-blur-md text-white text-xs px-2.5 py-1 rounded-lg font-mono">
+            Файл: <span id="modal-filename"></span>
+          </div>
+        </div>
+
+        <!-- Title & Price Header -->
+        <div>
+          <div class="flex items-baseline justify-between gap-3">
+            <h3 id="modal-title" class="text-lg sm:text-xl font-bold text-ym-dark leading-snug">
+              Название услуги
+            </h3>
+            <span id="modal-price" class="text-lg font-extrabold text-panteon-terracotta whitespace-nowrap">
+              0 ₽
+            </span>
+          </div>
+          <p id="modal-unit" class="text-xs text-ym-gray mt-0.5">
+            Единица измерения
+          </p>
+        </div>
+
+        <!-- Quick Copy Action Button for Business Cabinet -->
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-center justify-between gap-3">
+          <div>
+            <div class="font-bold text-xs text-amber-900 flex items-center gap-1.5">
+              <i data-lucide="copy" class="w-3.5 h-3.5 text-amber-700"></i>
+              <span>Для Личного Кабинета карт:</span>
+            </div>
+            <p class="text-[11px] text-amber-800 mt-0.5">
+              Скопируйте подготовленный текст описания в 1 клик
+            </p>
+          </div>
+          <button id="modal-copy-btn" onclick="copyCurrentCardText()" class="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-sm transition whitespace-nowrap">
+            Копировать
+          </button>
+        </div>
+
+        <!-- SEO Tags -->
+        <div>
+          <span class="text-[11px] font-bold text-ym-gray uppercase tracking-wider block mb-1.5">
+            🔍 SEO-теги для ранжирования:
+          </span>
+          <div id="modal-tags" class="flex flex-wrap gap-1.5">
+            <!-- Badges -->
+          </div>
+        </div>
+
+        <!-- Full Description Text -->
+        <div>
+          <span class="text-[11px] font-bold text-ym-gray uppercase tracking-wider block mb-1.5">
+            📝 Текст описания для клиентов:
+          </span>
+          <div id="modal-description" class="text-xs text-slate-700 whitespace-pre-line leading-relaxed bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-sans">
+            Текст
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer CTA -->
+      <div class="p-3 border-t border-ym-border bg-white flex gap-2.5">
+        <a id="modal-call-link" href="tel:+79216137540" class="flex-1 py-3 bg-ym-green hover:bg-ym-greenDark text-white font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition">
+          <i data-lucide="phone" class="w-4 h-4"></i>
+          <span>Позвонить +7 (921) 613-75-40</span>
+        </a>
+        <a id="modal-wa-link" href="https://wa.me/79216137540" target="_blank" class="px-4 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition">
+          <i data-lucide="message-circle" class="w-4 h-4"></i>
+          <span>WhatsApp</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= EXPORT DRAWER (ALL 9 CARDS READY TO COPY) ================= -->
+  <div id="export-drawer" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex justify-end">
+    <div class="bg-white w-full max-w-xl h-full flex flex-col shadow-2xl">
+      
+      <!-- Drawer Header -->
+      <div class="p-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
+        <div class="flex items-center gap-2.5">
+          <i data-lucide="layers" class="w-5 h-5 text-amber-400"></i>
+          <div>
+            <h2 class="font-bold text-sm">База карточек для 2ГИС & Яндекс</h2>
+            <p class="text-[11px] text-slate-400">Все 9 карточек в готовом формате для копирования</p>
+          </div>
+        </div>
+        <button onclick="toggleExportDrawer()" class="p-1 rounded-lg hover:bg-slate-800 text-slate-300">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="p-3 bg-slate-100 border-b border-slate-200 flex flex-wrap gap-2 text-xs">
+        <button onclick="copyAllCardsText()" class="px-3 py-1.5 rounded-lg bg-panteon-terracotta hover:bg-amber-600 text-white font-semibold flex items-center gap-1.5 transition">
+          <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+          <span>Скопировать ВСЕ 9 карточек</span>
+        </button>
+        <button onclick="downloadCardsFile()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold flex items-center gap-1.5 transition">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i>
+          <span>Скачать .TXT файл</span>
+        </button>
+      </div>
+
+      <!-- Drawer List of Cards -->
+      <div id="export-list" class="flex-1 overflow-y-auto p-4 space-y-4">
+        <!-- Rendered by JS -->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= TOAST NOTIFICATION ================= -->
+  <div id="copy-toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white px-5 py-2.5 rounded-2xl shadow-2xl border border-slate-700 flex items-center gap-2 text-xs font-semibold opacity-0 pointer-events-none transform translate-y-3 transition-all duration-200">
+    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+    <span id="toast-text">Текст карточки скопирован!</span>
+  </div>
+
+  <!-- ================= DATA & LOGIC ================= -->
+  <script>
+    // Complete 9 cards data based on Panteon specifications
+    const CARDS_DATA = [
+      {
+        id: 1,
+        title: "Экспресс-фотосессия в студии (20 минут) «под ключ»",
+        shortTitle: "Экспресс-съемка",
+        category: "photo",
+        rubric: "Фотоуслуги, фотосъёмка",
+        price: 3500,
+        priceDisplay: "3 500 ₽",
+        unit: "за 20 минут",
+        image: "assets/img/01_express_fotosessiya_20min_1200x1200.jpg",
+        filename: "01_express_fotosessiya_20min_1200x1200.jpg",
+        badge: "ХИТ СЕЗОНА",
+        badgeColor: "bg-amber-500",
+        seoTags: ["фотосессия Калининград", "экспресс фотосессия", "фотостудия Ленинский проспект", "фотограф Ольга Вознесенская", "контент съемка", "аватарка"],
+        shortDesc: "20 минут в авторских сказочных фотозонах. 15-20 кадров в цветокоррекции + 5 в детальной ретуши.",
+        description: `Идеальный формат для тех, кто ценит своё время и хочет свежие, профессиональные кадры без долгих сборов!
+
+✨ ЧТО ВХОДИТ:
+• 20 минут съёмки в авторских сказочных фотозонах арт-пространства «Пантеон»;
+• Профессиональный студийный свет и бережная помощь в позировании от Ольги Вознесенской;
+• 15–20 лучших фотографий в базовой цветокоррекции;
+• 5 кадров в журнальной детальной ретуши на ваш выбор;
+• Быстрая отдача готовых снимков через персональную ссылку на облаке за 3–5 дней.
+
+🎯 ДЛЯ ЧЕГО ПОДХОДИТ:
+Обновление аватарки, деловой контент для соцсетей, эффектные портреты для резюме, подарок любимому человеку или съёмка для себя.
+
+📍 Калининград, Ленинский проспект, 151 (1 этаж)
+📞 Запись по тел.: +7 (921) 613-75-40 (предварительная бронь времени)`
+      },
+      {
+        id: 2,
+        title: "Индивидуальная / Fashion / Арт-фотосессия в фотозонах",
+        shortTitle: "Fashion съемка",
+        category: "photo",
+        rubric: "Фотоуслуги, фотосъёмка",
+        price: 5000,
+        priceDisplay: "5 000 ₽",
+        unit: "за 1 час",
+        image: "assets/img/02_individualnaya_fashion_fotosessiya_1200x1200.jpg",
+        filename: "02_individualnaya_fashion_fotosessiya_1200x1200.jpg",
+        badge: "ПРЕМИУМ",
+        badgeColor: "bg-rose-500",
+        seoTags: ["индивидуальная фотосессия Калининград", "фотосессия для девушек", "художественная съемка", "портретный фотограф", "фотостудия центр"],
+        shortDesc: "1 час авторской съемки во всех локациях. Смена 2-3 образов, от 40-50 кадров, 10 в глубокой ретуши.",
+        description: `Полноценная авторская фотосессия в пространстве рукотворных чудес. Место, где вы можете раскрыться, примерить любой образ и не стесняться быть собой!
+
+✨ ЧТО ВХОДИТ:
+• 1 час индивидуальной фотосъёмки во всех локациях арт-пространства «Пантеон»;
+• Смена 2–3 образов (помощь в подборе одежды и аксессуаров);
+• Постановка поз, работа со светом, создание уникального настроения;
+• От 40–50 фотографий в авторской цветокоррекции;
+• 10 кадров в глубокой художественной ретуши;
+• Возможность пригласить визажиста/стилиста (по согласованию).
+
+🎯 ДЛЯ КОГО:
+Для девушек, творческих личностей, блогеров, создания портфолио или подарка себе к празднику.
+
+📍 Калининград, Ленинский проспект, 151 (1 этаж)
+📞 Бронь даты: +7 (921) 613-75-40`
+      },
+      {
+        id: 3,
+        title: "Выпускные фотоальбомы «под ключ» для школ, вузов и детсадов",
+        shortTitle: "Выпускные альбомы",
+        category: "photo",
+        rubric: "Фотостудия + фотограф, аренда фотостудии + фотокнига",
+        price: 2500,
+        priceDisplay: "2 500 ₽",
+        unit: "за 1 альбом",
+        image: "assets/img/03_vypusknye_fotoalbomy_knigi_1200x1200.jpg",
+        filename: "03_vypusknye_fotoalbomy_knigi_1200x1200.jpg",
+        badge: "АКЦИЯ СТУДИЯ В ПОДАРОК",
+        badgeColor: "bg-emerald-600",
+        seoTags: ["выпускные альбомы Калининград", "фотокниги для школы", "альбом выпускника 11 класс", "выпускной детский сад", "школьный фотограф"],
+        shortDesc: "Стильные альбомы премиум-качества. Аренда Пантеона выпускникам в подарок! LayFlat 180° без разрыва.",
+        description: `Стильные выпускные фотокниги премиум-качества, которые приятно держать в руках и пересматривать спустя годы!
+
+🎁 НАШИ БОНУСЫ И УТП (АКЦИЯ):
+★ Аренда студии «Пантеон» для выпускников — В ПОДАРОК!
+★ Все фотографии со съёмки на облачном диске — В ПОДАРОК!
+★ Альбом классному руководителю / воспитателю — БЕСПЛАТНО (при заказе от 25 шт.)!
+
+📖 ЧТО ВКЛЮЧЕНО:
+• Профессиональная фотосъёмка в арт-пространстве «Пантеон» или с выездом в школу/детсад;
+• Твёрдый износостойкий переплёт, плотные страницы (LayFlat 180° — панорамный разворот без разрыва);
+• Индивидуальный дизайн макета под стиль класса или группы;
+• Портреты каждого ученика, групповые фото, цитаты, пожелания, репортаж из жизни класса;
+• Согласование макета перед печатью в типографии.
+
+📍 Калининград, Ленинский проспект, 151 (1 этаж)
+📞 Заказ презентации для родительского комитета: +7 (921) 613-75-40`
+      },
+      {
+        id: 4,
+        title: "Детский праздник «День рождения в сказке» с шоу пузырей",
+        shortTitle: "День рождения",
+        category: "rental",
+        rubric: "Образование, организация детских праздников",
+        price: 500,
+        priceDisplay: "500 ₽",
+        unit: "за гостя (от 1 ч)",
+        image: "assets/img/04_detskiy_den_rozhdeniya_skazka_1200x1200.jpg",
+        filename: "04_detskiy_den_rozhdeniya_skazka_1200x1200.jpg",
+        badge: "МЫЛЬНЫЕ ПУЗЫРИ & КРОЛИКИ",
+        badgeColor: "bg-purple-600",
+        seoTags: ["детский день рождения Калининград", "праздник для детей", "мыльные пузыри Калининград", "где отметить др ребенка", "детская анимация"],
+        shortDesc: "Шоу гигантских мыльных пузырей, пушистые кролики, сказочные локации и зона для чаепития.",
+        description: `Хотите подарить ребёнку день, полный настоящих чудес? В арт-пространстве «Пантеон» мы превращаем праздник в добрую интерактивную сказку!
+
+🎈 ЧТО ВАС ЖДЁТ НА ПРАЗДНИКЕ:
+• Шоу гигантских мыльных пузырей — сотни переливающихся сфер, которые дети ловят и загадывают желания;
+• Сказочные фотозоны — дети мгновенно погружаются в атмосферу приключений;
+• Общение с пушистыми живыми кроликами — море восторга, нежности и тактильной радости;
+• Интерактивные конкурсы, творческие активности и игры от доброжелательных ведущих;
+• Уютное место для праздничного чаепития и торта;
+• Незабываемые памятные фотографии в волшебных локациях.
+
+👶 Возраст: от 3 до 14 лет. Программа адаптируется под интересы именинника.
+
+📍 Калининград, Ленинский проспект, 151 (1 этаж)
+📞 Забронировать дату: +7 (921) 613-75-40`
+      },
+      {
+        id: 5,
+        title: "Иммерсивная экскурсия по «Пантеону» + творческий мастер-класс",
+        shortTitle: "Иммерсивная экскурсия + МК",
+        category: "events",
+        rubric: "Экскурсии, мастер-класс",
+        price: 500,
+        priceDisplay: "500 ₽",
+        unit: "за человека (2 ч)",
+        image: "assets/img/05_immersivnaya_ekskursiya_masterklass_1200x1200.jpg",
+        filename: "05_immersivnaya_ekskursiya_masterklass_1200x1200.jpg",
+        badge: "2 ЧАСА ПОГРУЖЕНИЯ",
+        badgeColor: "bg-cyan-600",
+        seoTags: ["экскурсия Калининград", "мастер класс для детей", "мастер класс Калининград", "иммерсивный театр", "куда сходить семьей", "арт пространство"],
+        shortDesc: "2-часовая экскурсия по скрытым залам + мастер-класс на выбор. Свое авторское изделие забираете с собой!",
+        description: `Уникальный 2-часовой формат для детей и взрослых: погружение в мир арт-искусства через ощущения, взаимодействие и создание собственного шедевра!
+
+🎨 ПРОГРАММА ВСТРЕЧИ:
+1. Интерактивная иммерсивная экскурсия по скрытым уголкам и комнатам «Пантеона»:
+   История арт-объектов, световые иллюзии, необычные фактуры, тактильное знакомство с пространством.
+2. Творческий мастер-класс на ваш выбор (живопись, роспись, декоративно-прикладное творчество, арт-терапия);
+3. Все материалы и фартуки включены в стоимость;
+4. Готовую авторскую работу вы забираете с собой на память!
+
+🎯 ПОДХОДИТ:
+Для школьных групп, семейного похода в выходные, свидания или встречи друзей.
+
+📍 Калининград, Ленинский проспект, 151 (1 этаж)
+📞 Предварительная запись: +7 (921) 613-75-40`
+      },
+      {
+        id: 6,
+        title: "Встречи женского клуба «Волшебная среда» (нетворкинг & релакс)",
+        shortTitle: "Женский клуб «Волшебная среда»",
+        category: "events",
+        rubric: "Мастер Класс, вечеринка, девичник",
+        price: 380,
+        priceDisplay: "380 ₽",
+        unit: "за встречу (2 ч)",
+        image: "assets/img/06_zhenskiy_klub_volshebnaya_sreda_1200x1200.jpg",
+        filename: "06_zhenskiy_klub_volshebnaya_sreda_1200x1200.jpg",
+        badge: "КАЖДУЮ СРЕДУ",
+        badgeColor: "bg-pink-600",
+        seoTags: ["женский клуб Калининград", "девичник Калининград", "нетворкинг для женщин", "арт терапия для девушек", "встречи для женщин"],
+        shortDesc: "Еженедельный круг тепла и поддержки. Психология, стилистика, творчество, чай и душевное общение.",
+        description: `Еженедельный островок тепла, поддержки и вдохновения для женщин в самом центре города. Место силы и женской энергии!
+
+☕ ЧТО ВАС ЖДЁТ КАЖДУЮ СРЕДУ:
+• Тёплый круг единомышленниц и душевное общение без суеты;
+• Тематические практики: психология, стилистика, раскрытие женственности, творчество и арт-терапия;
+• Презентации авторских проектов и обмен опытом;
+• Вкусный чай, угощения и атмосферные фото в сказочных интерьерах «Пантеона»;
+• Перезагрузка после рабочего дня и заряд вдохновения на всю неделю.
+
+⏰ Каждую среду (расписание уточняйте при записи).
+
+📍 Калининград, Ленинский проспект, 151 (1 этаж)
+📞 Присоединиться к клубу: +7 (921) 613-75-40`
+      },
+      {
+        id: 7,
+        title: "Аренда арт-пространства под девичники, лекции, МК и свопы",
+        shortTitle: "Аренда лофта",
+        category: "rental",
+        rubric: "Арт пространство, Галерея, Творческое пространство",
+        price: 1500,
+        priceDisplay: "1 500 ₽",
+        unit: "в час (от 2 ч)",
+        image: "assets/img/07_arenda_art_prostranstva_loft_1200x1200.jpg",
+        filename: "07_arenda_art_prostranstva_loft_1200x1200.jpg",
+        badge: "ЛОФТ В ЦЕНТРЕ",
+        badgeColor: "bg-orange-600",
+        seoTags: ["аренда лофта Калининград", "зал для девичника", "аренда студии для мастер класса", "площадка под мероприятие", "пространство для свопа"],
+        shortDesc: "1 этаж, фотозоны, столы, стулья, чайная зона, студийный свет и аудиосистема под ваше событие.",
+        description: `Стильное, нестандартное пространство на 1 этаже в центре Калининграда под ваше особенное мероприятие!
+
+🌟 ДЛЯ КАКИХ СОБЫТИЙ ИДЕАЛЬНО:
+• Творческие девичники, камерные дни рождения и арт-вечеринки;
+• Лекции, тренинги, мастер-классы и презентации авторских продуктов;
+• Свопы, маркеты, обмен одеждой и встречи сообществ;
+• Профессиональные видео- и контент-съёмки для брендов.
+
+🏛️ ОСНАЩЕНИЕ ПРОСТРАНСТВА:
+• Доступ ко всем авторским фотозонам и декорациям;
+• Столы, стулья, удобные посадочные зоны;
+• Чайная зона, кулер, микроволновка, посуда;
+• Студийное освещение и звуковая система для фоновой музыки;
+• Санузел, удобный вход с Ленинского проспекта.
+
+📍 Калининград, Ленинский проспект, 151 (1 этаж)
+📞 Просмотр пространства и бронь дат: +7 (921) 613-75-40`
+      },
+      {
+        id: 8,
+        title: "Ознакомительный билет «Возможности Пантеона» (вход в галерею)",
+        shortTitle: "Входной билет в галерею",
+        category: "events",
+        rubric: "Арт пространство, Галерея, Интерактивный музей",
+        price: 280,
+        priceDisplay: "280 ₽",
+        unit: "за 1 час",
+        image: "assets/img/08_vhodnoy_bilet_galereya_panteon_1200x1200.jpg",
+        filename: "08_vhodnoy_bilet_galereya_panteon_1200x1200.jpg",
+        badge: "ДОСТУПНО КАЖДОМУ",
+        badgeColor: "bg-teal-600",
+        seoTags: ["музей Калининград", "арт галерея Калининград", "выставка картин", "интересные места Калининграда", "фотозоны Калининград"],
+        shortDesc: "Свободный вход, осмотр авторских работ, съемка на свой смартфон во всех фотозонах, живые кролики.",
+        description: `Искусство, доступное каждому! Приглашаем вас отвлечься от городского шума и окунуться в удивительный мир красоты, фантазии и рукотворных шедевров.
+
+✨ ЧТО ВАС ЖДЁТ:
+• Свободное посещение арт-галереи и авторских комнат «Пантеона»;
+• Осмотр уникальных выставочных работ калининградских мастеров и художников;
+• Возможность свободно фотографироваться во всех фотозонах на свой смартфон;
+• Знакомство с милыми ручными кроликами;
+• Консультация по возможностям проведения ваших мероприятий и съёмок.
+
+🕒 Время посещения: до 18:00 (по предварительному звонку перед визитом).
+
+📍 Калининград, Ленинский проспект, 151 (1 этаж)
+📞 Вопросы и запись: +7 (921) 613-75-40`
+      },
+      {
+        id: 9,
+        title: "Подарочный сертификат на фотосессию или мастер-класс",
+        shortTitle: "Подарочный сертификат",
+        category: "photo",
+        rubric: "Подарочные сертификаты, подарки",
+        price: 1000,
+        priceDisplay: "от 1 000 ₽",
+        unit: "любой номинал",
+        image: "assets/img/09_podarochniy_sertifikat_1200x1200.jpg",
+        filename: "09_podarochniy_sertifikat_1200x1200.jpg",
+        badge: "ПОДАРОК ЭМОЦИЙ",
+        badgeColor: "bg-yellow-600",
+        seoTags: ["подарочный сертификат Калининград", "подарок девушке Калининград", "подарок на день рождения", "сертификат на фотосессию", "оригинальный подарок"],
+        shortDesc: "Крафтовый конверт с лентой или электронный вид. Номинал от 1 000 ₽. Срок действия 6 месяцев.",
+        description: `Ищете оригинальный подарок, который гарантированно вызовет искренний восторг и запомнится на всю жизнь? Дарите живые эмоции и творчество в арт-пространстве «Пантеон»!
+
+🎁 ВАРИАНТЫ СЕРТИФИКАТА:
+• На конкретную услугу: экспресс-фотосессия, индивидуальная съёмка, детский праздник, мастер-класс;
+• На свободный номинал: 1 000 ₽, 2 500 ₽, 3 500 ₽, 5 000 ₽ или любая другая сумма.
+
+💌 ОФОРМЛЕНИЕ:
+• Премиальный дизайнерский бланк в стильном крафтовом конверте с лентой (для вручения лично);
+• Либо мгновенный электронный сертификат высокого качества для отправки онлайн.
+
+Срок действия — 6 месяцев со дня покупки. Получатель сам выбирает удобный день и время!
+
+📍 Калининград, Ленинский проспект, 151
+📞 Заказать сертификат с доставкой или онлайн: +7 (921) 613-75-40`
+      }
+    ];
+
+    let currentModalCard = null;
+
+    // Render Goods Grid
+    function renderGoods(items = CARDS_DATA) {
+      const grid = document.getElementById('goods-grid');
+      grid.innerHTML = items.map(c => `
+        <div onclick="openCardModal(${c.id})" class="bg-white rounded-2xl border border-ym-border overflow-hidden hover:border-ym-blue transition cursor-pointer flex flex-col group shadow-sm hover:shadow-md">
+          
+          <!-- Image thumbnail with badge -->
+          <div class="relative aspect-[4/3] bg-slate-900 overflow-hidden">
+            <img src="${c.image}" alt="${c.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+            <div class="absolute top-2 left-2">
+              <span class="px-2 py-0.5 rounded text-[9px] font-extrabold text-white uppercase ${c.badgeColor} shadow">
+                ${c.badge}
+              </span>
+            </div>
+            <div class="absolute bottom-2 right-2 bg-black/60 backdrop-blur-sm text-white px-2 py-0.5 rounded text-[10px] font-mono">
+              ${c.rubric.split(',')[0]}
+            </div>
+          </div>
+
+          <!-- Content Details -->
+          <div class="p-3.5 flex flex-col flex-1 justify-between">
+            <div>
+              <div class="flex items-baseline justify-between gap-1 mb-1">
+                <span class="text-base font-extrabold text-ym-dark">${c.priceDisplay}</span>
+                <span class="text-[11px] text-ym-gray">${c.unit}</span>
+              </div>
+              <h4 class="font-bold text-xs sm:text-sm text-ym-dark line-clamp-2 leading-snug group-hover:text-ym-blue transition">
+                ${c.title}
+              </h4>
+              <p class="text-[11px] text-slate-500 line-clamp-2 mt-1 leading-normal">
+                ${c.shortDesc}
+              </p>
+            </div>
+
+            <!-- Bottom Action Row -->
+            <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between">
+              <span class="text-[10px] font-bold text-ym-blue uppercase tracking-wider flex items-center gap-1">
+                <span>Подробнее</span>
+                <i data-lucide="chevron-right" class="w-3 h-3"></i>
+              </span>
+              <button onclick="event.stopPropagation(); copyCardById(${c.id})" class="px-2 py-1 rounded-lg bg-ym-lightGray hover:bg-slate-200 text-ym-dark text-[10px] font-semibold flex items-center gap-1 transition" title="Скопировать текст для 2ГИС">
+                <i data-lucide="copy" class="w-3 h-3 text-amber-600"></i>
+                <span>Копия</span>
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+      `).join('');
+
+      lucide.createIcons();
+    }
+
+    // Filter by Category
+    function filterCategory(cat) {
+      // Update chip styles
+      ['all', 'photo', 'events', 'rental'].forEach(c => {
+        const btn = document.getElementById(`filter-${c}`);
+        if (c === cat) {
+          btn.className = "px-3 py-1.5 rounded-full text-xs font-semibold bg-ym-dark text-white shadow-sm whitespace-nowrap";
+        } else {
+          btn.className = "px-3 py-1.5 rounded-full text-xs font-semibold bg-white border border-ym-border text-ym-dark hover:bg-ym-lightGray whitespace-nowrap";
+        }
+      });
+
+      if (cat === 'all') {
+        renderGoods(CARDS_DATA);
+      } else {
+        renderGoods(CARDS_DATA.filter(i => i.category === cat));
+      }
+    }
+
+    // Tab Switcher
+    function switchTab(tab) {
+      const goodsTab = document.getElementById('tab-btn-goods');
+      const storiesTab = document.getElementById('tab-btn-stories');
+      const aboutTab = document.getElementById('tab-btn-about');
+      const aboutContent = document.getElementById('about-tab-content');
+      const goodsGrid = document.getElementById('goods-grid');
+
+      [goodsTab, storiesTab, aboutTab].forEach(t => {
+        t.className = "py-3 border-b-2 border-transparent hover:text-ym-dark whitespace-nowrap text-xs font-semibold text-ym-gray flex items-center gap-1.5";
+      });
+
+      if (tab === 'goods') {
+        goodsTab.className = "py-3 border-b-2 border-ym-blue text-ym-blue font-bold whitespace-nowrap text-xs flex items-center gap-1.5";
+        aboutContent.classList.add('hidden');
+        goodsGrid.classList.remove('hidden');
+        filterCategory('all');
+      } else if (tab === 'stories') {
+        storiesTab.className = "py-3 border-b-2 border-ym-blue text-ym-blue font-bold whitespace-nowrap text-xs flex items-center gap-1.5";
+        aboutContent.classList.add('hidden');
+        goodsGrid.classList.remove('hidden');
+        // scroll to top
+        window.scrollTo({ top: 350, behavior: 'smooth' });
+      } else if (tab === 'about') {
+        aboutTab.className = "py-3 border-b-2 border-ym-blue text-ym-blue font-bold whitespace-nowrap text-xs flex items-center gap-1.5";
+        aboutContent.classList.remove('hidden');
+        goodsGrid.classList.add('hidden');
+      }
+      lucide.createIcons();
+    }
+
+    // Modal Control
+    function openCardModal(cardId) {
+      const card = CARDS_DATA.find(c => c.id === cardId);
+      if (!card) return;
+      currentModalCard = card;
+
+      document.getElementById('modal-image').src = card.image;
+      document.getElementById('modal-filename').textContent = card.filename;
+      document.getElementById('modal-category-badge').textContent = card.rubric;
+      document.getElementById('modal-title').textContent = card.title;
+      document.getElementById('modal-price').textContent = card.priceDisplay;
+      document.getElementById('modal-unit').textContent = card.unit;
+      document.getElementById('modal-description').textContent = card.description;
+
+      const tagsContainer = document.getElementById('modal-tags');
+      tagsContainer.innerHTML = card.seoTags.map(t => `
+        <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[11px] font-medium border border-slate-200">
+          #${t}
+        </span>
+      `).join('');
+
+      document.getElementById('modal-call-link').href = `tel:+79216137540`;
+      document.getElementById('modal-wa-link').href = `https://wa.me/79216137540?text=${encodeURIComponent('Здравствуйте! Интересует: ' + card.title + ' (' + card.priceDisplay + ')')}`;
+
+      document.getElementById('card-modal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      lucide.createIcons();
+    }
+
+    function closeCardModal() {
+      document.getElementById('card-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    // Copy Toast Helper
+    function showToast(message) {
+      const toast = document.getElementById('copy-toast');
+      const text = document.getElementById('toast-text');
+      text.textContent = message;
+      toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-3');
+      toast.classList.add('opacity-100', 'translate-y-0');
+
+      setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-3');
+      }, 2500);
+    }
+
+    // Copy Current Card Text formatted for 2GIS / Yandex
+    function copyCurrentCardText() {
+      if (!currentModalCard) return;
+      const textToCopy = `НАЗВАНИЕ: ${currentModalCard.title}
+РУБРИКА: ${currentModalCard.rubric}
+ЦЕНА: ${currentModalCard.priceDisplay} (${currentModalCard.unit})
+ОБЛОЖКА: ${currentModalCard.filename}
+SEO-ТЕГИ: ${currentModalCard.seoTags.join(', ')}
+
+ОПИСАНИЕ:
+${currentModalCard.description}`;
+
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        showToast(`Текст «${currentModalCard.shortTitle}» скопирован!`);
+      });
+    }
+
+    function copyCardById(id) {
+      const c = CARDS_DATA.find(item => item.id === id);
+      if (!c) return;
+      const textToCopy = `НАЗВАНИЕ: ${c.title}
+РУБРИКА: ${c.rubric}
+ЦЕНА: ${c.priceDisplay} (${c.unit})
+ОБЛОЖКА: ${c.filename}
+SEO-ТЕГИ: ${c.seoTags.join(', ')}
+
+ОПИСАНИЕ:
+${c.description}`;
+
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        showToast(`Карточка №${c.id} скопирована для 2ГИС!`);
+      });
+    }
+
+    // Toggle Export Drawer
+    function toggleExportDrawer() {
+      const drawer = document.getElementById('export-drawer');
+      drawer.classList.toggle('hidden');
+      if (!drawer.classList.contains('hidden')) {
+        renderExportList();
+      }
+      lucide.createIcons();
+    }
+
+    function renderExportList() {
+      const list = document.getElementById('export-list');
+      list.innerHTML = CARDS_DATA.map(c => `
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-2">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <span class="text-[10px] font-bold text-amber-700 uppercase bg-amber-100 px-1.5 py-0.5 rounded">
+                Карточка #${c.id} • ${c.rubric}
+              </span>
+              <h4 class="font-bold text-xs text-slate-800 mt-1">${c.title}</h4>
+              <span class="text-xs font-extrabold text-panteon-terracotta">${c.priceDisplay} (${c.unit})</span>
+            </div>
+            <button onclick="copyCardById(${c.id})" class="px-2.5 py-1 rounded-lg bg-white border border-slate-300 hover:bg-slate-100 text-xs font-semibold text-slate-700 flex items-center gap-1 transition shadow-sm">
+              <i data-lucide="copy" class="w-3.5 h-3.5 text-amber-600"></i>
+              <span>Копировать</span>
+            </button>
+          </div>
+          <div class="text-[11px] text-slate-600 font-mono bg-white p-2 rounded border border-slate-200">
+            Обложка: ${c.filename}
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function copyAllCardsText() {
+      const fullText = CARDS_DATA.map(c => `================================================================================
+КАРТОЧКА №${c.id}: ${c.title}
+================================================================================
+📁 РАЗДЕЛ / РУБРИКА: ${c.rubric}
+💰 ЦЕНА: ${c.priceDisplay} (${c.unit})
+📸 ОБЛОЖКА: ${c.filename}
+🔍 SEO-ТЕГИ: ${c.seoTags.join(', ')}
+
+📝 ТЕКСТ ОПИСАНИЯ ДЛЯ ВСТАВКИ:
+${c.description}
+`).join('\n\n');
+
+      navigator.clipboard.writeText(fullText).then(() => {
+        showToast('Все 9 карточек скопированы в буфер обмена!');
+      });
+    }
+
+    function downloadCardsFile() {
+      const fullText = CARDS_DATA.map(c => `================================================================================
+КАРТОЧКА №${c.id}: ${c.title}
+================================================================================
+📁 РАЗДЕЛ / РУБРИКА: ${c.rubric}
+💰 ЦЕНА: ${c.priceDisplay} (${c.unit})
+📸 ОБЛОЖКА: ${c.filename}
+🔍 SEO-ТЕГИ: ${c.seoTags.join(', ')}
+
+📝 ТЕКСТ ОПИСАНИЯ ДЛЯ ВСТАВКИ:
+${c.description}
+`).join('\n\n');
+
+      const blob = new Blob([fullText], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Panteon_2GIS_Yandex_Cards.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('Файл Panteon_2GIS_Yandex_Cards.txt скачан!');
+    }
+
+    // Toggle Desktop View Width
+    let isFullWidth = false;
+    function toggleDesktopView() {
+      const frame = document.getElementById('device-wrapper');
+      const text = document.getElementById('view-toggle-text');
+      isFullWidth = !isFullWidth;
+      if (isFullWidth) {
+        frame.classList.remove('max-w-md', 'mobile-phone-frame');
+        frame.classList.add('max-w-4xl', 'rounded-3xl');
+        text.textContent = "Вид смартфона";
+      } else {
+        frame.classList.remove('max-w-4xl', 'rounded-3xl');
+        frame.classList.add('max-w-md', 'mobile-phone-frame');
+        text.textContent = "На всю ширину";
+      }
+    }
+
+    function bookmarkCard() {
+      showToast('Добавлено в избранное карт!');
+    }
+
+    function shareProfile() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Арт-пространство «Пантеон» в Калининграде',
+          text: 'Карточки и витрина арт-пространства «Пантеон» на картах',
+          url: window.location.href
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(window.location.href);
+        showToast('Ссылка на карточки скопирована!');
+      }
+    }
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', () => {
+      renderGoods();
+      lucide.createIcons();
+    });
+  </script>
+
+</body>
+</html>
