@@ -1,0 +1,2419 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>РЕМЕСЛО | Современное Арт-Пространство & Резиденция Мастеров</title>
+  <meta name="description" content="Живое арт-пространство современного ремесла. Постоянная экспозиция шедевров ручной работы, временные выставки, арт-лавка, экскурсии и аренда уникальных залов под мероприятия.">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%200%20100%20100%22><text y=%22.9em%22 font-size=%2290%22>🏺</text></svg>">
+
+  <!-- Google Fonts: Inter & Syne / Oswald -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@600;700;800&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Syne', 'Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+          },
+          colors: {
+            brand: {
+              black: '#0a0a0b',
+              surface: '#121214',
+              card: '#18181b',
+              cardHover: '#202024',
+              border: 'rgba(255, 255, 255, 0.08)',
+              borderActive: 'rgba(255, 255, 255, 0.25)',
+              accent: '#e07a46', // Terracotta warm craft accent
+              accentHover: '#ea8d5c',
+              gold: '#d4af37',
+              muted: '#9ca3af',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0a0a0b;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #27272a;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3f3f46;
+    }
+
+    /* Museum Label Typography */
+    .museum-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    /* Grain subtle background effect */
+    .bg-grain {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    /* Image zoom container */
+    .gallery-card:hover .gallery-img {
+      transform: scale(1.05);
+    }
+    .gallery-img {
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+  </style>
+</head>
+<body class="bg-brand-black text-gray-100 font-sans antialiased selection:bg-brand-accent selection:text-white">
+
+  <!-- ================= TOP NOTICE BAR (ACTUAL INFO BANNER) ================= -->
+  <div class="bg-gradient-to-r from-brand-surface via-brand-card to-brand-surface border-b border-brand-border py-2 px-4 text-xs">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-gray-300">
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="font-medium text-white">Официальный сайт арт-пространства:</span>
+        <span class="text-gray-400">Только актуальное расписание выставок и цены (на Яндексе данные обновляются)</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <span class="hidden sm:inline text-gray-400">Вт–Вс: 11:00 — 21:00 (Пн — закрыто)</span>
+        <button onclick="openCrmModal()" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-white/10 hover:bg-white/20 text-white font-medium text-xs transition border border-white/10">
+          <i data-lucide="shield" class="w-3.5 h-3.5 text-brand-accent"></i>
+          <span>CRM & Управление</span>
+          <span id="crm-counter-badge" class="ml-1 px-1.5 py-0.2 text-[10px] bg-brand-accent text-white font-bold rounded-full">3</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= HEADER / NAVIGATION (ERARTA STYLE) ================= -->
+  <header class="sticky top-0 z-40 bg-brand-black/90 backdrop-blur-md border-b border-brand-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo -->
+        <a href="#" class="flex flex-col group">
+          <div class="flex items-center gap-2">
+            <span class="font-display font-extrabold text-2xl tracking-tighter text-white group-hover:text-brand-accent transition">РЕМЕСЛО</span>
+            <span class="px-1.5 py-0.5 text-[9px] font-mono tracking-widest bg-brand-accent/20 text-brand-accent border border-brand-accent/30 rounded uppercase font-semibold">Space</span>
+          </div>
+          <span class="text-[9px] tracking-[0.25em] text-gray-400 uppercase font-medium">Арт-пространство & резиденция</span>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden lg:flex items-center gap-7 text-xs font-semibold uppercase tracking-wider text-gray-300">
+          <a href="#exhibitions" class="hover:text-white transition">Выставки</a>
+          <a href="#permanent" class="hover:text-white transition">Экспозиция</a>
+          <a href="#schedule" class="hover:text-white transition">Афиша недели</a>
+          <a href="#tours" class="hover:text-white transition">Экскурсии</a>
+          <a href="#shop" class="hover:text-white transition flex items-center gap-1">
+            <span>Арт-лавка</span>
+            <span class="px-1.5 py-0.2 text-[9px] bg-emerald-500/20 text-emerald-400 rounded border border-emerald-500/30">Купить</span>
+          </a>
+          <a href="#rental" class="hover:text-white transition text-brand-accent hover:text-brand-accentHover">Аренда залов</a>
+          <a href="#visit" class="hover:text-white transition">Визит & Билеты</a>
+        </nav>
+
+        <!-- Right Action Buttons -->
+        <div class="flex items-center gap-3">
+          <!-- Cart Button -->
+          <button onclick="toggleCartDrawer()" class="relative p-2.5 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 border border-brand-border transition" title="Корзина">
+            <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+            <span id="cart-counter" class="absolute -top-1 -right-1 bg-brand-accent text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+          </button>
+
+          <!-- Buy Ticket Modal Trigger -->
+          <button onclick="openBookingModal('Билет на посещение', 'Единый входной билет')" class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-accent hover:bg-brand-accentHover text-white font-medium text-xs tracking-wider uppercase transition shadow-lg shadow-brand-accent/20">
+            <i data-lucide="ticket" class="w-4 h-4"></i>
+            <span>Купить билет</span>
+          </button>
+
+          <!-- Mobile Menu Button -->
+          <button onclick="toggleMobileMenu()" class="lg:hidden p-2 text-gray-400 hover:text-white">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Navigation -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-brand-surface border-b border-brand-border px-4 pt-3 pb-6 space-y-3 text-sm font-medium">
+      <a href="#exhibitions" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-white border-b border-brand-border">Выставки и залы</a>
+      <a href="#permanent" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-white border-b border-brand-border">Постоянная экспозиция</a>
+      <a href="#schedule" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-white border-b border-brand-border">Афиша недели и посещения</a>
+      <a href="#tours" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-white border-b border-brand-border">Экскурсии с куратором</a>
+      <a href="#shop" onclick="toggleMobileMenu()" class="block py-2 text-emerald-400 hover:text-emerald-300 border-b border-brand-border flex items-center justify-between">
+        <span>Арт-лавка (купить работы)</span>
+        <span class="text-xs bg-emerald-500/20 px-2 py-0.5 rounded">В наличии</span>
+      </a>
+      <a href="#rental" onclick="toggleMobileMenu()" class="block py-2 text-brand-accent hover:text-brand-accentHover border-b border-brand-border">Аренда площадки под мероприятия</a>
+      <a href="#visit" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-white border-b border-brand-border">Контакты и режим работы</a>
+      
+      <div class="pt-3 flex flex-col gap-2">
+        <button onclick="openBookingModal('Билет на посещение', 'Единый входной билет'); toggleMobileMenu();" class="w-full py-3 bg-brand-accent text-white font-semibold rounded-lg text-center tracking-wide uppercase text-xs">
+          Купить билет онлайн
+        </button>
+        <button onclick="openCrmModal(); toggleMobileMenu();" class="w-full py-2.5 bg-brand-card hover:bg-brand-cardHover border border-brand-border text-gray-300 rounded-lg text-xs flex items-center justify-center gap-2">
+          <i data-lucide="shield" class="w-4 h-4 text-brand-accent"></i>
+          <span>Вход в CRM (Панель заявок)</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= HERO SECTION (ERARTA CONTEMPORARY VIBE) ================= -->
+  <section class="relative min-h-[85vh] flex items-center justify-center bg-brand-black overflow-hidden border-b border-brand-border bg-grain">
+    <!-- Atmospheric Background Overlay with Deep Contrast -->
+    <div class="absolute inset-0 z-0 opacity-40">
+      <img src="https://images.unsplash.com/photo-1541123437800-1bb1317badc2?auto=format&fit=crop&w=2000&q=80" alt="Арт пространство интерьер" class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/85 to-brand-black/60"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(224,122,70,0.12)_0,transparent_70%)]"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center sm:text-left">
+      <div class="max-w-3xl">
+        
+        <!-- Live Status Pill -->
+        <div class="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-6">
+          <span class="w-2 h-2 rounded-full bg-brand-accent animate-ping"></span>
+          <span class="museum-label text-gray-300">Современное арт-пространство нового типа</span>
+        </div>
+
+        <!-- Big Bold Title -->
+        <h1 class="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.08] text-white uppercase mb-6">
+          Мы не музей.<br>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-brand-accent">
+            Мы — живое ремесло.
+          </span>
+        </h1>
+
+        <!-- Manifesto Subheading -->
+        <p class="text-lg sm:text-xl text-gray-300 font-normal leading-relaxed mb-10 max-w-2xl">
+          Пространство, где искусство создается руками человека. Постоянная экспозиция шедевров, временные выставки, действующие ремесленные мастерские, авторская лавка и залы для ваших частных событий.
+        </p>
+
+        <!-- CTA Buttons Row -->
+        <div class="flex flex-col sm:flex-row items-center gap-4">
+          <button onclick="openBookingModal('Билет на посещение', 'Главная экспозиция')" class="w-full sm:w-auto px-8 py-4 bg-brand-accent hover:bg-brand-accentHover text-white font-semibold text-sm uppercase tracking-wider rounded-lg transition flex items-center justify-center gap-3 shadow-xl shadow-brand-accent/25">
+            <i data-lucide="ticket" class="w-4 h-4"></i>
+            <span>Посетить пространство</span>
+          </button>
+          
+          <a href="#rental" class="w-full sm:w-auto px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/15 text-white font-semibold text-sm uppercase tracking-wider rounded-lg transition flex items-center justify-center gap-3">
+            <i data-lucide="building" class="w-4 h-4 text-brand-accent"></i>
+            <span>Арендовать площадку</span>
+          </a>
+
+          <a href="#schedule" class="w-full sm:w-auto px-6 py-4 text-gray-400 hover:text-white font-medium text-sm transition flex items-center justify-center gap-2">
+            <span>Афиша недели</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+
+        <!-- Metrics Ticker -->
+        <div class="mt-16 pt-10 border-t border-brand-border grid grid-cols-2 sm:grid-cols-4 gap-6">
+          <div>
+            <div class="font-display text-3xl sm:text-4xl font-extrabold text-white">850 м²</div>
+            <div class="text-xs text-gray-400 uppercase tracking-wider mt-1">Пространство залов</div>
+          </div>
+          <div>
+            <div class="font-display text-3xl sm:text-4xl font-extrabold text-brand-accent">300+</div>
+            <div class="text-xs text-gray-400 uppercase tracking-wider mt-1">Экспонатов ручной работы</div>
+          </div>
+          <div>
+            <div class="font-display text-3xl sm:text-4xl font-extrabold text-white">24</div>
+            <div class="text-xs text-gray-400 uppercase tracking-wider mt-1">Мастера-резидента</div>
+          </div>
+          <div>
+            <div class="font-display text-3xl sm:text-4xl font-extrabold text-brand-accent">7 дней</div>
+            <div class="text-xs text-gray-400 uppercase tracking-wider mt-1">События и воркшопы</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT / PHILOSOPHY STRIP ================= -->
+  <section class="py-16 bg-brand-surface border-b border-brand-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        
+        <div class="lg:col-span-5">
+          <span class="museum-label text-brand-accent">Философия проекта</span>
+          <h2 class="font-display text-3xl sm:text-4xl font-bold uppercase tracking-tight text-white mt-2 mb-4">
+            Почему мы не называем себя музеем
+          </h2>
+          <div class="h-1 w-20 bg-brand-accent mb-6"></div>
+          <p class="text-gray-300 leading-relaxed text-sm mb-4">
+            В классическом музее вещи отделены от вас стеклом и табличкой «руками не трогать». У нас — живая материя. Здесь слышен звук гончарного круга, пахнет нагретым деревом и кованой сталью, а любой предмет можно рассмотреть во всех деталях, познакомиться с его автором и даже забрать с собой.
+          </p>
+          <p class="text-gray-400 leading-relaxed text-sm">
+            Мы соединили галерейный масштаб и выставочную строгость уровня Эрарты с теплотой подлинного человеческого мастерства.
+          </p>
+        </div>
+
+        <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="bg-brand-card p-6 rounded-xl border border-brand-border hover:border-brand-borderActive transition">
+            <div class="w-10 h-10 rounded-lg bg-brand-accent/10 border border-brand-accent/20 flex items-center justify-center text-brand-accent mb-4">
+              <i data-lucide="sparkles" class="w-5 h-5"></i>
+            </div>
+            <h3 class="font-display text-lg font-bold text-white uppercase mb-2">Тактильность</h3>
+            <p class="text-xs text-gray-400 leading-normal">
+              Ощутите фактуру глины, волокна льна и тяжесть кованого металла. Искусство, созданное для восприятия всеми чувствами.
+            </p>
+          </div>
+
+          <div class="bg-brand-card p-6 rounded-xl border border-brand-border hover:border-brand-borderActive transition">
+            <div class="w-10 h-10 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center text-white mb-4">
+              <i data-lucide="users" class="w-5 h-5"></i>
+            </div>
+            <h3 class="font-display text-lg font-bold text-white uppercase mb-2">Резиденции</h3>
+            <p class="text-xs text-gray-400 leading-normal">
+              Мастера творят прямо в открытых студиях пространства: гончары, стеклодувы, кузнецы, ювелиры и резчики.
+            </p>
+          </div>
+
+          <div class="bg-brand-card p-6 rounded-xl border border-brand-border hover:border-brand-borderActive transition">
+            <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-4">
+              <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+            </div>
+            <h3 class="font-display text-lg font-bold text-white uppercase mb-2">Все продается</h3>
+            <p class="text-xs text-gray-400 leading-normal">
+              Понравившийся арт-объект из экспозиции или лавки можно приобрести в свою коллекцию или для интерьера.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= EXHIBITIONS (ВЫСТАВКИ И ЭКСПОЗИЦИИ) ================= -->
+  <section id="exhibitions" class="py-24 bg-brand-black border-b border-brand-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div>
+          <span class="museum-label text-brand-accent">Экспозиционная программа</span>
+          <h2 class="font-display text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-white mt-1">
+            Выставки и залы
+          </h2>
+        </div>
+        
+        <!-- Filter Tabs -->
+        <div class="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-wider">
+          <button onclick="filterExhibitions('all', this)" class="ex-tab-btn px-4 py-2 rounded-lg bg-brand-accent text-white transition">Все залы</button>
+          <button onclick="filterExhibitions('permanent', this)" class="ex-tab-btn px-4 py-2 rounded-lg bg-brand-card hover:bg-brand-cardHover text-gray-300 border border-brand-border transition">Постоянная экспозиция</button>
+          <button onclick="filterExhibitions('temporary', this)" class="ex-tab-btn px-4 py-2 rounded-lg bg-brand-card hover:bg-brand-cardHover text-gray-300 border border-brand-border transition">Временные выставки</button>
+          <button onclick="filterExhibitions('special', this)" class="ex-tab-btn px-4 py-2 rounded-lg bg-brand-card hover:bg-brand-cardHover text-gray-300 border border-brand-border transition">Мастерские резидентов</button>
+        </div>
+      </div>
+
+      <!-- Exhibitions Grid -->
+      <div id="exhibitions-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <!-- Card 1: Permanent Exposition (Flagship) -->
+        <div class="ex-item permanent group bg-brand-card rounded-2xl overflow-hidden border border-brand-border hover:border-brand-borderActive transition duration-300 flex flex-col">
+          <div class="relative h-72 overflow-hidden gallery-card">
+            <img src="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=1000&q=80" alt="Постоянная экспозиция ремесла" class="w-full h-full object-cover gallery-img">
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-transparent to-black/30"></div>
+            <div class="absolute top-4 left-4 flex gap-2">
+              <span class="px-3 py-1 rounded bg-black/70 backdrop-blur-md text-[10px] uppercase font-bold tracking-widest text-brand-accent border border-brand-accent/40">
+                Постоянная экспозиция
+              </span>
+            </div>
+            <div class="absolute bottom-4 left-4 right-4">
+              <span class="text-xs text-gray-300 uppercase tracking-wider font-medium">Главный Атриум • Зал 1-2</span>
+            </div>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display text-2xl font-bold uppercase text-white mb-3 group-hover:text-brand-accent transition">
+                Культурный код формы: Золотой фонд ремесел
+              </h3>
+              <p class="text-sm text-gray-400 line-clamp-3 mb-6">
+                Масштабная коллекция уникальных произведений ручной работы: монументальная терракота, архаическая керамика с восстановительным обжигом, скульптуры из векового дуба и художественная ковка.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-brand-border flex items-center justify-between">
+              <span class="text-xs font-mono text-gray-400">Вход по единому билету</span>
+              <button onclick="openBookingModal('Постоянная экспозиция', 'Культурный код формы')" class="text-xs font-semibold uppercase tracking-wider text-brand-accent hover:text-brand-accentHover flex items-center gap-1">
+                <span>Забронировать</span>
+                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Glass Temporary Exhibition -->
+        <div class="ex-item temporary group bg-brand-card rounded-2xl overflow-hidden border border-brand-border hover:border-brand-borderActive transition duration-300 flex flex-col">
+          <div class="relative h-72 overflow-hidden gallery-card">
+            <img src="https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?auto=format&fit=crop&w=1000&q=80" alt="Стихия стекла и света" class="w-full h-full object-cover gallery-img">
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-transparent to-black/30"></div>
+            <div class="absolute top-4 left-4 flex gap-2">
+              <span class="px-3 py-1 rounded bg-black/70 backdrop-blur-md text-[10px] uppercase font-bold tracking-widest text-emerald-400 border border-emerald-500/40">
+                Идет до 30 ноября
+              </span>
+            </div>
+            <div class="absolute bottom-4 left-4 right-4">
+              <span class="text-xs text-gray-300 uppercase tracking-wider font-medium">Светлая Галерея • Зал 3</span>
+            </div>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display text-2xl font-bold uppercase text-white mb-3 group-hover:text-brand-accent transition">
+                Стихия огня: Оптическое стекло и витраж
+              </h3>
+              <p class="text-sm text-gray-400 line-clamp-3 mb-6">
+                Персональная выставка петербургских и уральских мастеров гутного стекла. Преломление света, оптические иллюзии и многослойные скульптуры, рожденные при температуре 1200°C.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-brand-border flex items-center justify-between">
+              <span class="text-xs font-mono text-gray-400">Вход по единому билету</span>
+              <button onclick="openBookingModal('Выставка стекла', 'Стихия огня')" class="text-xs font-semibold uppercase tracking-wider text-brand-accent hover:text-brand-accentHover flex items-center gap-1">
+                <span>Забронировать</span>
+                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Modern Wood and Metal Craft -->
+        <div class="ex-item temporary group bg-brand-card rounded-2xl overflow-hidden border border-brand-border hover:border-brand-borderActive transition duration-300 flex flex-col">
+          <div class="relative h-72 overflow-hidden gallery-card">
+            <img src="https://images.unsplash.com/photo-1538688525198-9b88f6f53126?auto=format&fit=crop&w=1000&q=80" alt="Скульптура из дерева" class="w-full h-full object-cover gallery-img">
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-transparent to-black/30"></div>
+            <div class="absolute top-4 left-4 flex gap-2">
+              <span class="px-3 py-1 rounded bg-black/70 backdrop-blur-md text-[10px] uppercase font-bold tracking-widest text-amber-400 border border-amber-500/40">
+                Идет до 20 декабря
+              </span>
+            </div>
+            <div class="absolute bottom-4 left-4 right-4">
+              <span class="text-xs text-gray-300 uppercase tracking-wider font-medium">Колонный Зал • Зал 4</span>
+            </div>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display text-2xl font-bold uppercase text-white mb-3 group-hover:text-brand-accent transition">
+                Анатомия дерева: От бревна до бионической формы
+              </h3>
+              <p class="text-sm text-gray-400 line-clamp-3 mb-6">
+                Экспозиция современной авторской мебели, бионических скульптур и панно из карельской березы, мореного вяза и термированного ясеня. Синергия природы и резца.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-brand-border flex items-center justify-between">
+              <span class="text-xs font-mono text-gray-400">Вход по единому билету</span>
+              <button onclick="openBookingModal('Выставка дерева', 'Анатомия дерева')" class="text-xs font-semibold uppercase tracking-wider text-brand-accent hover:text-brand-accentHover flex items-center gap-1">
+                <span>Забронировать</span>
+                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: Open Artisan Studios (Special) -->
+        <div class="ex-item special group bg-brand-card rounded-2xl overflow-hidden border border-brand-border hover:border-brand-borderActive transition duration-300 flex flex-col">
+          <div class="relative h-72 overflow-hidden gallery-card">
+            <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=1000&q=80" alt="Открытые ремесленные мастерские" class="w-full h-full object-cover gallery-img">
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-transparent to-black/30"></div>
+            <div class="absolute top-4 left-4 flex gap-2">
+              <span class="px-3 py-1 rounded bg-black/70 backdrop-blur-md text-[10px] uppercase font-bold tracking-widest text-sky-400 border border-sky-500/40">
+                Интерактив • Живые студии
+              </span>
+            </div>
+            <div class="absolute bottom-4 left-4 right-4">
+              <span class="text-xs text-gray-300 uppercase tracking-wider font-medium">Арт-Лофт • 2 этаж</span>
+            </div>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display text-2xl font-bold uppercase text-white mb-3 group-hover:text-brand-accent transition">
+                Резиденция: Открытые мастерские ремесленников
+              </h3>
+              <p class="text-sm text-gray-400 line-clamp-3 mb-6">
+                Зона, где вы можете в реальном времени увидеть, как рождаются шедевры. Задайте вопросы мастерам, потрогайте сырье и попробуйте сделать первый штрих самостоятельно.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-brand-border flex items-center justify-between">
+              <span class="text-xs font-mono text-gray-400">Свободный доступ с экскурсией</span>
+              <button onclick="openBookingModal('Резиденция мастеров', 'Открытые мастерские')" class="text-xs font-semibold uppercase tracking-wider text-brand-accent hover:text-brand-accentHover flex items-center gap-1">
+                <span>Забронировать</span>
+                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5: Permanent Jewelry & Metal -->
+        <div class="ex-item permanent group bg-brand-card rounded-2xl overflow-hidden border border-brand-border hover:border-brand-borderActive transition duration-300 flex flex-col">
+          <div class="relative h-72 overflow-hidden gallery-card">
+            <img src="https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?auto=format&fit=crop&w=1000&q=80" alt="Художественный металл и ковка" class="w-full h-full object-cover gallery-img">
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-transparent to-black/30"></div>
+            <div class="absolute top-4 left-4 flex gap-2">
+              <span class="px-3 py-1 rounded bg-black/70 backdrop-blur-md text-[10px] uppercase font-bold tracking-widest text-brand-accent border border-brand-accent/40">
+                Постоянная экспозиция
+              </span>
+            </div>
+            <div class="absolute bottom-4 left-4 right-4">
+              <span class="text-xs text-gray-300 uppercase tracking-wider font-medium">Черная Галерея • Зал 5</span>
+            </div>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display text-2xl font-bold uppercase text-white mb-3 group-hover:text-brand-accent transition">
+                Железо и Пламя: Архитектурный металл
+              </h3>
+              <p class="text-sm text-gray-400 line-clamp-3 mb-6">
+                Художественная ковка нового тысячелетия: от тончайших ювелирных миниатюр из дамасской стали до двухметровых ажурных инсталляций и кинетических механизмов.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-brand-border flex items-center justify-between">
+              <span class="text-xs font-mono text-gray-400">Вход по единому билету</span>
+              <button onclick="openBookingModal('Постоянная экспозиция', 'Железо и Пламя')" class="text-xs font-semibold uppercase tracking-wider text-brand-accent hover:text-brand-accentHover flex items-center gap-1">
+                <span>Забронировать</span>
+                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6: Textile & Tapestry -->
+        <div class="ex-item temporary group bg-brand-card rounded-2xl overflow-hidden border border-brand-border hover:border-brand-borderActive transition duration-300 flex flex-col">
+          <div class="relative h-72 overflow-hidden gallery-card">
+            <img src="https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&w=1000&q=80" alt="Современный текстиль" class="w-full h-full object-cover gallery-img">
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-transparent to-black/30"></div>
+            <div class="absolute top-4 left-4 flex gap-2">
+              <span class="px-3 py-1 rounded bg-black/70 backdrop-blur-md text-[10px] uppercase font-bold tracking-widest text-purple-400 border border-purple-500/40">
+                Новинка • До 15 января
+              </span>
+            </div>
+            <div class="absolute bottom-4 left-4 right-4">
+              <span class="text-xs text-gray-300 uppercase tracking-wider font-medium">Белая Ротонда • Зал 6</span>
+            </div>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display text-2xl font-bold uppercase text-white mb-3 group-hover:text-brand-accent transition">
+                Нить времени: Современный гобелен и лен
+              </h3>
+              <p class="text-sm text-gray-400 line-clamp-3 mb-6">
+                Ручное ткачество как язык современного визуального искусства. Эксперименты с необработанным диким шелком, льном, джутом и волоконной оптикой.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-brand-border flex items-center justify-between">
+              <span class="text-xs font-mono text-gray-400">Вход по единому билету</span>
+              <button onclick="openBookingModal('Выставка текстиля', 'Нить времени')" class="text-xs font-semibold uppercase tracking-wider text-brand-accent hover:text-brand-accentHover flex items-center gap-1">
+                <span>Забронировать</span>
+                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= WEEKLY SCHEDULE & EVENTS (АФИША ПО ДНЯМ НЕДЕЛИ) ================= -->
+  <section id="schedule" class="py-24 bg-brand-surface border-b border-brand-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div>
+          <span class="museum-label text-brand-accent">Регулярные события и посещения</span>
+          <h2 class="font-display text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-white mt-1">
+            Афиша по дням недели
+          </h2>
+          <p class="text-gray-400 text-sm mt-2 max-w-xl">
+            Каждый день в арт-пространстве проходят тематические экскурсии, лекции кураторов и практические мастер-классы с мастерами. Выберите удобный день:
+          </p>
+        </div>
+
+        <!-- Single Ticket Price Badge -->
+        <div class="bg-brand-card p-4 rounded-xl border border-brand-border flex items-center gap-4">
+          <div class="w-12 h-12 rounded-lg bg-brand-accent/20 flex items-center justify-center text-brand-accent">
+            <i data-lucide="calendar" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <div class="text-xs uppercase text-gray-400 font-semibold tracking-wider">Единый входной билет</div>
+            <div class="text-lg font-bold text-white">от 400 ₽ <span class="text-xs font-normal text-gray-400">/ день</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Day of the Week Navigation Tabs -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar">
+        <button onclick="filterSchedule('all', this)" class="sched-day-btn px-5 py-3 rounded-xl bg-brand-accent text-white font-bold text-xs uppercase tracking-wider whitespace-nowrap transition">
+          Все дни
+        </button>
+        <button onclick="filterSchedule('tue', this)" class="sched-day-btn px-5 py-3 rounded-xl bg-brand-card hover:bg-brand-cardHover border border-brand-border text-gray-300 font-semibold text-xs uppercase tracking-wider whitespace-nowrap transition">
+          Вторник
+        </button>
+        <button onclick="filterSchedule('wed', this)" class="sched-day-btn px-5 py-3 rounded-xl bg-brand-card hover:bg-brand-cardHover border border-brand-border text-gray-300 font-semibold text-xs uppercase tracking-wider whitespace-nowrap transition">
+          Среда
+        </button>
+        <button onclick="filterSchedule('thu', this)" class="sched-day-btn px-5 py-3 rounded-xl bg-brand-card hover:bg-brand-cardHover border border-brand-border text-gray-300 font-semibold text-xs uppercase tracking-wider whitespace-nowrap transition">
+          Четверг
+        </button>
+        <button onclick="filterSchedule('fri', this)" class="sched-day-btn px-5 py-3 rounded-xl bg-brand-card hover:bg-brand-cardHover border border-brand-border text-gray-300 font-semibold text-xs uppercase tracking-wider whitespace-nowrap transition">
+          Пятница
+        </button>
+        <button onclick="filterSchedule('sat', this)" class="sched-day-btn px-5 py-3 rounded-xl bg-brand-card hover:bg-brand-cardHover border border-brand-border text-gray-300 font-semibold text-xs uppercase tracking-wider whitespace-nowrap transition">
+          Суббота <span class="text-[10px] text-brand-accent ml-1">● Weekend</span>
+        </button>
+        <button onclick="filterSchedule('sun', this)" class="sched-day-btn px-5 py-3 rounded-xl bg-brand-card hover:bg-brand-cardHover border border-brand-border text-gray-300 font-semibold text-xs uppercase tracking-wider whitespace-nowrap transition">
+          Воскресенье <span class="text-[10px] text-brand-accent ml-1">● Weekend</span>
+        </button>
+      </div>
+
+      <!-- Schedule List Table / Cards -->
+      <div id="schedule-list" class="space-y-4">
+        
+        <!-- Event Row 1: Tue -->
+        <div class="sched-item tue bg-brand-card p-6 rounded-2xl border border-brand-border hover:border-brand-borderActive transition flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div class="flex items-center gap-6">
+            <div class="text-center min-w-[75px] bg-brand-surface py-2.5 px-3 rounded-xl border border-brand-border">
+              <span class="block text-xs uppercase tracking-wider font-bold text-brand-accent">Вторник</span>
+              <span class="block text-xl font-display font-extrabold text-white">13:00</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-1.5">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-sky-500/20 text-sky-400 border border-sky-500/30">Кураторская экскурсия</span>
+                <span class="text-xs text-gray-400">60 минут • 12+</span>
+              </div>
+              <h4 class="font-display text-xl font-bold text-white">«Тайны ремесленного кода: от глины до бронзы»</h4>
+              <p class="text-xs text-gray-400 mt-1">Ведущий: главный куратор пространства. Погружение в историю техники обжига.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-5 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 pt-4 md:pt-0 border-brand-border">
+            <div class="text-right">
+              <span class="text-xs text-gray-400 block">Билет на посещение</span>
+              <span class="text-base font-bold text-white">Входит в билет</span>
+            </div>
+            <button onclick="openBookingModal('Экскурсия', 'Тайны ремесленного кода (Вторник 13:00)')" class="px-5 py-2.5 rounded-lg bg-white/10 hover:bg-white/20 text-white font-medium text-xs tracking-wider uppercase transition">
+              Записаться
+            </button>
+          </div>
+        </div>
+
+        <!-- Event Row 2: Wed -->
+        <div class="sched-item wed bg-brand-card p-6 rounded-2xl border border-brand-border hover:border-brand-borderActive transition flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div class="flex items-center gap-6">
+            <div class="text-center min-w-[75px] bg-brand-surface py-2.5 px-3 rounded-xl border border-brand-border">
+              <span class="block text-xs uppercase tracking-wider font-bold text-brand-accent">Среда</span>
+              <span class="block text-xl font-display font-extrabold text-white">18:30</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-1.5">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-500/20 text-amber-400 border border-amber-500/30">Мастер-класс</span>
+                <span class="text-xs text-gray-400">90 минут • Мест: 6 из 8</span>
+              </div>
+              <h4 class="font-display text-xl font-bold text-white">«Гончарный круг: Первая авторская пиала»</h4>
+              <p class="text-xs text-gray-400 mt-1">Индивидуальное рабочее место. Обжиг и глазурование включены в стоимость.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-5 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 pt-4 md:pt-0 border-brand-border">
+            <div class="text-right">
+              <span class="text-xs text-gray-400 block">Стоимость участия</span>
+              <span class="text-base font-bold text-brand-accent">2 800 ₽</span>
+            </div>
+            <button onclick="openBookingModal('Мастер-класс', 'Гончарный круг: Пиала (Среда 18:30)')" class="px-5 py-2.5 rounded-lg bg-brand-accent hover:bg-brand-accentHover text-white font-medium text-xs tracking-wider uppercase transition">
+              Забронировать
+            </button>
+          </div>
+        </div>
+
+        <!-- Event Row 3: Thu -->
+        <div class="sched-item thu bg-brand-card p-6 rounded-2xl border border-brand-border hover:border-brand-borderActive transition flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div class="flex items-center gap-6">
+            <div class="text-center min-w-[75px] bg-brand-surface py-2.5 px-3 rounded-xl border border-brand-border">
+              <span class="block text-xs uppercase tracking-wider font-bold text-brand-accent">Четверг</span>
+              <span class="block text-xl font-display font-extrabold text-white">19:00</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-1.5">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-purple-500/20 text-purple-400 border border-purple-500/30">Арт-лекция</span>
+                <span class="text-xs text-gray-400">75 минут • Бокал сидра</span>
+              </div>
+              <h4 class="font-display text-xl font-bold text-white">«Ремесло как новый люкс: почему хэндмейд побеждает масс-маркет»</h4>
+              <p class="text-xs text-gray-400 mt-1">Лектор: историк предметного дизайна, эксперт аукционных домов.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-5 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 pt-4 md:pt-0 border-brand-border">
+            <div class="text-right">
+              <span class="text-xs text-gray-400 block">Билет с напитком</span>
+              <span class="text-base font-bold text-white">900 ₽</span>
+            </div>
+            <button onclick="openBookingModal('Арт-лекция', 'Ремесло как новый люкс (Четверг 19:00)')" class="px-5 py-2.5 rounded-lg bg-white/10 hover:bg-white/20 text-white font-medium text-xs tracking-wider uppercase transition">
+              Записаться
+            </button>
+          </div>
+        </div>
+
+        <!-- Event Row 4: Fri -->
+        <div class="sched-item fri bg-brand-card p-6 rounded-2xl border border-brand-border hover:border-brand-borderActive transition flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div class="flex items-center gap-6">
+            <div class="text-center min-w-[75px] bg-brand-surface py-2.5 px-3 rounded-xl border border-brand-border">
+              <span class="block text-xs uppercase tracking-wider font-bold text-brand-accent">Пятница</span>
+              <span class="block text-xl font-display font-extrabold text-white">19:30</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-1.5">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-rose-500/20 text-rose-400 border border-rose-500/30">Акустический вечер</span>
+                <span class="text-xs text-gray-400">120 минут • В зале скульптур</span>
+              </div>
+              <h4 class="font-display text-xl font-bold text-white">«Музыка дерева и струн: Вечер неоклассики»</h4>
+              <p class="text-xs text-gray-400 mt-1">Живая виолончель и акустическая гитара среди шедевров постоянной экспозиции.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-5 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 pt-4 md:pt-0 border-brand-border">
+            <div class="text-right">
+              <span class="text-xs text-gray-400 block">Концертный билет</span>
+              <span class="text-base font-bold text-white">1 200 ₽</span>
+            </div>
+            <button onclick="openBookingModal('Концерт', 'Вечер неоклассики (Пятница 19:30)')" class="px-5 py-2.5 rounded-lg bg-white/10 hover:bg-white/20 text-white font-medium text-xs tracking-wider uppercase transition">
+              Купить билет
+            </button>
+          </div>
+        </div>
+
+        <!-- Event Row 5: Sat (Weekend) -->
+        <div class="sched-item sat bg-brand-card p-6 rounded-2xl border border-brand-border hover:border-brand-borderActive transition flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div class="flex items-center gap-6">
+            <div class="text-center min-w-[75px] bg-brand-surface py-2.5 px-3 rounded-xl border border-brand-border">
+              <span class="block text-xs uppercase tracking-wider font-bold text-brand-accent">Суббота</span>
+              <span class="block text-xl font-display font-extrabold text-white">12:00</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-1.5">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Большой уикенд</span>
+                <span class="text-xs text-gray-400">Весь день • Ремесленный маркет</span>
+              </div>
+              <h4 class="font-display text-xl font-bold text-white">«Маркет мастеров & Открытые вернисажи»</h4>
+              <p class="text-xs text-gray-400 mt-1">Личные встречи с 18 мастерами, презентация новых серий керамики, стекла и ювелирного искусства.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-5 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 pt-4 md:pt-0 border-brand-border">
+            <div class="text-right">
+              <span class="text-xs text-gray-400 block">Вход на маркет</span>
+              <span class="text-base font-bold text-emerald-400">Свободный</span>
+            </div>
+            <button onclick="openBookingModal('Маркет мастеров', 'Субботний маркет резидентов')" class="px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs tracking-wider uppercase transition">
+              Получить билет
+            </button>
+          </div>
+        </div>
+
+        <!-- Event Row 6: Sun (Weekend) -->
+        <div class="sched-item sun bg-brand-card p-6 rounded-2xl border border-brand-border hover:border-brand-borderActive transition flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div class="flex items-center gap-6">
+            <div class="text-center min-w-[75px] bg-brand-surface py-2.5 px-3 rounded-xl border border-brand-border">
+              <span class="block text-xs uppercase tracking-wider font-bold text-brand-accent">Воскресенье</span>
+              <span class="block text-xl font-display font-extrabold text-white">15:00</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-1.5">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-500/20 text-amber-400 border border-amber-500/30">Семейный день</span>
+                <span class="text-xs text-gray-400">Для детей и взрослых</span>
+              </div>
+              <h4 class="font-display text-xl font-bold text-white">«Семейная мастерская: Создание мозаичного панно»</h4>
+              <p class="text-xs text-gray-400 mt-1">Работа со смальтой, цветным стеклом и природным камнем. Готовое панно забираете с собой.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-5 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 pt-4 md:pt-0 border-brand-border">
+            <div class="text-right">
+              <span class="text-xs text-gray-400 block">Билет на семью (до 3 чел)</span>
+              <span class="text-base font-bold text-white">3 500 ₽</span>
+            </div>
+            <button onclick="openBookingModal('Семейный воркшоп', 'Мозаичное панно (Воскресенье 15:00)')" class="px-5 py-2.5 rounded-lg bg-brand-accent hover:bg-brand-accentHover text-white font-medium text-xs tracking-wider uppercase transition">
+              Забронировать
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= TOURS & EXCURSIONS (ЭКСКУРСИОННЫЙ БЛОК) ================= -->
+  <section id="tours" class="py-24 bg-brand-black border-b border-brand-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="max-w-3xl mb-16">
+        <span class="museum-label text-brand-accent">Экскурсионная программа</span>
+        <h2 class="font-display text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-white mt-1 mb-4">
+          Экскурсии с кураторами и мастерами
+        </h2>
+        <p class="text-gray-300 text-sm leading-relaxed">
+          Чтобы по-настоящему понять предмет ремесла, нужно узнать, как он рождался. Наши экскурсоводы — профессиональные искусствоведы и сами практикующие мастера, которые показывают закулисье ремесленных процессов.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Tour 1 -->
+        <div class="bg-brand-card p-6 rounded-2xl border border-brand-border hover:border-brand-borderActive transition flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-brand-accent mb-6">
+              <i data-lucide="compass" class="w-6 h-6"></i>
+            </div>
+            <span class="text-[10px] font-mono uppercase tracking-widest text-brand-accent font-bold">Ежедневно в 13:00 и 18:00</span>
+            <h3 class="font-display text-xl font-bold uppercase text-white mt-2 mb-3">Обзорная экскурсия</h3>
+            <p class="text-xs text-gray-400 leading-relaxed mb-6">
+              Знакомство со всеми залами пространства, главными жемчужинами постоянной экспозиции и текущими временными выставками.
+            </p>
+            <ul class="text-xs text-gray-300 space-y-2 mb-6">
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-accent"></i> 60 минут с куратором</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-accent"></i> Группы до 15 человек</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-accent"></i> Включена в единый билет</li>
+            </ul>
+          </div>
+          <button onclick="openBookingModal('Экскурсия', 'Обзорная экскурсия')" class="w-full py-3 bg-white/10 hover:bg-white/20 text-white font-medium text-xs tracking-wider uppercase rounded-lg transition">
+            Записаться в группу
+          </button>
+        </div>
+
+        <!-- Tour 2 -->
+        <div class="bg-brand-card p-6 rounded-2xl border border-brand-accent/40 hover:border-brand-accent transition flex flex-col justify-between relative shadow-lg shadow-brand-accent/5">
+          <div class="absolute -top-3 right-4 px-2.5 py-0.5 bg-brand-accent text-white text-[9px] font-bold uppercase tracking-widest rounded-full">Хит</div>
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-brand-accent/10 border border-brand-accent/20 flex items-center justify-center text-brand-accent mb-6">
+              <i data-lucide="flame" class="w-6 h-6"></i>
+            </div>
+            <span class="text-[10px] font-mono uppercase tracking-widest text-brand-accent font-bold">Индивидуальный формат</span>
+            <h3 class="font-display text-xl font-bold uppercase text-white mt-2 mb-3">Визит в закулисье студий</h3>
+            <p class="text-xs text-gray-400 leading-relaxed mb-6">
+              Эксклюзивный доступ в закрытые резиденции: разговор с мастерами один на один, дегустация крафтовых чаев из авторской посуды.
+            </p>
+            <ul class="text-xs text-gray-300 space-y-2 mb-6">
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-accent"></i> До 5 гостей (персонально)</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-accent"></i> 90 минут погружения</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-accent"></i> Тактильная проба материалов</li>
+            </ul>
+          </div>
+          <button onclick="openBookingModal('Экскурсия', 'Визит в закулисье студий (индивидуальная)')" class="w-full py-3 bg-brand-accent hover:bg-brand-accentHover text-white font-medium text-xs tracking-wider uppercase rounded-lg transition">
+            Заказать от 5 000 ₽
+          </button>
+        </div>
+
+        <!-- Tour 3 -->
+        <div class="bg-brand-card p-6 rounded-2xl border border-brand-border hover:border-brand-borderActive transition flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-emerald-400 mb-6">
+              <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+            </div>
+            <span class="text-[10px] font-mono uppercase tracking-widest text-emerald-400 font-bold">Школы и вузы</span>
+            <h3 class="font-display text-xl font-bold uppercase text-white mt-2 mb-3">Образовательный квест</h3>
+            <p class="text-xs text-gray-400 leading-relaxed mb-6">
+              Интерактивная образовательная программа для школьных классов и студентов. Знакомство с историей ремесел в игровом формате.
+            </p>
+            <ul class="text-xs text-gray-300 space-y-2 mb-6">
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Для групп от 10 человек</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Викторина и призы</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Сопровождающие бесплатно</li>
+            </ul>
+          </div>
+          <button onclick="openBookingModal('Экскурсия', 'Образовательный квест для групп')" class="w-full py-3 bg-white/10 hover:bg-white/20 text-white font-medium text-xs tracking-wider uppercase rounded-lg transition">
+            Оставить заявку
+          </button>
+        </div>
+
+        <!-- Tour 4 -->
+        <div class="bg-brand-card p-6 rounded-2xl border border-brand-border hover:border-brand-borderActive transition flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-sky-400 mb-6">
+              <i data-lucide="briefcase" class="w-6 h-6"></i>
+            </div>
+            <span class="text-[10px] font-mono uppercase tracking-widest text-sky-400 font-bold">B2B & Корпоративы</span>
+            <h3 class="font-display text-xl font-bold uppercase text-white mt-2 mb-3">Корпоративный арт-тур</h3>
+            <p class="text-xs text-gray-400 leading-relaxed mb-6">
+              Экскурсия с приветственным фуршетом, закрытым показом и коллективным мастер-классом по гончарному делу или ковке.
+            </p>
+            <ul class="text-xs text-gray-300 space-y-2 mb-6">
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-sky-400"></i> До 60 участников</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-sky-400"></i> Фуршетная зона</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-sky-400"></i> Памятные сувениры</li>
+            </ul>
+          </div>
+          <button onclick="openBookingModal('Корпоративная экскурсия', 'Корпоративный арт-тур под ключ')" class="w-full py-3 bg-white/10 hover:bg-white/20 text-white font-medium text-xs tracking-wider uppercase rounded-lg transition">
+            Рассчитать тур
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= ARTISAN SHOP / SHOWROOM (АРТ-ЛАВКА: КУПИТЬ РЕМЕСЛО) ================= -->
+  <section id="shop" class="py-24 bg-brand-surface border-b border-brand-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div>
+          <span class="museum-label text-emerald-400">Арт-лавка & Шоурум резидентов</span>
+          <h2 class="font-display text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-white mt-1">
+            То, что можно купить
+          </h2>
+          <p class="text-gray-400 text-sm mt-2 max-w-xl">
+            Каждый предмет существует в единственном экземпляре или лимитированной авторской серии. Прямо из рук мастеров в ваш дом.
+          </p>
+        </div>
+
+        <!-- Shop Categories Filter -->
+        <div class="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-wider">
+          <button onclick="filterShop('all', this)" class="shop-tab-btn px-4 py-2 rounded-lg bg-emerald-600 text-white transition">Все предметы</button>
+          <button onclick="filterShop('ceramic', this)" class="shop-tab-btn px-4 py-2 rounded-lg bg-brand-card hover:bg-brand-cardHover text-gray-300 border border-brand-border transition">Керамика</button>
+          <button onclick="filterShop('glass', this)" class="shop-tab-btn px-4 py-2 rounded-lg bg-brand-card hover:bg-brand-cardHover text-gray-300 border border-brand-border transition">Стекло</button>
+          <button onclick="filterShop('wood', this)" class="shop-tab-btn px-4 py-2 rounded-lg bg-brand-card hover:bg-brand-cardHover text-gray-300 border border-brand-border transition">Дерево</button>
+          <button onclick="filterShop('metal', this)" class="shop-tab-btn px-4 py-2 rounded-lg bg-brand-card hover:bg-brand-cardHover text-gray-300 border border-brand-border transition">Металл & Ювелирка</button>
+        </div>
+      </div>
+
+      <!-- Shop Grid -->
+      <div id="shop-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        
+        <!-- Product 1: Ceramic Vase -->
+        <div class="shop-item ceramic bg-brand-card rounded-2xl overflow-hidden border border-brand-border hover:border-brand-borderActive transition flex flex-col group">
+          <div class="relative h-64 overflow-hidden gallery-card">
+            <img src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=800&q=80" alt="Ваза ручной работы" class="w-full h-full object-cover gallery-img">
+            <div class="absolute top-3 left-3">
+              <span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md text-[10px] font-mono uppercase tracking-wider text-emerald-400 border border-emerald-500/30">
+                1 экземпляр
+              </span>
+            </div>
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <span class="text-[10px] uppercase font-mono tracking-wider text-gray-400 block mb-1">Мастер: Елена Громова • Керамика</span>
+              <h4 class="font-display text-lg font-bold text-white group-hover:text-emerald-400 transition">
+                Скульптурная ваза «Тектоника»
+              </h4>
+              <p class="text-xs text-gray-400 mt-1 line-clamp-2">Шамотная глина, дровяной обжиг ноборигама, авторская пепельная глазурь. Высота 38 см.</p>
+            </div>
+            <div class="mt-5 pt-4 border-t border-brand-border flex items-center justify-between">
+              <div>
+                <span class="text-xs text-gray-500 block">Стоимость:</span>
+                <span class="text-lg font-bold text-white">14 500 ₽</span>
+              </div>
+              <button onclick="addToCart('Скульптурная ваза «Тектоника»', 14500, 'Керамика')" class="p-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+                <span>Купить</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 2: Blown Glass Lamp -->
+        <div class="shop-item glass bg-brand-card rounded-2xl overflow-hidden border border-brand-border hover:border-brand-borderActive transition flex flex-col group">
+          <div class="relative h-64 overflow-hidden gallery-card">
+            <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80" alt="Светильник из стекла" class="w-full h-full object-cover gallery-img">
+            <div class="absolute top-3 left-3">
+              <span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md text-[10px] font-mono uppercase tracking-wider text-emerald-400 border border-emerald-500/30">
+                В наличии
+              </span>
+            </div>
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <span class="text-[10px] uppercase font-mono tracking-wider text-gray-400 block mb-1">Мастер: Арсений Клим • Гутное стекло</span>
+              <h4 class="font-display text-lg font-bold text-white group-hover:text-emerald-400 transition">
+                Арт-светильник «Опаловый вихрь»
+              </h4>
+              <p class="text-xs text-gray-400 mt-1 line-clamp-2">Выдувное цветное стекло ручной формовки, латунная фурнитура, мягкий теплый рассеянный свет.</p>
+            </div>
+            <div class="mt-5 pt-4 border-t border-brand-border flex items-center justify-between">
+              <div>
+                <span class="text-xs text-gray-500 block">Стоимость:</span>
+                <span class="text-lg font-bold text-white">28 000 ₽</span>
+              </div>
+              <button onclick="addToCart('Арт-светильник «Опаловый вихрь»', 28000, 'Стекло')" class="p-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+                <span>Купить</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 3: Live Edge Wood Table -->
+        <div class="shop-item wood bg-brand-card rounded-2xl overflow-hidden border border-brand-border hover:border-brand-borderActive transition flex flex-col group">
+          <div class="relative h-64 overflow-hidden gallery-card">
+            <img src="https://images.unsplash.com/photo-1538688525198-9b88f6f53126?auto=format&fit=crop&w=800&q=80" alt="Кофейный стол из вяза" class="w-full h-full object-cover gallery-img">
+            <div class="absolute top-3 left-3">
+              <span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md text-[10px] font-mono uppercase tracking-wider text-amber-400 border border-amber-500/30">
+                Шоурум
+              </span>
+            </div>
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <span class="text-[10px] uppercase font-mono tracking-wider text-gray-400 block mb-1">Студия «Живой Вяз» • Столярное ремесло</span>
+              <h4 class="font-display text-lg font-bold text-white group-hover:text-emerald-400 transition">
+                Столик из спила карагача «Русло»
+              </h4>
+              <p class="text-xs text-gray-400 mt-1 line-clamp-2">Цельный массив горного карагача с естественным живым краем, пропитка натуральным пчелиным воском.</p>
+            </div>
+            <div class="mt-5 pt-4 border-t border-brand-border flex items-center justify-between">
+              <div>
+                <span class="text-xs text-gray-500 block">Стоимость:</span>
+                <span class="text-lg font-bold text-white">46 000 ₽</span>
+              </div>
+              <button onclick="addToCart('Столик из спила карагача «Русло»', 46000, 'Дерево')" class="p-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+                <span>Купить</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 4: Forged Candlestick -->
+        <div class="shop-item metal bg-brand-card rounded-2xl overflow-hidden border border-brand-border hover:border-brand-borderActive transition flex flex-col group">
+          <div class="relative h-64 overflow-hidden gallery-card">
+            <img src="https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80" alt="Кованый подсвечник" class="w-full h-full object-cover gallery-img">
+            <div class="absolute top-3 left-3">
+              <span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md text-[10px] font-mono uppercase tracking-wider text-emerald-400 border border-emerald-500/30">
+                В наличии
+              </span>
+            </div>
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <span class="text-[10px] uppercase font-mono tracking-wider text-gray-400 block mb-1">Кузнец: Виктор Беляев • Горячая ковка</span>
+              <h4 class="font-display text-lg font-bold text-white group-hover:text-emerald-400 transition">
+                Подсвечник на 3 свечи «Колос»
+              </h4>
+              <p class="text-xs text-gray-400 mt-1 line-clamp-2">Кованая вороненая сталь, ручная чеканка фактуры, защитное льняное воронение.</p>
+            </div>
+            <div class="mt-5 pt-4 border-t border-brand-border flex items-center justify-between">
+              <div>
+                <span class="text-xs text-gray-500 block">Стоимость:</span>
+                <span class="text-lg font-bold text-white">8 900 ₽</span>
+              </div>
+              <button onclick="addToCart('Подсвечник «Колос»', 8900, 'Металл')" class="p-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+                <span>Купить</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 5: Contemporary Ring -->
+        <div class="shop-item metal bg-brand-card rounded-2xl overflow-hidden border border-brand-border hover:border-brand-borderActive transition flex flex-col group">
+          <div class="relative h-64 overflow-hidden gallery-card">
+            <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=800&q=80" alt="Авторское кольцо" class="w-full h-full object-cover gallery-img">
+            <div class="absolute top-3 left-3">
+              <span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md text-[10px] font-mono uppercase tracking-wider text-emerald-400 border border-emerald-500/30">
+                Авторская серия
+              </span>
+            </div>
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <span class="text-[10px] uppercase font-mono tracking-wider text-gray-400 block mb-1">Ювелир: Мира Ким • Концепт</span>
+              <h4 class="font-display text-lg font-bold text-white group-hover:text-emerald-400 transition">
+                Перстень «Метеорит & Титан»
+              </h4>
+              <p class="text-xs text-gray-400 mt-1 line-clamp-2">Анодированный аэрокосмический титан с инкрустацией среза железного метеорита Сеймчан.</p>
+            </div>
+            <div class="mt-5 pt-4 border-t border-brand-border flex items-center justify-between">
+              <div>
+                <span class="text-xs text-gray-500 block">Стоимость:</span>
+                <span class="text-lg font-bold text-white">16 000 ₽</span>
+              </div>
+              <button onclick="addToCart('Перстень «Метеорит & Титан»', 16000, 'Ювелирка')" class="p-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+                <span>Купить</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 6: Tea Set -->
+        <div class="shop-item ceramic bg-brand-card rounded-2xl overflow-hidden border border-brand-border hover:border-brand-borderActive transition flex flex-col group">
+          <div class="relative h-64 overflow-hidden gallery-card">
+            <img src="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=800&q=80" alt="Чайный набор" class="w-full h-full object-cover gallery-img">
+            <div class="absolute top-3 left-3">
+              <span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md text-[10px] font-mono uppercase tracking-wider text-emerald-400 border border-emerald-500/30">
+                В наличии
+              </span>
+            </div>
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <span class="text-[10px] uppercase font-mono tracking-wider text-gray-400 block mb-1">Мастерская «Очаг» • Керамика</span>
+              <h4 class="font-display text-lg font-bold text-white group-hover:text-emerald-400 transition">
+                Чайная пара «Серый мох»
+              </h4>
+              <p class="text-xs text-gray-400 mt-1 line-clamp-2">Тонкостенная каменная масса, матовая фактурная глазурь, ручная лепка без круга.</p>
+            </div>
+            <div class="mt-5 pt-4 border-t border-brand-border flex items-center justify-between">
+              <div>
+                <span class="text-xs text-gray-500 block">Стоимость:</span>
+                <span class="text-lg font-bold text-white">4 200 ₽</span>
+              </div>
+              <button onclick="addToCart('Чайная пара «Серый мох»', 4200, 'Керамика')" class="p-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+                <span>Купить</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= VENUE & SPACE RENTAL (АРЕНДА ПЛОЩАДКИ) ================= -->
+  <section id="rental" class="py-24 bg-brand-black border-b border-brand-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="max-w-3xl mb-16">
+        <span class="museum-label text-brand-accent">Проведение ваших событий</span>
+        <h2 class="font-display text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-white mt-1 mb-4">
+          Аренда площадки под мероприятия
+        </h2>
+        <p class="text-gray-300 text-sm leading-relaxed">
+          Проведите свое событие в окружении подлинных шедевров современного ремесла. Мы предоставляем залы под презентации брендов, модные показы, конференции, частные ужины, фото- и видеосъемки и корпоративные тимбилдинги.
+        </p>
+      </div>
+
+      <!-- Halls Showcase Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        
+        <!-- Hall 1 -->
+        <div class="bg-brand-card rounded-2xl overflow-hidden border border-brand-border hover:border-brand-borderActive transition flex flex-col group">
+          <div class="h-48 overflow-hidden gallery-card relative">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" alt="Большой Атриум" class="w-full h-full object-cover gallery-img">
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-card to-transparent"></div>
+            <span class="absolute top-3 left-3 px-2 py-0.5 rounded bg-black/70 backdrop-blur-md text-[10px] font-mono uppercase text-brand-accent border border-brand-accent/30">
+              До 200 гостей
+            </span>
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display text-xl font-bold uppercase text-white mb-2">Главный Атриум</h3>
+              <p class="text-xs text-gray-400 mb-4">350 м² с 7-метровыми потолками, профессиональным светом и сценой. Для показов, форумов и банкетов.</p>
+              <div class="text-xs text-gray-300 space-y-1 font-mono">
+                <div>• Свет & звук JBL Pro</div>
+                <div>• Светодиодный экран 4K</div>
+              </div>
+            </div>
+            <div class="mt-5 pt-4 border-t border-brand-border flex items-center justify-between">
+              <div>
+                <span class="text-[10px] text-gray-400 uppercase">Тариф</span>
+                <div class="text-base font-bold text-white">от 8 000 ₽ <span class="text-xs font-normal text-gray-400">/ час</span></div>
+              </div>
+              <button onclick="prefillRental('Главный Атриум (350 м²)', 8000)" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs uppercase font-medium transition">
+                Выбрать
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hall 2 -->
+        <div class="bg-brand-card rounded-2xl overflow-hidden border border-brand-border hover:border-brand-borderActive transition flex flex-col group">
+          <div class="h-48 overflow-hidden gallery-card relative">
+            <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80" alt="Арт-лофт" class="w-full h-full object-cover gallery-img">
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-card to-transparent"></div>
+            <span class="absolute top-3 left-3 px-2 py-0.5 rounded bg-black/70 backdrop-blur-md text-[10px] font-mono uppercase text-brand-accent border border-brand-accent/30">
+              До 45 гостей
+            </span>
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display text-xl font-bold uppercase text-white mb-2">Лофт Мастерских</h3>
+              <p class="text-xs text-gray-400 mb-4">140 м² с открытой ремесленной зоной. Идеально для корпоративных воркшопов, закрытых дегустаций и лекций.</p>
+              <div class="text-xs text-gray-300 space-y-1 font-mono">
+                <div>• Гончарные круги и верстаки</div>
+                <div>• Барная стойка и кофемашина</div>
+              </div>
+            </div>
+            <div class="mt-5 pt-4 border-t border-brand-border flex items-center justify-between">
+              <div>
+                <span class="text-[10px] text-gray-400 uppercase">Тариф</span>
+                <div class="text-base font-bold text-white">от 4 500 ₽ <span class="text-xs font-normal text-gray-400">/ час</span></div>
+              </div>
+              <button onclick="prefillRental('Лофт Мастерских (140 м²)', 4500)" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs uppercase font-medium transition">
+                Выбрать
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hall 3 -->
+        <div class="bg-brand-card rounded-2xl overflow-hidden border border-brand-border hover:border-brand-borderActive transition flex flex-col group">
+          <div class="h-48 overflow-hidden gallery-card relative">
+            <img src="https://images.unsplash.com/photo-1518998053901-5348d3961a04?auto=format&fit=crop&w=800&q=80" alt="Камерная галерея" class="w-full h-full object-cover gallery-img">
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-card to-transparent"></div>
+            <span class="absolute top-3 left-3 px-2 py-0.5 rounded bg-black/70 backdrop-blur-md text-[10px] font-mono uppercase text-brand-accent border border-brand-accent/30">
+              До 30 гостей
+            </span>
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display text-xl font-bold uppercase text-white mb-2">Камерная Галерея</h3>
+              <p class="text-xs text-gray-400 mb-4">95 м² минималистичного белого пространства со сменной экспозицией. Для ужинов, съемок и презентаций.</p>
+              <div class="text-xs text-gray-300 space-y-1 font-mono">
+                <div>• Направленный музейный свет</div>
+                <div>• Тихая звукоизоляция</div>
+              </div>
+            </div>
+            <div class="mt-5 pt-4 border-t border-brand-border flex items-center justify-between">
+              <div>
+                <span class="text-[10px] text-gray-400 uppercase">Тариф</span>
+                <div class="text-base font-bold text-white">от 3 500 ₽ <span class="text-xs font-normal text-gray-400">/ час</span></div>
+              </div>
+              <button onclick="prefillRental('Камерная Галерея (95 м²)', 3500)" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs uppercase font-medium transition">
+                Выбрать
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hall 4 -->
+        <div class="bg-brand-card rounded-2xl overflow-hidden border border-brand-border hover:border-brand-borderActive transition flex flex-col group">
+          <div class="h-48 overflow-hidden gallery-card relative">
+            <img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=800&q=80" alt="Арт-двор" class="w-full h-full object-cover gallery-img">
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-card to-transparent"></div>
+            <span class="absolute top-3 left-3 px-2 py-0.5 rounded bg-black/70 backdrop-blur-md text-[10px] font-mono uppercase text-brand-accent border border-brand-accent/30">
+              До 120 гостей
+            </span>
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display text-xl font-bold uppercase text-white mb-2">Внутренний Арт-двор</h3>
+              <p class="text-xs text-gray-400 mb-4">220 м² открытой мощеной площадки со скульптурами под открытым небом, гирляндами и зоной гриля.</p>
+              <div class="text-xs text-gray-300 space-y-1 font-mono">
+                <div>• Доступ для кейтеринга</div>
+                <div>• Тепловые пушки и навесы</div>
+              </div>
+            </div>
+            <div class="mt-5 pt-4 border-t border-brand-border flex items-center justify-between">
+              <div>
+                <span class="text-[10px] text-gray-400 uppercase">Тариф</span>
+                <div class="text-base font-bold text-white">от 6 000 ₽ <span class="text-xs font-normal text-gray-400">/ час</span></div>
+              </div>
+              <button onclick="prefillRental('Внутренний Арт-двор (220 м²)', 6000)" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs uppercase font-medium transition">
+                Выбрать
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Interactive Rental Calculator & Application Form -->
+      <div class="bg-brand-surface rounded-3xl border border-brand-border p-6 sm:p-10 shadow-2xl">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+          
+          <div class="lg:col-span-5">
+            <span class="museum-label text-brand-accent">Интерактивный расчет</span>
+            <h3 class="font-display text-2xl sm:text-3xl font-bold uppercase text-white mt-1 mb-3">
+              Калькулятор аренды
+            </h3>
+            <p class="text-xs text-gray-400 leading-relaxed mb-6">
+              Выберите параметры вашего мероприятия, и система моментально рассчитает ориентировочную стоимость и сформирует заявку в CRM.
+            </p>
+
+            <div class="space-y-4 text-xs">
+              <div class="flex items-center gap-3 text-gray-300">
+                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+                <span>Индивидуальный менеджер события</span>
+              </div>
+              <div class="flex items-center gap-3 text-gray-300">
+                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+                <span>Технический специалист на площадке</span>
+              </div>
+              <div class="flex items-center gap-3 text-gray-300">
+                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+                <span>Возможность брендинга и перестановки</span>
+              </div>
+              <div class="flex items-center gap-3 text-gray-300">
+                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+                <span>Договор, безналичный расчет для юрлиц (с НДС)</span>
+              </div>
+            </div>
+
+            <!-- Price Output Box -->
+            <div class="mt-8 p-6 bg-brand-card rounded-2xl border border-brand-border">
+              <span class="text-xs uppercase text-gray-400 tracking-wider">Ориентировочная сумма:</span>
+              <div class="font-display text-4xl font-extrabold text-brand-accent mt-1" id="calc-total-display">24 000 ₽</div>
+              <span class="text-[11px] text-gray-400 mt-1 block" id="calc-breakdown-text">3 часа аренды в Главном Атриуме</span>
+            </div>
+          </div>
+
+          <!-- Form Inputs -->
+          <div class="lg:col-span-7">
+            <form id="rental-calc-form" onsubmit="handleRentalSubmit(event)" class="space-y-4">
+              
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs uppercase font-medium text-gray-300 mb-1">Выбор площадки</label>
+                  <select id="calc-hall" onchange="calculateRentalTotal()" class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-accent">
+                    <option value="8000" data-name="Главный Атриум (350 м²)">Главный Атриум — 8 000 ₽/ч</option>
+                    <option value="4500" data-name="Лофт Мастерских (140 м²)">Лофт Мастерских — 4 500 ₽/ч</option>
+                    <option value="3500" data-name="Камерная Галерея (95 м²)">Камерная Галерея — 3 500 ₽/ч</option>
+                    <option value="6000" data-name="Внутренний Арт-двор (220 м²)">Внутренний Арт-двор — 6 000 ₽/ч</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block text-xs uppercase font-medium text-gray-300 mb-1">Время (часов)</label>
+                  <select id="calc-hours" onchange="calculateRentalTotal()" class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-accent">
+                    <option value="2">2 часа</option>
+                    <option value="3" selected>3 часа</option>
+                    <option value="4">4 часа</option>
+                    <option value="6">6 часов (полдня)</option>
+                    <option value="8">8 часов (целый день)</option>
+                    <option value="12">12 часов (максимум)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Additional Options Checkboxes -->
+              <div>
+                <label class="block text-xs uppercase font-medium text-gray-300 mb-2">Дополнительные опции</label>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                  <label class="flex items-center gap-2.5 p-3 rounded-xl bg-brand-card border border-brand-border cursor-pointer hover:border-brand-borderActive transition">
+                    <input type="checkbox" id="opt-sound" value="5000" onchange="calculateRentalTotal()" class="rounded border-gray-600 text-brand-accent focus:ring-0">
+                    <span class="text-gray-300">Свет и звук JBL (+5 000 ₽)</span>
+                  </label>
+                  <label class="flex items-center gap-2.5 p-3 rounded-xl bg-brand-card border border-brand-border cursor-pointer hover:border-brand-borderActive transition">
+                    <input type="checkbox" id="opt-projector" value="3000" onchange="calculateRentalTotal()" class="rounded border-gray-600 text-brand-accent focus:ring-0">
+                    <span class="text-gray-300">Экран и 4K проектор (+3 000 ₽)</span>
+                  </label>
+                  <label class="flex items-center gap-2.5 p-3 rounded-xl bg-brand-card border border-brand-border cursor-pointer hover:border-brand-borderActive transition">
+                    <input type="checkbox" id="opt-cleaning" value="4000" onchange="calculateRentalTotal()" class="rounded border-gray-600 text-brand-accent focus:ring-0">
+                    <span class="text-gray-300">Клининг после события (+4 000 ₽)</span>
+                  </label>
+                  <label class="flex items-center gap-2.5 p-3 rounded-xl bg-brand-card border border-brand-border cursor-pointer hover:border-brand-borderActive transition">
+                    <input type="checkbox" id="opt-masterclass" value="12000" onchange="calculateRentalTotal()" class="rounded border-gray-600 text-brand-accent focus:ring-0">
+                    <span class="text-gray-300">Воркшоп от ремесленника (+12 000 ₽)</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Contact Inputs -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                <div>
+                  <label class="block text-xs uppercase font-medium text-gray-300 mb-1">Ваше имя / Компания</label>
+                  <input type="text" id="rental-name" required placeholder="Анна Смирнова" class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-accent">
+                </div>
+                <div>
+                  <label class="block text-xs uppercase font-medium text-gray-300 mb-1">Телефон для связи</label>
+                  <input type="tel" id="rental-phone" required placeholder="+7 (999) 000-00-00" class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-accent">
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs uppercase font-medium text-gray-300 mb-1">Дата и формат мероприятия (необязательно)</label>
+                <input type="text" id="rental-notes" placeholder="Например: 25 ноября, презентация ювелирной коллекции на 50 гостей" class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-accent">
+              </div>
+
+              <button type="submit" class="w-full py-4 bg-brand-accent hover:bg-brand-accentHover text-white font-bold text-xs uppercase tracking-wider rounded-xl transition shadow-xl shadow-brand-accent/20 flex items-center justify-center gap-2">
+                <i data-lucide="send" class="w-4 h-4"></i>
+                <span>Отправить заявку на бронь в CRM</span>
+              </button>
+
+            </form>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= VISIT, TICKETS & CONTACTS (АКТУАЛЬНАЯ ИНФОРМАЦИЯ) ================= -->
+  <section id="visit" class="py-24 bg-brand-surface border-b border-brand-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        
+        <div class="lg:col-span-6">
+          <span class="museum-label text-brand-accent">Планирование визита</span>
+          <h2 class="font-display text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-white mt-1 mb-4">
+            Посещение и билеты
+          </h2>
+          <p class="text-gray-300 text-sm leading-relaxed mb-8">
+            Наше пространство открыто со вторника по воскресенье. Билеты дают право посещения постоянной экспозиции и всех временных выставок.
+          </p>
+
+          <!-- Ticket Prices Card -->
+          <div class="space-y-3 mb-8">
+            
+            <div class="p-4 bg-brand-card rounded-xl border border-brand-border flex items-center justify-between">
+              <div>
+                <div class="text-sm font-bold text-white uppercase">Входной билет (Стандарт)</div>
+                <div class="text-xs text-gray-400">Полный доступ ко всем залам и выставкам</div>
+              </div>
+              <div class="flex items-center gap-4">
+                <span class="text-lg font-bold text-white">600 ₽</span>
+                <button onclick="openBookingModal('Билет: Взрослый', 'Стандартный входной (600 ₽)')" class="px-3 py-1.5 rounded-lg bg-brand-accent hover:bg-brand-accentHover text-white text-xs font-semibold uppercase tracking-wider transition">
+                  Купить
+                </button>
+              </div>
+            </div>
+
+            <div class="p-4 bg-brand-card rounded-xl border border-brand-border flex items-center justify-between">
+              <div>
+                <div class="text-sm font-bold text-white uppercase">Льготный билет</div>
+                <div class="text-xs text-gray-400">Студенты, школьники, пенсионеры (при предъявлении)</div>
+              </div>
+              <div class="flex items-center gap-4">
+                <span class="text-lg font-bold text-white">400 ₽</span>
+                <button onclick="openBookingModal('Билет: Льготный', 'Льготный входной (400 ₽)')" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-semibold uppercase tracking-wider transition">
+                  Купить
+                </button>
+              </div>
+            </div>
+
+            <div class="p-4 bg-brand-card rounded-xl border border-brand-border flex items-center justify-between">
+              <div>
+                <div class="text-sm font-bold text-white uppercase">Семейный билет</div>
+                <div class="text-xs text-gray-400">2 взрослых + до 3 детей</div>
+              </div>
+              <div class="flex items-center gap-4">
+                <span class="text-lg font-bold text-white">1 400 ₽</span>
+                <button onclick="openBookingModal('Билет: Семейный', 'Семейный билет (1 400 ₽)')" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-semibold uppercase tracking-wider transition">
+                  Купить
+                </button>
+              </div>
+            </div>
+
+            <div class="p-4 bg-brand-card rounded-xl border border-brand-accent/30 flex items-center justify-between">
+              <div>
+                <div class="text-sm font-bold text-white uppercase">Годовой клубный абонемент</div>
+                <div class="text-xs text-brand-accent">Неограниченный вход 365 дней + закрытые вернисажи</div>
+              </div>
+              <div class="flex items-center gap-4">
+                <span class="text-lg font-bold text-brand-accent">3 500 ₽</span>
+                <button onclick="openBookingModal('Абонемент', 'Годовой клубный абонемент (3 500 ₽)')" class="px-3 py-1.5 rounded-lg bg-brand-accent hover:bg-brand-accentHover text-white text-xs font-semibold uppercase tracking-wider transition">
+                  Оформить
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="text-xs text-gray-400">
+            * Дети до 7 лет, ветераны и члены творческих союзов — бесплатно.
+          </div>
+        </div>
+
+        <!-- Schedule & Contacts -->
+        <div class="lg:col-span-6 flex flex-col justify-between">
+          <div class="bg-brand-card p-8 rounded-3xl border border-brand-border">
+            <span class="museum-label text-emerald-400">Точные координаты</span>
+            <h3 class="font-display text-2xl font-bold uppercase text-white mt-1 mb-6">Как нас найти</h3>
+
+            <div class="space-y-6 text-sm">
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-brand-accent shrink-0 mt-1">
+                  <i data-lucide="map-pin" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <div class="text-xs uppercase text-gray-400 font-semibold tracking-wider">Адрес пространства</div>
+                  <div class="text-base font-bold text-white mt-0.5">Санкт-Петербург, Васильевский остров, 29-я линия, дом 2 (Креативный квартал)</div>
+                  <div class="text-xs text-gray-400 mt-1">7 минут от метро «Василеостровская» / «Горный институт»</div>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-brand-accent shrink-0 mt-1">
+                  <i data-lucide="clock" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <div class="text-xs uppercase text-gray-400 font-semibold tracking-wider">Часы работы</div>
+                  <div class="text-base font-bold text-white mt-0.5">Вторник — Воскресенье: 11:00 — 21:00</div>
+                  <div class="text-xs text-brand-accent mt-0.5">Понедельник — технический день (только аренда под съемки)</div>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-brand-accent shrink-0 mt-1">
+                  <i data-lucide="phone" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <div class="text-xs uppercase text-gray-400 font-semibold tracking-wider">Прямой контакт и бронирование</div>
+                  <div class="text-base font-bold text-white mt-0.5">+7 (812) 385-90-20</div>
+                  <div class="text-xs text-gray-400 mt-1">Telegram: @remeslo_space | Email: art@remeslo-space.ru</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stylized Minimal Map View Mockup -->
+            <div class="mt-8 relative h-48 rounded-2xl overflow-hidden border border-brand-border bg-brand-surface flex items-center justify-center text-center p-6">
+              <div class="absolute inset-0 opacity-20">
+                <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=800&q=80" alt="Карта" class="w-full h-full object-cover">
+              </div>
+              <div class="relative z-10">
+                <i data-lucide="navigation" class="w-8 h-8 text-brand-accent mx-auto mb-2 animate-bounce"></i>
+                <div class="font-display font-bold uppercase text-white text-sm">Арт-пространство «РЕМЕСЛО»</div>
+                <div class="text-xs text-gray-400 mt-1">Бесплатная гостевая парковка на 30 мест во дворе</div>
+                <div class="mt-3 flex items-center justify-center gap-3">
+                  <a href="https://yandex.ru/maps" target="_blank" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded text-xs font-semibold transition">
+                    Открыть в Яндекс Картах
+                  </a>
+                  <a href="https://2gis.ru" target="_blank" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded text-xs font-semibold transition">
+                    Открыть в 2ГИС
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-brand-black border-t border-brand-border py-14">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-8 pb-10 border-b border-brand-border">
+        
+        <div class="flex flex-col items-center md:items-start">
+          <div class="flex items-center gap-2">
+            <span class="font-display font-extrabold text-2xl tracking-tighter text-white">РЕМЕСЛО</span>
+            <span class="px-1.5 py-0.5 text-[9px] font-mono tracking-widest bg-brand-accent/20 text-brand-accent border border-brand-accent/30 rounded uppercase font-semibold">Space</span>
+          </div>
+          <span class="text-xs text-gray-400 mt-1">Современное арт-пространство и резиденция мастеров</span>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-6 text-xs uppercase tracking-wider text-gray-400 font-semibold">
+          <a href="#exhibitions" class="hover:text-white transition">Выставки</a>
+          <a href="#schedule" class="hover:text-white transition">Афиша</a>
+          <a href="#tours" class="hover:text-white transition">Экскурсии</a>
+          <a href="#shop" class="hover:text-white transition">Лавка</a>
+          <a href="#rental" class="hover:text-white transition">Аренда</a>
+          <a href="#visit" class="hover:text-white transition">Контакты</a>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button onclick="openCrmModal()" class="px-3 py-2 rounded-lg bg-brand-surface hover:bg-brand-card border border-brand-border text-xs text-gray-300 hover:text-white flex items-center gap-2 transition">
+            <i data-lucide="shield" class="w-4 h-4 text-brand-accent"></i>
+            <span>Панель CRM (Админ)</span>
+          </button>
+        </div>
+
+      </div>
+
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
+        <div>
+          © 2026 Арт-пространство «РЕМЕСЛО». Все права защищены.
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="#" class="hover:text-gray-400 transition">Политика конфиденциальности</a>
+          <a href="#" class="hover:text-gray-400 transition">Правила посещения</a>
+          <a href="#" class="hover:text-gray-400 transition">Публичная оферта</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= BOOKING MODAL (УНИВЕРСАЛЬНАЯ ЗАЯВКА) ================= -->
+  <div id="booking-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-brand-surface border border-brand-border max-w-lg w-full rounded-3xl p-6 sm:p-8 shadow-2xl relative animate-in fade-in zoom-in-95 duration-200">
+      
+      <button onclick="closeBookingModal()" class="absolute top-5 right-5 text-gray-400 hover:text-white p-1">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+
+      <div class="mb-6">
+        <span class="museum-label text-brand-accent">Онлайн бронирование</span>
+        <h3 class="font-display text-2xl font-bold uppercase text-white mt-1" id="modal-title">
+          Бронирование посещения
+        </h3>
+        <p class="text-xs text-gray-400 mt-1" id="modal-subtitle">
+          Заполните контактные данные. Заявка моментально поступит администратору в CRM.
+        </p>
+      </div>
+
+      <form id="booking-form" onsubmit="handleBookingSubmit(event)" class="space-y-4">
+        <input type="hidden" id="modal-service-category" value="Билет">
+        <input type="hidden" id="modal-service-name" value="Входной билет">
+
+        <div>
+          <label class="block text-xs uppercase font-medium text-gray-300 mb-1">Выбранная услуга / событие</label>
+          <input type="text" id="modal-service-display" readonly class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-sm text-brand-accent font-semibold focus:outline-none">
+        </div>
+
+        <div>
+          <label class="block text-xs uppercase font-medium text-gray-300 mb-1">Ваше имя *</label>
+          <input type="text" id="booking-name" required placeholder="Иван Иванов" class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-accent">
+        </div>
+
+        <div>
+          <label class="block text-xs uppercase font-medium text-gray-300 mb-1">Телефон для связи *</label>
+          <input type="tel" id="booking-phone" required placeholder="+7 (999) 123-45-67" class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-accent">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs uppercase font-medium text-gray-300 mb-1">Дата визита</label>
+            <input type="date" id="booking-date" class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-accent">
+          </div>
+          <div>
+            <label class="block text-xs uppercase font-medium text-gray-300 mb-1">Количество гостей</label>
+            <select id="booking-guests" class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-accent">
+              <option value="1">1 человек</option>
+              <option value="2" selected>2 человека</option>
+              <option value="3">3 человека</option>
+              <option value="4+">4 и более</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs uppercase font-medium text-gray-300 mb-1">Пожелания или вопрос (необязательно)</label>
+          <textarea id="booking-comment" rows="2" placeholder="Хотим персонального экскурсовода..." class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-accent"></textarea>
+        </div>
+
+        <button type="submit" class="w-full py-4 bg-brand-accent hover:bg-brand-accentHover text-white font-bold text-xs uppercase tracking-wider rounded-xl transition shadow-xl shadow-brand-accent/25 flex items-center justify-center gap-2">
+          <i data-lucide="check" class="w-4 h-4"></i>
+          <span>Подтвердить бронь в CRM</span>
+        </button>
+
+        <p class="text-[11px] text-gray-500 text-center">
+          Нажимая кнопку, вы соглашаетесь на обработку персональных данных. Администратор свяжется в течение 10 минут.
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= SHOPPING CART DRAWER ================= -->
+  <div id="cart-drawer" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm">
+    <div class="fixed top-0 right-0 bottom-0 max-w-md w-full bg-brand-surface border-l border-brand-border p-6 flex flex-col justify-between shadow-2xl animate-in slide-in-from-right duration-200">
+      
+      <div>
+        <div class="flex items-center justify-between pb-6 border-b border-brand-border">
+          <div class="flex items-center gap-2">
+            <i data-lucide="shopping-bag" class="w-5 h-5 text-emerald-400"></i>
+            <h3 class="font-display text-xl font-bold uppercase text-white">Корзина арт-лавки</h3>
+          </div>
+          <button onclick="toggleCartDrawer()" class="text-gray-400 hover:text-white p-1">
+            <i data-lucide="x" class="w-6 h-6"></i>
+          </button>
+        </div>
+
+        <div id="cart-items-container" class="py-6 space-y-4 max-h-[55vh] overflow-y-auto">
+          <!-- Filled dynamically -->
+        </div>
+      </div>
+
+      <div class="pt-6 border-t border-brand-border">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm text-gray-400 uppercase">Итого к оплате:</span>
+          <span class="font-display text-2xl font-bold text-emerald-400" id="cart-total-display">0 ₽</span>
+        </div>
+
+        <div id="cart-checkout-box" class="space-y-3">
+          <input type="text" id="cart-client-name" placeholder="Ваше имя" class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500">
+          <input type="tel" id="cart-client-phone" placeholder="Телефон для связи" class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500">
+          <button onclick="submitCartOrder()" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2">
+            <i data-lucide="credit-card" class="w-4 h-4"></i>
+            <span>Оформить заказ в CRM</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= EMBEDDED CRM & LEAD MANAGER MODAL ================= -->
+  <div id="crm-modal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-md flex items-center justify-center p-2 sm:p-4">
+    <div class="bg-brand-surface border border-brand-border max-w-5xl w-full h-[90vh] rounded-3xl flex flex-col overflow-hidden shadow-2xl relative">
+      
+      <!-- CRM Header -->
+      <div class="px-6 py-4 bg-brand-card border-b border-brand-border flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-brand-accent/20 border border-brand-accent/40 flex items-center justify-center text-brand-accent">
+            <i data-lucide="shield" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="font-display text-lg font-bold uppercase text-white">CRM-система арт-пространства</h3>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">v1.2 Live</span>
+            </div>
+            <p class="text-[11px] text-gray-400">Управление входящими заявками на билеты, аренду, экскурсии и заказы из арт-лавки</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <!-- Export CSV -->
+          <button onclick="exportLeadsToCsv()" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-lg text-xs font-semibold uppercase transition">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span>Экспорт в Excel/CSV</span>
+          </button>
+          
+          <button onclick="closeCrmModal()" class="text-gray-400 hover:text-white p-1.5 rounded-lg hover:bg-white/5">
+            <i data-lucide="x" class="w-6 h-6"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- CRM Navigation Tabs & KPI Metrics Bar -->
+      <div class="px-6 py-3 bg-brand-surface border-b border-brand-border flex flex-wrap items-center justify-between gap-4">
+        
+        <!-- Status Filter Tabs -->
+        <div class="flex items-center gap-1 text-xs">
+          <button onclick="filterCrmLeads('all', this)" class="crm-tab-btn px-3 py-1.5 rounded-lg bg-brand-accent text-white font-semibold">Все заявки (<span id="crm-total-count">0</span>)</button>
+          <button onclick="filterCrmLeads('new', this)" class="crm-tab-btn px-3 py-1.5 rounded-lg bg-brand-card text-gray-300 hover:text-white border border-brand-border">Новые (<span id="crm-new-count">0</span>)</button>
+          <button onclick="filterCrmLeads('in_progress', this)" class="crm-tab-btn px-3 py-1.5 rounded-lg bg-brand-card text-gray-300 hover:text-white border border-brand-border">В работе</button>
+          <button onclick="filterCrmLeads('done', this)" class="crm-tab-btn px-3 py-1.5 rounded-lg bg-brand-card text-gray-300 hover:text-white border border-brand-border">Завершенные</button>
+          <button onclick="switchCrmView('settings')" class="crm-tab-btn px-3 py-1.5 rounded-lg bg-brand-card text-gray-300 hover:text-white border border-brand-border flex items-center gap-1">
+            <i data-lucide="settings" class="w-3.5 h-3.5 text-brand-accent"></i>
+            <span>Настройки интеграций</span>
+          </button>
+        </div>
+
+        <!-- CRM Fast Demo Actions -->
+        <div class="flex items-center gap-2">
+          <button onclick="addMockLead()" class="px-2.5 py-1 text-xs bg-brand-accent/20 text-brand-accent border border-brand-accent/40 rounded hover:bg-brand-accent/30 transition">
+            + Тестовый лид
+          </button>
+          <button onclick="clearAllLeads()" class="px-2.5 py-1 text-xs text-rose-400 hover:bg-rose-500/10 rounded transition">
+            Очистить
+          </button>
+        </div>
+
+      </div>
+
+      <!-- CRM Content Body -->
+      <div class="flex-1 overflow-y-auto p-6" id="crm-main-viewport">
+        
+        <!-- Leads Table / Cards View -->
+        <div id="crm-leads-container" class="space-y-3">
+          <!-- Rendered dynamically via JS -->
+        </div>
+
+        <!-- CRM Settings Sub-View (Hidden by default) -->
+        <div id="crm-settings-view" class="hidden max-w-2xl mx-auto space-y-6 py-4">
+          <div class="bg-brand-card p-6 rounded-2xl border border-brand-border">
+            <h4 class="font-display text-lg font-bold uppercase text-white mb-2 flex items-center gap-2">
+              <i data-lucide="send" class="w-5 h-5 text-sky-400"></i>
+              <span>Telegram-оповещения администратора</span>
+            </h4>
+            <p class="text-xs text-gray-400 mb-4">
+              Получайте моментальное уведомление в личные сообщения или рабочий канал Telegram при каждом новом заказе или бронировании.
+            </p>
+            <div class="space-y-3">
+              <div>
+                <label class="block text-xs uppercase font-medium text-gray-300 mb-1">Telegram Bot Token</label>
+                <input type="text" id="tg-bot-token" placeholder="123456789:ABCdefGhIJKlmNoPQRstuvw" class="w-full bg-brand-surface border border-brand-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-accent">
+              </div>
+              <div>
+                <label class="block text-xs uppercase font-medium text-gray-300 mb-1">Telegram Chat ID (или ID канала)</label>
+                <input type="text" id="tg-chat-id" placeholder="-100123456789 или ваш @username" class="w-full bg-brand-surface border border-brand-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-accent">
+              </div>
+              <div class="flex gap-2 pt-2">
+                <button onclick="saveTelegramSettings()" class="px-4 py-2 bg-brand-accent text-white rounded-lg text-xs font-semibold uppercase">
+                  Сохранить настройки
+                </button>
+                <button onclick="testTelegramAlert()" class="px-4 py-2 bg-white/10 text-white rounded-lg text-xs font-semibold uppercase hover:bg-white/20">
+                  Тест отправки
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-brand-card p-6 rounded-2xl border border-brand-border">
+            <h4 class="font-display text-lg font-bold uppercase text-white mb-2 flex items-center gap-2">
+              <i data-lucide="link" class="w-5 h-5 text-emerald-400"></i>
+              <span>Webhook для внешней CRM (AmoCRM, Bitrix24)</span>
+            </h4>
+            <p class="text-xs text-gray-400 mb-4">
+              Все лиды автоматически отправляются методом POST JSON на указанный Webhook URL.
+            </p>
+            <input type="url" id="webhook-url" placeholder="https://api.yourcrm.com/v1/leads/webhook" class="w-full bg-brand-surface border border-brand-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-accent">
+            <button onclick="saveWebhookSettings()" class="mt-3 px-4 py-2 bg-emerald-600 text-white rounded-lg text-xs font-semibold uppercase">
+              Сохранить Webhook
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification System -->
+  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- ================= JAVASCRIPT APPLICATION CORE ================= -->
+  <script>
+    // Initialize Lucide Icons
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      initCrmStore();
+      renderCrmLeads();
+      updateCartBadge();
+    });
+
+    // Mobile Menu
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    // Exhibitions Filtering
+    function filterExhibitions(cat, btn) {
+      document.querySelectorAll('.ex-tab-btn').forEach(b => {
+        b.className = 'ex-tab-btn px-4 py-2 rounded-lg bg-brand-card hover:bg-brand-cardHover text-gray-300 border border-brand-border transition';
+      });
+      btn.className = 'ex-tab-btn px-4 py-2 rounded-lg bg-brand-accent text-white transition';
+
+      const items = document.querySelectorAll('.ex-item');
+      items.forEach(item => {
+        if (cat === 'all' || item.classList.contains(cat)) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    // Schedule Filtering
+    function filterSchedule(day, btn) {
+      document.querySelectorAll('.sched-day-btn').forEach(b => {
+        b.className = 'sched-day-btn px-5 py-3 rounded-xl bg-brand-card hover:bg-brand-cardHover border border-brand-border text-gray-300 font-semibold text-xs uppercase tracking-wider whitespace-nowrap transition';
+      });
+      btn.className = 'sched-day-btn px-5 py-3 rounded-xl bg-brand-accent text-white font-bold text-xs uppercase tracking-wider whitespace-nowrap transition';
+
+      const items = document.querySelectorAll('.sched-item');
+      items.forEach(item => {
+        if (day === 'all' || item.classList.contains(day)) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    // Shop Filtering
+    function filterShop(cat, btn) {
+      document.querySelectorAll('.shop-tab-btn').forEach(b => {
+        b.className = 'shop-tab-btn px-4 py-2 rounded-lg bg-brand-card hover:bg-brand-cardHover text-gray-300 border border-brand-border transition';
+      });
+      btn.className = 'shop-tab-btn px-4 py-2 rounded-lg bg-emerald-600 text-white transition';
+
+      const items = document.querySelectorAll('.shop-item');
+      items.forEach(item => {
+        if (cat === 'all' || item.classList.contains(cat)) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    // Rental Calculator Logic
+    function calculateRentalTotal() {
+      const hallSelect = document.getElementById('calc-hall');
+      const hallRate = parseInt(hallSelect.value, 10);
+      const hours = parseInt(document.getElementById('calc-hours').value, 10);
+      const selectedHallName = hallSelect.options[hallSelect.selectedIndex].getAttribute('data-name');
+
+      let optionsTotal = 0;
+      ['opt-sound', 'opt-projector', 'opt-cleaning', 'opt-masterclass'].forEach(id => {
+        const cb = document.getElementById(id);
+        if (cb && cb.checked) {
+          optionsTotal += parseInt(cb.value, 10);
+        }
+      });
+
+      const total = (hallRate * hours) + optionsTotal;
+      document.getElementById('calc-total-display').textContent = total.toLocaleString('ru-RU') + ' ₽';
+      document.getElementById('calc-breakdown-text').textContent = `${hours} ч. аренды (${selectedHallName}) ${optionsTotal > 0 ? '+ доп. опции' : ''}`;
+      return { total, selectedHallName, hours };
+    }
+
+    function prefillRental(hallName, rate) {
+      const hallSelect = document.getElementById('calc-hall');
+      for (let i = 0; i < hallSelect.options.length; i++) {
+        if (hallSelect.options[i].getAttribute('data-name').includes(hallName.split(' ')[0])) {
+          hallSelect.selectedIndex = i;
+          break;
+        }
+      }
+      calculateRentalTotal();
+      document.getElementById('rental-calc-form').scrollIntoView({ behavior: 'smooth' });
+      showToast('Параметры зала загружены в калькулятор', 'info');
+    }
+
+    function handleRentalSubmit(e) {
+      e.preventDefault();
+      const calc = calculateRentalTotal();
+      const name = document.getElementById('rental-name').value;
+      const phone = document.getElementById('rental-phone').value;
+      const notes = document.getElementById('rental-notes').value;
+
+      const lead = {
+        id: 'L-' + Date.now().toString().slice(-5),
+        timestamp: new Date().toLocaleString('ru-RU'),
+        category: 'Аренда',
+        title: `Аренда: ${calc.selectedHallName} (${calc.hours} ч.)`,
+        client: name,
+        phone: phone,
+        amount: calc.total,
+        notes: notes || 'Заявка через онлайн-калькулятор аренды',
+        status: 'new'
+      };
+
+      saveLeadToCrm(lead);
+      e.target.reset();
+      calculateRentalTotal();
+      showToast('Заявка на аренду успешно отправлена в CRM!', 'success');
+    }
+
+    // Universal Booking Modal Logic
+    function openBookingModal(category, serviceName) {
+      document.getElementById('modal-service-category').value = category;
+      document.getElementById('modal-service-name').value = serviceName;
+      document.getElementById('modal-service-display').value = `${category}: ${serviceName}`;
+      document.getElementById('modal-title').textContent = `Запись: ${category}`;
+      
+      // Default tomorrow date
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      document.getElementById('booking-date').value = tomorrow.toISOString().split('T')[0];
+
+      document.getElementById('booking-modal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeBookingModal() {
+      document.getElementById('booking-modal').classList.add('hidden');
+    }
+
+    function handleBookingSubmit(e) {
+      e.preventDefault();
+      const category = document.getElementById('modal-service-category').value;
+      const service = document.getElementById('modal-service-name').value;
+      const name = document.getElementById('booking-name').value;
+      const phone = document.getElementById('booking-phone').value;
+      const date = document.getElementById('booking-date').value;
+      const guests = document.getElementById('booking-guests').value;
+      const comment = document.getElementById('booking-comment').value;
+
+      const lead = {
+        id: 'L-' + Date.now().toString().slice(-5),
+        timestamp: new Date().toLocaleString('ru-RU'),
+        category: category,
+        title: `${service} (${guests} чел, ${date})`,
+        client: name,
+        phone: phone,
+        amount: 600, // standard nominal
+        notes: comment || `Дата визита: ${date}, количество гостей: ${guests}`,
+        status: 'new'
+      };
+
+      saveLeadToCrm(lead);
+      closeBookingModal();
+      e.target.reset();
+      showToast('Бронирование подтверждено! Заявка поступила в CRM.', 'success');
+    }
+
+    // Shopping Cart System
+    let cart = [];
+
+    function toggleCartDrawer() {
+      const drawer = document.getElementById('cart-drawer');
+      drawer.classList.toggle('hidden');
+      renderCartItems();
+    }
+
+    function addToCart(title, price, category) {
+      const existing = cart.find(i => i.title === title);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ title, price, category, qty: 1 });
+      }
+      updateCartBadge();
+      showToast(`«${title}» добавлен в корзину`, 'success');
+      toggleCartDrawer();
+    }
+
+    function updateCartBadge() {
+      const count = cart.reduce((sum, i) => sum + i.qty, 0);
+      document.getElementById('cart-counter').textContent = count;
+    }
+
+    function renderCartItems() {
+      const container = document.getElementById('cart-items-container');
+      container.innerHTML = '';
+
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-10 text-gray-400">
+            <i data-lucide="shopping-bag" class="w-12 h-12 mx-auto mb-3 opacity-30"></i>
+            <p class="text-sm">Корзина пуста</p>
+            <p class="text-xs text-gray-500 mt-1">Выберите авторские изделия в Арт-лавке</p>
+          </div>
+        `;
+        document.getElementById('cart-total-display').textContent = '0 ₽';
+        lucide.createIcons();
+        return;
+      }
+
+      let total = 0;
+      cart.forEach((item, idx) => {
+        total += item.price * item.qty;
+        const row = document.createElement('div');
+        row.className = 'p-3 bg-brand-card rounded-xl border border-brand-border flex items-center justify-between gap-3';
+        row.innerHTML = `
+          <div class="min-w-0 flex-1">
+            <div class="text-xs uppercase text-brand-accent font-semibold">${item.category}</div>
+            <div class="text-sm font-bold text-white truncate">${item.title}</div>
+            <div class="text-xs text-gray-400">${item.price.toLocaleString('ru-RU')} ₽ × ${item.qty}</div>
+          </div>
+          <button onclick="removeFromCart(${idx})" class="text-gray-500 hover:text-rose-400 p-1">
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+          </button>
+        `;
+        container.appendChild(row);
+      });
+
+      document.getElementById('cart-total-display').textContent = total.toLocaleString('ru-RU') + ' ₽';
+      lucide.createIcons();
+    }
+
+    function removeFromCart(idx) {
+      cart.splice(idx, 1);
+      updateCartBadge();
+      renderCartItems();
+    }
+
+    function submitCartOrder() {
+      const name = document.getElementById('cart-client-name').value;
+      const phone = document.getElementById('cart-client-phone').value;
+
+      if (!name || !phone) {
+        showToast('Пожалуйста, укажите имя и телефон', 'error');
+        return;
+      }
+
+      if (cart.length === 0) {
+        showToast('Корзина пуста', 'error');
+        return;
+      }
+
+      const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+      const itemsList = cart.map(i => `${i.title} (${i.qty} шт.)`).join(', ');
+
+      const lead = {
+        id: 'L-' + Date.now().toString().slice(-5),
+        timestamp: new Date().toLocaleString('ru-RU'),
+        category: 'Покупка (Лавка)',
+        title: `Заказ из арт-лавки (${cart.length} поз.)`,
+        client: name,
+        phone: phone,
+        amount: total,
+        notes: itemsList,
+        status: 'new'
+      };
+
+      saveLeadToCrm(lead);
+      cart = [];
+      updateCartBadge();
+      toggleCartDrawer();
+      document.getElementById('cart-client-name').value = '';
+      document.getElementById('cart-client-phone').value = '';
+      showToast('Заказ принят! Администратор свяжется для уточнения доставки.', 'success');
+    }
+
+    // ================= CRM STORAGE & ENGINE =================
+    const CRM_STORAGE_KEY = 'remeslo_crm_leads';
+
+    function initCrmStore() {
+      if (!localStorage.getItem(CRM_STORAGE_KEY)) {
+        // Pre-populate with realistic initial seed leads
+        const initialLeads = [
+          {
+            id: 'L-98214',
+            timestamp: '06.11.2026, 09:15',
+            category: 'Аренда',
+            title: 'Аренда: Главный Атриум (4 ч.) + свет JBL',
+            client: 'Мария Власова (Галерея «Свет»)',
+            phone: '+7 (911) 450-20-11',
+            amount: 37000,
+            notes: 'Презентация арт-коллекции на 70 человек. Нужен проектор и микрофоны.',
+            status: 'new'
+          },
+          {
+            id: 'L-98188',
+            timestamp: '05.11.2026, 17:40',
+            category: 'Покупка (Лавка)',
+            title: 'Скульптурная ваза «Тектоника» (1 шт.)',
+            client: 'Денис Орлов',
+            phone: '+7 (921) 890-12-34',
+            amount: 14500,
+            notes: 'Самовывоз из арт-пространства в субботу.',
+            status: 'in_progress'
+          },
+          {
+            id: 'L-98142',
+            timestamp: '05.11.2026, 14:10',
+            category: 'Экскурсия',
+            title: 'Визит в закулисье студий (4 чел)',
+            client: 'Екатерина Павлова',
+            phone: '+7 (905) 234-56-78',
+            amount: 5000,
+            notes: 'Индивидуальная экскурсия на день рождения.',
+            status: 'done'
+          }
+        ];
+        localStorage.setItem(CRM_STORAGE_KEY, JSON.stringify(initialLeads));
+      }
+    }
+
+    function getCrmLeads() {
+      try {
+        return JSON.parse(localStorage.getItem(CRM_STORAGE_KEY)) || [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveLeadToCrm(lead) {
+      const leads = getCrmLeads();
+      leads.unshift(lead);
+      localStorage.setItem(CRM_STORAGE_KEY, JSON.stringify(leads));
+      renderCrmLeads();
+      
+      // Dispatch webhook if configured
+      dispatchWebhook(lead);
+
+      // Trigger Telegram notification if configured
+      dispatchTelegram(lead);
+    }
+
+    let currentCrmFilter = 'all';
+
+    function renderCrmLeads() {
+      const leads = getCrmLeads();
+      const container = document.getElementById('crm-leads-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const totalCount = leads.length;
+      const newCount = leads.filter(l => l.status === 'new').length;
+
+      document.getElementById('crm-total-count').textContent = totalCount;
+      document.getElementById('crm-new-count').textContent = newCount;
+      document.getElementById('crm-counter-badge').textContent = newCount;
+
+      const filtered = leads.filter(l => {
+        if (currentCrmFilter === 'all') return true;
+        return l.status === currentCrmFilter;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-16 text-gray-500">
+            <i data-lucide="inbox" class="w-12 h-12 mx-auto mb-3 opacity-40"></i>
+            <p class="text-sm font-semibold uppercase tracking-wider text-gray-400">Нет заявок в данной категории</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      filtered.forEach(lead => {
+        const card = document.createElement('div');
+        card.className = 'bg-brand-card p-5 rounded-2xl border border-brand-border hover:border-brand-borderActive transition flex flex-col md:flex-row items-start md:items-center justify-between gap-4';
+
+        let statusBadge = '';
+        if (lead.status === 'new') {
+          statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-brand-accent/20 text-brand-accent border border-brand-accent/30">Новый лид</span>';
+        } else if (lead.status === 'in_progress') {
+          statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-500/20 text-amber-400 border border-amber-500/30">В работе</span>';
+        } else {
+          statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Завершена</span>';
+        }
+
+        card.innerHTML = `
+          <div class="min-w-0 flex-1">
+            <div class="flex flex-wrap items-center gap-2 mb-1">
+              <span class="font-mono text-xs text-gray-400">${lead.id}</span>
+              <span class="text-xs text-gray-500">• ${lead.timestamp}</span>
+              ${statusBadge}
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-white/5 text-gray-300 border border-white/10 uppercase">${lead.category}</span>
+            </div>
+            <h4 class="font-display text-base font-bold text-white">${lead.title}</h4>
+            <div class="flex flex-wrap items-center gap-4 mt-1 text-xs text-gray-300">
+              <span class="font-semibold text-white">👤 ${lead.client}</span>
+              <a href="tel:${lead.phone}" class="text-brand-accent hover:underline flex items-center gap-1">
+                📞 ${lead.phone}
+              </a>
+              <span class="font-bold text-emerald-400">${(lead.amount || 0).toLocaleString('ru-RU')} ₽</span>
+            </div>
+            ${lead.notes ? `<p class="text-xs text-gray-400 mt-2 bg-brand-surface p-2 rounded-lg border border-brand-border">💬 ${lead.notes}</p>` : ''}
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2 w-full md:w-auto justify-end border-t md:border-t-0 pt-3 md:pt-0 border-brand-border">
+            <select onchange="updateLeadStatus('${lead.id}', this.value)" class="bg-brand-surface border border-brand-border text-xs rounded-lg px-2.5 py-1.5 text-gray-300 focus:outline-none focus:border-brand-accent">
+              <option value="new" ${lead.status === 'new' ? 'selected' : ''}>Новая</option>
+              <option value="in_progress" ${lead.status === 'in_progress' ? 'selected' : ''}>В работе</option>
+              <option value="done" ${lead.status === 'done' ? 'selected' : ''}>Завершена</option>
+            </select>
+
+            <a href="https://t.me/+${lead.phone.replace(/\\D/g, '')}" target="_blank" class="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-sky-400 border border-white/10 transition" title="Написать в Telegram">
+              <i data-lucide="send" class="w-4 h-4"></i>
+            </a>
+
+            <button onclick="deleteLead('${lead.id}')" class="p-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 transition" title="Удалить">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      lucide.createIcons();
+    }
+
+    function updateLeadStatus(id, newStatus) {
+      const leads = getCrmLeads();
+      const lead = leads.find(l => l.id === id);
+      if (lead) {
+        lead.status = newStatus;
+        localStorage.setItem(CRM_STORAGE_KEY, JSON.stringify(leads));
+        renderCrmLeads();
+        showToast(`Статус заявки ${id} обновлен`, 'info');
+      }
+    }
+
+    function deleteLead(id) {
+      if (!confirm(`Удалить заявку ${id}?`)) return;
+      let leads = getCrmLeads();
+      leads = leads.filter(l => l.id !== id);
+      localStorage.setItem(CRM_STORAGE_KEY, JSON.stringify(leads));
+      renderCrmLeads();
+      showToast(`Заявка ${id} удалена`, 'info');
+    }
+
+    function filterCrmLeads(status, btn) {
+      currentCrmFilter = status;
+      document.querySelectorAll('.crm-tab-btn').forEach(b => {
+        b.className = 'crm-tab-btn px-3 py-1.5 rounded-lg bg-brand-card text-gray-300 hover:text-white border border-brand-border';
+      });
+      btn.className = 'crm-tab-btn px-3 py-1.5 rounded-lg bg-brand-accent text-white font-semibold';
+      switchCrmView('leads');
+      renderCrmLeads();
+    }
+
+    function switchCrmView(view) {
+      const leadsContainer = document.getElementById('crm-leads-container');
+      const settingsView = document.getElementById('crm-settings-view');
+      if (view === 'settings') {
+        leadsContainer.classList.add('hidden');
+        settingsView.classList.remove('hidden');
+      } else {
+        leadsContainer.classList.remove('hidden');
+        settingsView.classList.add('hidden');
+      }
+    }
+
+    function addMockLead() {
+      const mockLead = {
+        id: 'L-' + Math.floor(10000 + Math.random() * 90000),
+        timestamp: new Date().toLocaleString('ru-RU'),
+        category: 'Аренда',
+        title: 'Заявка: Камерная Галерея (3 ч.) под съемку подкаста',
+        client: 'Артем Лебедев',
+        phone: '+7 (999) 777-66-55',
+        amount: 10500,
+        notes: 'Нужен штатив и базовое освещение. Дата: 28 ноября.',
+        status: 'new'
+      };
+      saveLeadToCrm(mockLead);
+      showToast('Тестовая заявка добавлена в CRM!', 'success');
+    }
+
+    function clearAllLeads() {
+      if (!confirm('Вы уверены, что хотите очистить все лиды?')) return;
+      localStorage.removeItem(CRM_STORAGE_KEY);
+      renderCrmLeads();
+      showToast('База CRM очищена', 'info');
+    }
+
+    function exportLeadsToCsv() {
+      const leads = getCrmLeads();
+      if (leads.length === 0) {
+        showToast('Нет данных для экспорта', 'error');
+        return;
+      }
+
+      let csv = 'ID;Дата;Категория;Заголовок;Клиент;Телефон;Сумма;Статус;Примечание\n';
+      leads.forEach(l => {
+        csv += `"${l.id}";"${l.timestamp}";"${l.category}";"${l.title}";"${l.client}";"${l.phone}";"${l.amount}";"${l.status}";"${(l.notes || '').replace(/"/g, '""')}"\n`;
+      });
+
+      const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `remeslo_crm_export_${new Date().toISOString().slice(0, 10)}.csv`;
+      link.click();
+      URL.revokeObjectURL(url);
+      showToast('Файл Excel/CSV успешно скачан!', 'success');
+    }
+
+    function openCrmModal() {
+      document.getElementById('crm-modal').classList.remove('hidden');
+      renderCrmLeads();
+      lucide.createIcons();
+    }
+
+    function closeCrmModal() {
+      document.getElementById('crm-modal').classList.add('hidden');
+    }
+
+    // Hotkey: Ctrl + Shift + A for CRM Admin
+    window.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.shiftKey && e.code === 'KeyA') {
+        e.preventDefault();
+        openCrmModal();
+      }
+    });
+
+    // Toast Notifications
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      
+      let border = 'border-brand-border';
+      let icon = 'info';
+      if (type === 'success') {
+        border = 'border-emerald-500/40 text-emerald-300';
+        icon = 'check-circle';
+      } else if (type === 'error') {
+        border = 'border-rose-500/40 text-rose-300';
+        icon = 'alert-circle';
+      }
+
+      toast.className = `p-4 rounded-xl bg-brand-surface/95 backdrop-blur-md border ${border} text-xs font-semibold text-white shadow-2xl flex items-center gap-3 animate-in slide-in-from-bottom duration-200 pointer-events-auto`;
+      toast.innerHTML = `
+        <i data-lucide="${icon}" class="w-4 h-4 shrink-0 text-brand-accent"></i>
+        <span>${message}</span>
+      `;
+      container.appendChild(toast);
+      lucide.createIcons();
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.4s ease';
+        setTimeout(() => toast.remove(), 400);
+      }, 3500);
+    }
+
+    // Telegram Bot Notifications Setup
+    function saveTelegramSettings() {
+      const token = document.getElementById('tg-bot-token').value;
+      const chat = document.getElementById('tg-chat-id').value;
+      localStorage.setItem('crm_tg_token', token);
+      localStorage.setItem('crm_tg_chat', chat);
+      showToast('Настройки Telegram сохранены', 'success');
+    }
+
+    function testTelegramAlert() {
+      const token = localStorage.getItem('crm_tg_token') || document.getElementById('tg-bot-token').value;
+      const chat = localStorage.getItem('crm_tg_chat') || document.getElementById('tg-chat-id').value;
+      if (!token || !chat) {
+        showToast('Укажите Token и Chat ID', 'error');
+        return;
+      }
+      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: chat,
+          text: '⚡ Тестовое уведомление: CRM арт-пространства «РЕМЕСЛО» успешно подключена!'
+        })
+      }).then(r => r.json()).then(data => {
+        if (data.ok) {
+          showToast('Тестовое сообщение успешно доставлено в Telegram!', 'success');
+        } else {
+          showToast('Ошибка Telegram API: ' + data.description, 'error');
+        }
+      }).catch(err => {
+        showToast('Сетевая ошибка при отправке в Telegram', 'error');
+      });
+    }
+
+    function dispatchTelegram(lead) {
+      const token = localStorage.getItem('crm_tg_token');
+      const chat = localStorage.getItem('crm_tg_chat');
+      if (!token || !chat) return;
+
+      const text = `🏺 *НОВЫЙ ЛИД В АРТ-ПРОСТРАНСТВЕ «РЕМЕСЛО»*\n\n` +
+        `• *Категория:* ${lead.category}\n` +
+        `• *Заявка:* ${lead.title}\n` +
+        `• *Клиент:* ${lead.client}\n` +
+        `• *Телефон:* ${lead.phone}\n` +
+        `• *Сумма:* ${lead.amount.toLocaleString('ru-RU')} ₽\n` +
+        `• *Заметка:* ${lead.notes || '—'}`;
+
+      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: chat,
+          text: text,
+          parse_mode: 'Markdown'
+        })
+      }).catch(e => console.log('TG dispatch error', e));
+    }
+
+    function saveWebhookSettings() {
+      const url = document.getElementById('webhook-url').value;
+      localStorage.setItem('crm_webhook_url', url);
+      showToast('Webhook сохранен', 'success');
+    }
+
+    function dispatchWebhook(lead) {
+      const url = localStorage.getItem('crm_webhook_url');
+      if (!url) return;
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(lead)
+      }).catch(e => console.log('Webhook error', e));
+    }
+  </script>
+</body>
+</html>
