@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>РЕМЕСЛО // ATELIER — Архитектурно-ремесленное арт-пространство</title>
+  <meta name="description" content="Концепция №3: Архитектурно-ремесленная лаборатория. Постоянный архив шедевров, живые мастерские, тактильная арт-лавка, открытые резиденции и залы для частных событий.">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%200%20100%20100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+
+  <!-- Google Fonts: Space Grotesk, Syne, Playfair Display & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@1,600&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Space Grotesk', 'sans-serif'],
+            display: ['Syne', 'Space Grotesk', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            atelier: {
+              black: '#0a0b0e',
+              slate: '#12141a',
+              card: '#161920',
+              cardHover: '#1c202a',
+              border: 'rgba(255, 255, 255, 0.08)',
+              borderActive: 'rgba(255, 84, 38, 0.5)',
+              accent: '#ff5426',       // Electric Kinetic Terracotta
+              accentHover: '#ff6b42',
+              cyan: '#00f0ff',         // Precision blueprint cyan
+              gold: '#d4af37',
+              muted: '#7e8696',
+              light: '#f2f4f8'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Architectural Blueprint Grid Background */
+    .bg-blueprint {
+      background-color: #0a0b0e;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* Grid Corner Cross Markers */
+    .corner-cross {
+      position: relative;
+    }
+    .corner-cross::before {
+      content: '+';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: rgba(255, 84, 38, 0.6);
+      pointer-events: none;
+    }
+
+    /* Custom Tech Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0a0b0e;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #252a36;
+      border-radius: 2px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #ff5426;
+    }
+
+    /* Image zoom container */
+    .arch-card:hover .arch-img {
+      transform: scale(1.06);
+    }
+    .arch-img {
+      transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+  </style>
+</head>
+<body class="bg-blueprint text-atelier-light font-sans antialiased selection:bg-atelier-accent selection:text-white">
+
+  <!-- ================= ARCHITECTURAL TOP DATA BAR ================= -->
+  <div class="border-b border-atelier-border bg-atelier-black/95 backdrop-blur-md px-4 py-2 text-xs font-mono">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4 text-atelier-muted">
+      
+      <div class="flex items-center gap-3">
+        <span class="inline-flex items-center gap-1.5 text-atelier-cyan">
+          <span class="w-1.5 h-1.5 rounded-full bg-atelier-cyan animate-ping"></span>
+          <span>LIVE ARCHIVE</span>
+        </span>
+        <span class="text-white font-medium">[ 59°56'N 30°16'E // СПб, В.О. ]</span>
+        <span class="hidden md:inline text-atelier-muted">• СТАТУС: ОТКРЫТО ДО 21:00</span>
+      </div>
+
+      <!-- Theme Switcher Pill Matrix (ALL 3 CONCEPTS) -->
+      <div class="flex items-center gap-1.5 bg-atelier-slate/90 p-1 rounded-lg border border-atelier-border">
+        <span class="text-[10px] uppercase text-atelier-muted px-2 font-bold tracking-wider hidden sm:inline">Стиль:</span>
+        <a href="index.html" class="px-2.5 py-0.5 rounded text-[11px] text-gray-400 hover:text-white hover:bg-white/5 transition flex items-center gap-1">
+          <span>🌙 Эрарта</span>
+        </a>
+        <a href="light.html" class="px-2.5 py-0.5 rounded text-[11px] text-amber-200 hover:text-amber-100 hover:bg-white/5 transition flex items-center gap-1">
+          <span>☀️ Бежевый</span>
+        </a>
+        <span class="px-2.5 py-0.5 rounded text-[11px] bg-atelier-accent text-white font-bold tracking-wider flex items-center gap-1">
+          <span>⚡ Ателье</span>
+        </span>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <!-- Ambient Sound Synthesizer Toggle -->
+        <button onclick="toggleAmbientSound()" id="sound-btn" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-white/5 hover:bg-white/10 text-atelier-muted hover:text-white transition border border-white/5" title="Включить атмосферный звук мастерской">
+          <i data-lucide="volume-2" class="w-3.5 h-3.5 text-atelier-accent"></i>
+          <span id="sound-label" class="text-[10px] uppercase">Звук студии: OFF</span>
+        </button>
+
+        <button onclick="openCrmModal()" class="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-atelier-accent/20 hover:bg-atelier-accent/30 text-atelier-accent font-semibold transition border border-atelier-accent/40">
+          <i data-lucide="terminal" class="w-3.5 h-3.5"></i>
+          <span>CRM ПАНЕЛЬ</span>
+          <span id="crm-counter-badge" class="ml-1 px-1.5 py-0.2 text-[10px] bg-atelier-accent text-white font-bold rounded">3</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= BRUTALIST MAIN NAVIGATION ================= -->
+  <header class="sticky top-0 z-40 bg-atelier-black/90 backdrop-blur-xl border-b border-atelier-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 bg-atelier-accent text-white font-display font-extrabold text-xl flex items-center justify-center rounded-lg shadow-lg shadow-atelier-accent/25 group-hover:rotate-6 transition">
+            Р
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-2">
+              <span class="font-display font-black text-2xl tracking-tighter text-white uppercase">РЕМЕСЛО</span>
+              <span class="text-[10px] font-mono px-1.5 py-0.5 bg-white/5 border border-white/10 rounded text-atelier-cyan">ATELIER v3</span>
+            </div>
+            <span class="text-[9px] font-mono tracking-[0.25em] text-atelier-muted uppercase">Архитектурный арт-хаб</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden lg:flex items-center gap-8 text-xs font-mono uppercase tracking-wider text-gray-300">
+          <a href="#manifesto" class="hover:text-atelier-accent transition">[01. Манифест]</a>
+          <a href="#materials" class="hover:text-atelier-accent transition">[02. Материалы]</a>
+          <a href="#exhibitions" class="hover:text-atelier-accent transition">[03. Экспозиции]</a>
+          <a href="#chrono" class="hover:text-atelier-accent transition">[04. Афиша]</a>
+          <a href="#tours" class="hover:text-atelier-accent transition">[05. Экскурсии]</a>
+          <a href="#vault" class="hover:text-atelier-accent transition text-atelier-cyan flex items-center gap-1">
+            <span>[06. Лавка]</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-atelier-cyan animate-pulse"></span>
+          </a>
+          <a href="#rental" class="hover:text-atelier-accent transition text-atelier-accent font-bold">[07. Аренда залов]</a>
+        </nav>
+
+        <!-- Right Quick Actions -->
+        <div class="flex items-center gap-3">
+          <button onclick="toggleCartDrawer()" class="relative p-2.5 rounded-xl bg-atelier-slate hover:bg-atelier-card border border-atelier-border transition text-gray-300 hover:text-white" title="Корзина">
+            <i data-lucide="package" class="w-5 h-5"></i>
+            <span id="cart-counter" class="absolute -top-1 -right-1 bg-atelier-accent text-white text-[10px] font-mono font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+          </button>
+
+          <button onclick="openBookingModal('Билет в Ателье', 'Единый доступ в резиденции')" class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-atelier-accent hover:bg-atelier-accentHover text-white font-mono font-bold text-xs uppercase tracking-wider transition shadow-xl shadow-atelier-accent/20">
+            <i data-lucide="ticket" class="w-4 h-4"></i>
+            <span>КУПИТЬ БИЛЕТ</span>
+          </button>
+
+          <button onclick="toggleMobileMenu()" class="lg:hidden p-2 text-gray-400 hover:text-white">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Navigation -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-atelier-slate border-b border-atelier-border px-4 pt-4 pb-6 space-y-3 font-mono text-xs">
+      <div class="p-3 bg-atelier-black rounded-xl border border-atelier-border space-y-2 mb-3">
+        <span class="text-[10px] text-atelier-muted uppercase block">Выбрать другой стиль:</span>
+        <div class="grid grid-cols-2 gap-2">
+          <a href="index.html" class="p-2 text-center rounded bg-white/5 text-gray-300 hover:text-white">🌙 Темный (Эрарта)</a>
+          <a href="light.html" class="p-2 text-center rounded bg-white/5 text-amber-200 hover:text-white">☀️ Бежевый (Сканди)</a>
+        </div>
+      </div>
+      <a href="#manifesto" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-white border-b border-atelier-border">[01. Манифест пространства]</a>
+      <a href="#materials" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-white border-b border-atelier-border">[02. Лаборатория материалов]</a>
+      <a href="#exhibitions" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-white border-b border-atelier-border">[03. Выставки и залы]</a>
+      <a href="#chrono" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-white border-b border-atelier-border">[04. Афиша по дням недели]</a>
+      <a href="#tours" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-white border-b border-atelier-border">[05. Экскурсионные программы]</a>
+      <a href="#vault" onclick="toggleMobileMenu()" class="block py-2 text-atelier-cyan hover:underline border-b border-atelier-border">[06. Арт-лавка: купить изделия]</a>
+      <a href="#rental" onclick="toggleMobileMenu()" class="block py-2 text-atelier-accent font-bold border-b border-atelier-border">[07. Аренда площадок под события]</a>
+      
+      <div class="pt-2 flex flex-col gap-2">
+        <button onclick="openBookingModal('Билет в Ателье', 'Единый доступ'); toggleMobileMenu();" class="w-full py-3 bg-atelier-accent text-white font-bold rounded-xl text-center uppercase tracking-wider">
+          Купить входной билет
+        </button>
+        <button onclick="openCrmModal(); toggleMobileMenu();" class="w-full py-2.5 bg-atelier-card border border-atelier-border text-gray-300 rounded-xl flex items-center justify-center gap-2">
+          <i data-lucide="terminal" class="w-4 h-4 text-atelier-accent"></i>
+          <span>Открыть CRM (Панель лидов)</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= ASYMMETRIC BRUTALIST HERO SECTION ================= -->
+  <section class="relative min-h-[90vh] flex items-center border-b border-atelier-border overflow-hidden py-16 sm:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Left Column: Monumental Typographic Manifesto -->
+        <div class="lg:col-span-7">
+          
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-white/5 border border-white/10 text-xs font-mono text-atelier-muted mb-6">
+            <span class="w-2 h-2 rounded bg-atelier-accent"></span>
+            <span class="uppercase tracking-widest text-atelier-light">Архив современного ремесла // 2026</span>
+          </div>
+
+          <h1 class="font-display text-4xl sm:text-6xl xl:text-7xl font-extrabold uppercase tracking-tight text-white leading-[1.02] mb-6">
+            Мы не музей.<br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-atelier-accent via-amber-400 to-white">
+              МЫ — ЖИВОЕ РЕМЕСЛО.
+            </span>
+          </h1>
+
+          <p class="font-serif italic text-xl sm:text-2xl text-gray-300 font-normal leading-relaxed mb-8 max-w-xl">
+            «Искусство, выкованное из огня, глины, песка и векового дерева руками живого мастера».
+          </p>
+
+          <p class="font-sans text-sm text-atelier-muted leading-relaxed mb-10 max-w-lg">
+            850 м² пространства на Васильевском острове. 24 мастера-резидента, постоянные и сменные экспозиции, открытые действующие мастерские, шоурум и залы под ваши частные события.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-4">
+            <button onclick="openBookingModal('Билет на посещение', 'Единый доступ в Ателье')" class="px-8 py-4 bg-atelier-accent hover:bg-atelier-accentHover text-white font-mono font-bold text-xs uppercase tracking-wider rounded-xl transition flex items-center gap-3 shadow-2xl shadow-atelier-accent/30">
+              <i data-lucide="ticket" class="w-4 h-4"></i>
+              <span>Забронировать визит</span>
+            </button>
+            <a href="#rental" class="px-8 py-4 bg-atelier-card hover:bg-atelier-cardHover border border-atelier-border text-white font-mono font-bold text-xs uppercase tracking-wider rounded-xl transition flex items-center gap-3">
+              <i data-lucide="building" class="w-4 h-4 text-atelier-accent"></i>
+              <span>Арендовать площадку</span>
+            </a>
+          </div>
+
+          <!-- Technical Specs Strip -->
+          <div class="mt-14 pt-8 border-t border-atelier-border grid grid-cols-3 gap-6 font-mono">
+            <div>
+              <span class="text-[10px] text-atelier-muted uppercase block">Общая площадь:</span>
+              <span class="text-xl sm:text-2xl font-bold text-white">850 м²</span>
+            </div>
+            <div>
+              <span class="text-[10px] text-atelier-muted uppercase block">Резиденты:</span>
+              <span class="text-xl sm:text-2xl font-bold text-atelier-accent">24 мастера</span>
+            </div>
+            <div>
+              <span class="text-[10px] text-atelier-muted uppercase block">Экспонаты:</span>
+              <span class="text-xl sm:text-2xl font-bold text-white">300+ работ</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Interactive Atelier HUD & Live Feed Card -->
+        <div class="lg:col-span-5">
+          <div class="bg-atelier-card rounded-3xl border border-atelier-border p-6 shadow-2xl relative overflow-hidden group">
+            
+            <!-- Live Indicator Badge -->
+            <div class="flex items-center justify-between pb-4 mb-4 border-b border-atelier-border font-mono text-xs">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                <span class="text-white font-bold">ОТКРЫТЫЙ СЕАНС</span>
+              </div>
+              <span class="text-atelier-muted">ID: #SPB-RES-089</span>
+            </div>
+
+            <!-- Visual Media with Zoom -->
+            <div class="relative h-72 sm:h-80 rounded-2xl overflow-hidden arch-card mb-5">
+              <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=1200&q=80" alt="Мастер за гончарным кругом" class="w-full h-full object-cover arch-img">
+              <div class="absolute inset-0 bg-gradient-to-t from-atelier-black/90 via-transparent to-black/20"></div>
+              
+              <!-- Blueprint Overlay Tags -->
+              <div class="absolute top-3 left-3 flex flex-col gap-1 font-mono text-[10px]">
+                <span class="bg-black/80 px-2 py-0.5 rounded border border-white/10 text-atelier-cyan">ЗОНА 02: СТУДИЯ КЕРАМИКИ</span>
+                <span class="bg-black/80 px-2 py-0.5 rounded border border-white/10 text-atelier-muted">ТЕМП. ОБЖИГА: 1280°C</span>
+              </div>
+
+              <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between font-mono text-xs text-white">
+                <div>
+                  <span class="text-[10px] text-gray-400 block uppercase">Мастер у круга:</span>
+                  <span class="font-bold">Елена Громова</span>
+                </div>
+                <span class="px-2.5 py-1 rounded bg-atelier-accent/80 backdrop-blur-md text-white font-bold text-[10px] uppercase">
+                  ИДЕТ ПРОЦЕСС
+                </span>
+              </div>
+            </div>
+
+            <!-- Interactive Material Micro-Selector -->
+            <div class="space-y-3 font-mono text-xs">
+              <div class="flex items-center justify-between text-atelier-muted text-[10px] uppercase">
+                <span>Материалы в обработке:</span>
+                <span class="text-atelier-accent">100% Ручная формовка</span>
+              </div>
+              
+              <div class="grid grid-cols-4 gap-2 text-center text-[10px]">
+                <button onclick="switchAtelierMaterial('clay')" class="p-2 rounded-xl bg-atelier-slate border border-atelier-border hover:border-atelier-accent text-white transition">
+                  <div class="font-bold">ГЛИНА</div>
+                  <div class="text-[8px] text-atelier-muted">Шамот</div>
+                </button>
+                <button onclick="switchAtelierMaterial('glass')" class="p-2 rounded-xl bg-atelier-slate border border-atelier-border hover:border-atelier-accent text-white transition">
+                  <div class="font-bold">СТЕКЛО</div>
+                  <div class="text-[8px] text-atelier-muted">Гута</div>
+                </button>
+                <button onclick="switchAtelierMaterial('wood')" class="p-2 rounded-xl bg-atelier-slate border border-atelier-border hover:border-atelier-accent text-white transition">
+                  <div class="font-bold">ДЕРЕВО</div>
+                  <div class="text-[8px] text-atelier-muted">Карагач</div>
+                </button>
+                <button onclick="switchAtelierMaterial('metal')" class="p-2 rounded-xl bg-atelier-slate border border-atelier-border hover:border-atelier-accent text-white transition">
+                  <div class="font-bold">СТАЛЬ</div>
+                  <div class="text-[8px] text-atelier-muted">Дамаск</div>
+                </button>
+              </div>
+
+              <div id="material-info-hud" class="p-3 bg-atelier-slate rounded-xl border border-atelier-border text-[11px] text-gray-300">
+                <span class="text-atelier-accent font-bold">● Шамотная глина:</span> Восстановительный дровяной обжиг. Изделия устойчивы к перепадам температур и имеют выраженную тактильную фактуру.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= SECTION 01: MANIFESTO & PHILOSOPHY ================= -->
+  <section id="manifesto" class="py-24 border-b border-atelier-border bg-atelier-slate/40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <div class="lg:col-span-4 font-mono">
+          <span class="text-xs text-atelier-accent tracking-widest uppercase block mb-2">[ 01 // ФИЛОСОФИЯ ]</span>
+          <h2 class="font-display text-3xl sm:text-4xl font-extrabold uppercase text-white tracking-tight leading-none mb-4">
+            АРХИТЕКТУРА РЕМЕСЛА
+          </h2>
+          <div class="h-0.5 w-16 bg-atelier-accent mb-6"></div>
+          <p class="text-xs text-atelier-muted leading-relaxed">
+            Мы не музей, потому что музей консервирует прошлое за пыльным стеклом. Наше арт-пространство — действующий завод прекрасного, где каждый квадратный метр живет процессами создания.
+          </p>
+        </div>
+
+        <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
+          
+          <div class="p-6 bg-atelier-card rounded-2xl border border-atelier-border hover:border-atelier-borderActive transition flex flex-col justify-between">
+            <div>
+              <span class="font-mono text-[10px] text-atelier-cyan block mb-3">// 01 ТАКТИЛЬНОСТЬ</span>
+              <h3 class="font-display text-xl font-bold uppercase text-white mb-2">Осязаемое искусство</h3>
+              <p class="text-xs text-atelier-muted leading-relaxed">
+                Шероховатость необожженной глины, прохлада дутого стекла, вес кованой стали. Все предметы созданы для физического контакта.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-atelier-border font-mono text-[10px] text-gray-400">
+              ДОСТУПНО ДЛЯ КАСАНИЯ
+            </div>
+          </div>
+
+          <div class="p-6 bg-atelier-card rounded-2xl border border-atelier-border hover:border-atelier-borderActive transition flex flex-col justify-between">
+            <div>
+              <span class="font-mono text-[10px] text-atelier-accent block mb-3">// 02 РЕЗИДЕНЦИИ</span>
+              <h3 class="font-display text-xl font-bold uppercase text-white mb-2">Открытые цеха</h3>
+              <p class="text-xs text-atelier-muted leading-relaxed">
+                Мастера не прячутся в подвалах. Вы смотрите в глаза автору, слышите свист резца и можете встать за гончарный круг вместе с ним.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-atelier-border font-mono text-[10px] text-gray-400">
+              6 ДЕЙСТВУЮЩИХ СТУДИЙ
+            </div>
+          </div>
+
+          <div class="p-6 bg-atelier-card rounded-2xl border border-atelier-border hover:border-atelier-borderActive transition flex flex-col justify-between">
+            <div>
+              <span class="font-mono text-[10px] text-emerald-400 block mb-3">// 03 ПРИОБРЕТЕНИЕ</span>
+              <h3 class="font-display text-xl font-bold uppercase text-white mb-2">Все продается</h3>
+              <p class="text-xs text-atelier-muted leading-relaxed">
+                В отличие от музейных реликвий, любой объект из постоянной экспозиции или хранилища лавки может переехать в вашу личную коллекцию.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-atelier-border font-mono text-[10px] text-gray-400">
+              СЕРТИФИКАТ ПОДЛИННОСТИ
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= SECTION 02: EXHIBITIONS & ARCHITECTURAL HALLS ================= -->
+  <section id="exhibitions" class="py-24 border-b border-atelier-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div>
+          <span class="font-mono text-xs text-atelier-accent tracking-widest uppercase block mb-1">[ 03 // ВЫСТАВКИ И ЗАЛЫ ]</span>
+          <h2 class="font-display text-3xl sm:text-5xl font-extrabold uppercase text-white tracking-tight">
+            Экспозиционная программа
+          </h2>
+        </div>
+
+        <!-- Filter Matrix -->
+        <div class="flex flex-wrap gap-2 font-mono text-xs">
+          <button onclick="filterEx('all', this)" class="ex-tab-btn px-4 py-2 rounded-xl bg-atelier-accent text-white font-bold transition">ВСЕ ЗАЛЫ</button>
+          <button onclick="filterEx('perm', this)" class="ex-tab-btn px-4 py-2 rounded-xl bg-atelier-card hover:bg-atelier-cardHover text-gray-400 border border-atelier-border transition">ПОСТОЯННЫЙ АРХИВ</button>
+          <button onclick="filterEx('temp', this)" class="ex-tab-btn px-4 py-2 rounded-xl bg-atelier-card hover:bg-atelier-cardHover text-gray-400 border border-atelier-border transition">ВРЕМЕННЫЕ ВЕРНИСАЖИ</button>
+        </div>
+      </div>
+
+      <!-- Grid of Arch Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="ex-grid">
+        
+        <!-- Arch Card 1 -->
+        <div class="ex-card perm bg-atelier-card rounded-3xl overflow-hidden border border-atelier-border hover:border-atelier-borderActive transition flex flex-col group arch-card">
+          <div class="relative h-72 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=1200&q=80" alt="Постоянный фонд ремесел" class="w-full h-full object-cover arch-img">
+            <div class="absolute inset-0 bg-gradient-to-t from-atelier-card via-transparent to-black/30"></div>
+            <span class="absolute top-4 left-4 font-mono text-[10px] bg-black/80 px-2.5 py-1 rounded text-atelier-accent border border-atelier-accent/40">
+              АРХИВ REF-01 // ПОСТОЯННО
+            </span>
+            <span class="absolute bottom-4 left-4 font-mono text-xs text-white">ЗАЛ 1-2 // АТРИУМ 350 М²</span>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display text-2xl font-bold uppercase text-white mb-3 group-hover:text-atelier-accent transition">
+                Культурный код формы: Золотой фонд
+              </h3>
+              <p class="text-xs text-atelier-muted leading-relaxed line-clamp-3 mb-6">
+                Флагманская коллекция пространства: монументальная терракота, архаическая керамика с восстановительным обжигом, скульптуры из векового дуба.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-atelier-border flex items-center justify-between font-mono text-xs">
+              <span class="text-atelier-muted">Вход по билету</span>
+              <button onclick="openBookingModal('Выставка', 'Золотой фонд ремесел')" class="text-atelier-accent hover:underline flex items-center gap-1 font-bold">
+                <span>ЗАБРОНИРОВАТЬ</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Arch Card 2 -->
+        <div class="ex-card temp bg-atelier-card rounded-3xl overflow-hidden border border-atelier-border hover:border-atelier-borderActive transition flex flex-col group arch-card">
+          <div class="relative h-72 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?auto=format&fit=crop&w=1200&q=80" alt="Стихия стекла" class="w-full h-full object-cover arch-img">
+            <div class="absolute inset-0 bg-gradient-to-t from-atelier-card via-transparent to-black/30"></div>
+            <span class="absolute top-4 left-4 font-mono text-[10px] bg-black/80 px-2.5 py-1 rounded text-emerald-400 border border-emerald-500/40">
+              ВЕРНИСАЖ // ДО 30 НОЯБРЯ
+            </span>
+            <span class="absolute bottom-4 left-4 font-mono text-xs text-white">ЗАЛ 3 // СВЕТЛАЯ ГАЛЕРЕЯ</span>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display text-2xl font-bold uppercase text-white mb-3 group-hover:text-atelier-accent transition">
+                Стихия огня: Оптическое стекло и витраж
+              </h3>
+              <p class="text-xs text-atelier-muted leading-relaxed line-clamp-3 mb-6">
+                Преломление света и скульптуры гутного стекла, рожденные при температуре 1200°C. Работы уральских и петербургских мастеров.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-atelier-border flex items-center justify-between font-mono text-xs">
+              <span class="text-atelier-muted">Вход по билету</span>
+              <button onclick="openBookingModal('Выставка', 'Стихия огня: Стекло')" class="text-atelier-accent hover:underline flex items-center gap-1 font-bold">
+                <span>ЗАБРОНИРОВАТЬ</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Arch Card 3 -->
+        <div class="ex-card perm bg-atelier-card rounded-3xl overflow-hidden border border-atelier-border hover:border-atelier-borderActive transition flex flex-col group arch-card">
+          <div class="relative h-72 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=1200&q=80" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80'" alt="Железо и пламя" class="w-full h-full object-cover arch-img">
+            <div class="absolute inset-0 bg-gradient-to-t from-atelier-card via-transparent to-black/30"></div>
+            <span class="absolute top-4 left-4 font-mono text-[10px] bg-black/80 px-2.5 py-1 rounded text-atelier-accent border border-atelier-accent/40">
+              АРХИВ REF-05 // ПОСТОЯННО
+            </span>
+            <span class="absolute bottom-4 left-4 font-mono text-xs text-white">ЗАЛ 5 // ЧЕРНАЯ ГАЛЕРЕЯ</span>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display text-2xl font-bold uppercase text-white mb-3 group-hover:text-atelier-accent transition">
+                Железо и Пламя: Архитектурный металл
+              </h3>
+              <p class="text-xs text-atelier-muted leading-relaxed line-clamp-3 mb-6">
+                Художественная ковка нового тысячелетия: от тончайших ювелирных миниатюр из дамасской стали до ажурных кинетических инсталляций.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-atelier-border flex items-center justify-between font-mono text-xs">
+              <span class="text-atelier-muted">Вход по билету</span>
+              <button onclick="openBookingModal('Выставка', 'Железо и Пламя')" class="text-atelier-accent hover:underline flex items-center gap-1 font-bold">
+                <span>ЗАБРОНИРОВАТЬ</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= SECTION 03: TIME TERMINAL (АФИША ПО ДНЯМ НЕДЕЛИ) ================= -->
+  <section id="chrono" class="py-24 border-b border-atelier-border bg-atelier-slate/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div>
+          <span class="font-mono text-xs text-atelier-accent tracking-widest uppercase block mb-1">[ 04 // ТЕРМИНАЛ СОБЫТИЙ ]</span>
+          <h2 class="font-display text-3xl sm:text-5xl font-extrabold uppercase text-white tracking-tight">
+            Расписание по дням недели
+          </h2>
+          <p class="font-mono text-xs text-atelier-muted mt-2 max-w-xl">
+            Синхронизация с живыми процессами мастерских. Выберите интересующий день:
+          </p>
+        </div>
+
+        <div class="font-mono text-xs p-4 bg-atelier-card rounded-2xl border border-atelier-border flex items-center gap-4">
+          <div class="w-10 h-10 rounded-xl bg-atelier-accent/20 flex items-center justify-center text-atelier-accent">
+            <i data-lucide="clock" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="text-[10px] text-atelier-muted uppercase">Входной билет:</div>
+            <div class="text-base font-bold text-white">от 400 ₽ <span class="text-xs font-normal text-atelier-muted">/ день</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chrono Day Matrix -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-8 font-mono text-xs no-scrollbar">
+        <button onclick="filterDay('all', this)" class="day-tab-btn px-5 py-3 rounded-xl bg-atelier-accent text-white font-bold whitespace-nowrap transition">ВСЕ ДНИ</button>
+        <button onclick="filterDay('tue', this)" class="day-tab-btn px-5 py-3 rounded-xl bg-atelier-card hover:bg-atelier-cardHover border border-atelier-border text-gray-300 font-semibold whitespace-nowrap transition">ВТОРНИК</button>
+        <button onclick="filterDay('wed', this)" class="day-tab-btn px-5 py-3 rounded-xl bg-atelier-card hover:bg-atelier-cardHover border border-atelier-border text-gray-300 font-semibold whitespace-nowrap transition">СРЕДА</button>
+        <button onclick="filterDay('thu', this)" class="day-tab-btn px-5 py-3 rounded-xl bg-atelier-card hover:bg-atelier-cardHover border border-atelier-border text-gray-300 font-semibold whitespace-nowrap transition">ЧЕТВЕРГ</button>
+        <button onclick="filterDay('fri', this)" class="day-tab-btn px-5 py-3 rounded-xl bg-atelier-card hover:bg-atelier-cardHover border border-atelier-border text-gray-300 font-semibold whitespace-nowrap transition">ПЯТНИЦА</button>
+        <button onclick="filterDay('sat', this)" class="day-tab-btn px-5 py-3 rounded-xl bg-atelier-card hover:bg-atelier-cardHover border border-atelier-border text-gray-300 font-semibold whitespace-nowrap transition">СУББОТА // WEEKEND</button>
+        <button onclick="filterDay('sun', this)" class="day-tab-btn px-5 py-3 rounded-xl bg-atelier-card hover:bg-atelier-cardHover border border-atelier-border text-gray-300 font-semibold whitespace-nowrap transition">ВОСКРЕСЕНЬЕ // WEEKEND</button>
+      </div>
+
+      <!-- Chrono Items -->
+      <div class="space-y-3 font-mono" id="chrono-list">
+        
+        <!-- Slot 1 -->
+        <div class="chrono-item tue p-5 bg-atelier-card rounded-2xl border border-atelier-border hover:border-atelier-borderActive transition flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div class="flex items-center gap-6">
+            <div class="text-center min-w-[70px] bg-atelier-slate py-2 px-3 rounded-xl border border-atelier-border">
+              <span class="block text-[10px] text-atelier-accent font-bold">ВТ</span>
+              <span class="block text-lg font-bold text-white">13:00</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="px-2 py-0.5 rounded text-[10px] bg-sky-500/20 text-sky-400 border border-sky-500/30">КУРАТОРСКИЙ ТУР</span>
+                <span class="text-xs text-atelier-muted">60 МИН // ГРУППА 12 ЧЕЛ</span>
+              </div>
+              <h4 class="font-display text-lg font-bold text-white">Тайны ремесленного кода: от глины до бронзы</h4>
+              <p class="text-xs text-atelier-muted mt-0.5 font-sans">Погружение в закрытые хранилища пространства с главным куратором.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 pt-3 md:pt-0 border-atelier-border">
+            <span class="text-sm font-bold text-emerald-400">ВХОДИТ В БИЛЕТ</span>
+            <button onclick="openBookingModal('Экскурсия', 'Тайны ремесленного кода (ВТ 13:00)')" class="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs uppercase font-bold transition">
+              ЗАПИСАТЬСЯ
+            </button>
+          </div>
+        </div>
+
+        <!-- Slot 2 -->
+        <div class="chrono-item wed p-5 bg-atelier-card rounded-2xl border border-atelier-border hover:border-atelier-borderActive transition flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div class="flex items-center gap-6">
+            <div class="text-center min-w-[70px] bg-atelier-slate py-2 px-3 rounded-xl border border-atelier-border">
+              <span class="block text-[10px] text-atelier-accent font-bold">СР</span>
+              <span class="block text-lg font-bold text-white">18:30</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="px-2 py-0.5 rounded text-[10px] bg-amber-500/20 text-amber-400 border border-amber-500/30">МАСТЕР-КЛАСС</span>
+                <span class="text-xs text-atelier-muted">90 МИН // ОСТАЛОСЬ 3 МЕСТА</span>
+              </div>
+              <h4 class="font-display text-lg font-bold text-white">Гончарный круг: Первая авторская пиала</h4>
+              <p class="text-xs text-atelier-muted mt-0.5 font-sans">Индивидуальный круг, обжиг и глазурование включены в стоимость.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 pt-3 md:pt-0 border-atelier-border">
+            <span class="text-sm font-bold text-atelier-accent">2 800 ₽</span>
+            <button onclick="openBookingModal('Мастер-класс', 'Гончарный круг (СР 18:30)')" class="px-4 py-2 bg-atelier-accent hover:bg-atelier-accentHover text-white rounded-xl text-xs uppercase font-bold transition">
+              ЗАБРОНИРОВАТЬ
+            </button>
+          </div>
+        </div>
+
+        <!-- Slot 3 (Sat Weekend) -->
+        <div class="chrono-item sat p-5 bg-atelier-card rounded-2xl border border-atelier-border hover:border-atelier-borderActive transition flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div class="flex items-center gap-6">
+            <div class="text-center min-w-[70px] bg-atelier-slate py-2 px-3 rounded-xl border border-atelier-border">
+              <span class="block text-[10px] text-atelier-accent font-bold">СБ</span>
+              <span class="block text-lg font-bold text-white">12:00</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">ВЕСЬ ДЕНЬ // WEEKEND</span>
+                <span class="text-xs text-atelier-muted">18 МАСТЕРОВ В АТРИУМЕ</span>
+              </div>
+              <h4 class="font-display text-lg font-bold text-white">Большой Маркет Резидентов & Живые перформансы</h4>
+              <p class="text-xs text-atelier-muted mt-0.5 font-sans">Презентация новых лимитированных серий керамики, выдувного стекла и ювелирного искусства.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 pt-3 md:pt-0 border-atelier-border">
+            <span class="text-sm font-bold text-emerald-400">СВОБОДНЫЙ</span>
+            <button onclick="openBookingModal('Маркет', 'Субботний маркет резидентов')" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs uppercase font-bold transition">
+              ПОЛУЧИТЬ БИЛЕТ
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= SECTION 04: THE VAULT / ARTISAN SHOP (КУПИТЬ РЕМЕСЛО) ================= -->
+  <section id="vault" class="py-24 border-b border-atelier-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div>
+          <span class="font-mono text-xs text-atelier-cyan tracking-widest uppercase block mb-1">[ 05 // АРХИВНАЯ ЛАВКА ]</span>
+          <h2 class="font-display text-3xl sm:text-5xl font-extrabold uppercase text-white tracking-tight">
+            То, что можно купить
+          </h2>
+          <p class="font-mono text-xs text-atelier-muted mt-2 max-w-xl">
+            Авторские артефакты в единственном экземпляре. Прямо из рук мастеров в вашу коллекцию.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap gap-2 font-mono text-xs">
+          <button onclick="filterVault('all', this)" class="vault-btn px-4 py-2 rounded-xl bg-atelier-cyan text-black font-bold transition">ВСЕ АРТЕФАКТЫ</button>
+          <button onclick="filterVault('ceramic', this)" class="vault-btn px-4 py-2 rounded-xl bg-atelier-card text-gray-400 border border-atelier-border hover:bg-atelier-cardHover transition">КЕРАМИКА</button>
+          <button onclick="filterVault('glass', this)" class="vault-btn px-4 py-2 rounded-xl bg-atelier-card text-gray-400 border border-atelier-border hover:bg-atelier-cardHover transition">СТЕКЛО</button>
+          <button onclick="filterVault('wood', this)" class="vault-btn px-4 py-2 rounded-xl bg-atelier-card text-gray-400 border border-atelier-border hover:bg-atelier-cardHover transition">ДЕРЕВО</button>
+          <button onclick="filterVault('metal', this)" class="vault-btn px-4 py-2 rounded-xl bg-atelier-card text-gray-400 border border-atelier-border hover:bg-atelier-cardHover transition">МЕТАЛЛ</button>
+        </div>
+      </div>
+
+      <!-- Vault Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="vault-grid">
+        
+        <!-- Artifact 1 -->
+        <div class="vault-item ceramic bg-atelier-card rounded-3xl overflow-hidden border border-atelier-border hover:border-atelier-cyan transition flex flex-col group arch-card">
+          <div class="relative h-64 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=1000&q=80" alt="Скульптурная ваза" class="w-full h-full object-cover arch-img">
+            <span class="absolute top-3 left-3 font-mono text-[10px] bg-black/80 px-2 py-0.5 rounded text-atelier-cyan border border-atelier-cyan/40">
+              #VAULT-01 // 1 ЭКЗ.
+            </span>
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between font-mono">
+            <div>
+              <span class="text-[10px] text-atelier-muted block uppercase">Елена Громова • Керамика</span>
+              <h4 class="font-display text-base font-bold text-white mt-1 group-hover:text-atelier-cyan transition">
+                Скульптурная ваза «Тектоника»
+              </h4>
+              <p class="text-[11px] text-gray-400 font-sans mt-2">Шамотная глина, дровяной обжиг, авторская пепельная глазурь. Высота 38 см.</p>
+            </div>
+            <div class="mt-5 pt-4 border-t border-atelier-border flex items-center justify-between">
+              <span class="text-base font-bold text-white">14 500 ₽</span>
+              <button onclick="addToCart('Ваза «Тектоника»', 14500, 'Керамика')" class="px-3 py-1.5 bg-atelier-cyan hover:bg-cyan-300 text-black font-bold text-xs uppercase rounded-xl transition">
+                В КОРЗИНУ
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Artifact 2 -->
+        <div class="vault-item glass bg-atelier-card rounded-3xl overflow-hidden border border-atelier-border hover:border-atelier-cyan transition flex flex-col group arch-card">
+          <div class="relative h-64 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=1000&q=80" alt="Светильник из стекла" class="w-full h-full object-cover arch-img">
+            <span class="absolute top-3 left-3 font-mono text-[10px] bg-black/80 px-2 py-0.5 rounded text-atelier-cyan border border-atelier-cyan/40">
+              #VAULT-02 // В НАЛИЧИИ
+            </span>
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between font-mono">
+            <div>
+              <span class="text-[10px] text-atelier-muted block uppercase">Арсений Клим • Гутное стекло</span>
+              <h4 class="font-display text-base font-bold text-white mt-1 group-hover:text-atelier-cyan transition">
+                Арт-светильник «Опаловый вихрь»
+              </h4>
+              <p class="text-[11px] text-gray-400 font-sans mt-2">Выдувное цветное стекло ручной формовки, латунная фурнитура.</p>
+            </div>
+            <div class="mt-5 pt-4 border-t border-atelier-border flex items-center justify-between">
+              <span class="text-base font-bold text-white">28 000 ₽</span>
+              <button onclick="addToCart('Светильник «Опаловый вихрь»', 28000, 'Стекло')" class="px-3 py-1.5 bg-atelier-cyan hover:bg-cyan-300 text-black font-bold text-xs uppercase rounded-xl transition">
+                В КОРЗИНУ
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Artifact 3 -->
+        <div class="vault-item wood bg-atelier-card rounded-3xl overflow-hidden border border-atelier-border hover:border-atelier-cyan transition flex flex-col group arch-card">
+          <div class="relative h-64 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1538688525198-9b88f6f53126?auto=format&fit=crop&w=1000&q=80" alt="Стол из массива" class="w-full h-full object-cover arch-img">
+            <span class="absolute top-3 left-3 font-mono text-[10px] bg-black/80 px-2 py-0.5 rounded text-amber-400 border border-amber-500/40">
+              #VAULT-03 // ШОУРУМ
+            </span>
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between font-mono">
+            <div>
+              <span class="text-[10px] text-atelier-muted block uppercase">Студия «Живой Вяз»</span>
+              <h4 class="font-display text-base font-bold text-white mt-1 group-hover:text-atelier-cyan transition">
+                Столик из спила карагача «Русло»
+              </h4>
+              <p class="text-[11px] text-gray-400 font-sans mt-2">Цельный массив горного карагача с естественным живым краем.</p>
+            </div>
+            <div class="mt-5 pt-4 border-t border-atelier-border flex items-center justify-between">
+              <span class="text-base font-bold text-white">46 000 ₽</span>
+              <button onclick="addToCart('Столик из карагача «Русло»', 46000, 'Дерево')" class="px-3 py-1.5 bg-atelier-cyan hover:bg-cyan-300 text-black font-bold text-xs uppercase rounded-xl transition">
+                В КОРЗИНУ
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Artifact 4 (Fixed Verified Image) -->
+        <div class="vault-item metal bg-atelier-card rounded-3xl overflow-hidden border border-atelier-border hover:border-atelier-cyan transition flex flex-col group arch-card">
+          <div class="relative h-64 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=1000&q=80" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1000&q=80'" alt="Кованый подсвечник" class="w-full h-full object-cover arch-img">
+            <span class="absolute top-3 left-3 font-mono text-[10px] bg-black/80 px-2 py-0.5 rounded text-atelier-cyan border border-atelier-cyan/40">
+              #VAULT-04 // В НАЛИЧИИ
+            </span>
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between font-mono">
+            <div>
+              <span class="text-[10px] text-atelier-muted block uppercase">Кузница Беляева • Ковка</span>
+              <h4 class="font-display text-base font-bold text-white mt-1 group-hover:text-atelier-cyan transition">
+                Подсвечник на 3 свечи «Колос»
+              </h4>
+              <p class="text-[11px] text-gray-400 font-sans mt-2">Кованая вороненая сталь, чеканка фактуры, льняное воронение.</p>
+            </div>
+            <div class="mt-5 pt-4 border-t border-atelier-border flex items-center justify-between">
+              <span class="text-base font-bold text-white">8 900 ₽</span>
+              <button onclick="addToCart('Подсвечник «Колос»', 8900, 'Металл')" class="px-3 py-1.5 bg-atelier-cyan hover:bg-cyan-300 text-black font-bold text-xs uppercase rounded-xl transition">
+                В КОРЗИНУ
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= SECTION 05: ARCHITECTURAL VENUE RENTAL ================= -->
+  <section id="rental" class="py-24 border-b border-atelier-border bg-atelier-slate/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="max-w-3xl mb-14 font-mono">
+        <span class="text-xs text-atelier-accent tracking-widest uppercase block mb-1">[ 06 // АРЕНДА ПЛОЩАДКИ ]</span>
+        <h2 class="font-display text-3xl sm:text-5xl font-extrabold uppercase text-white tracking-tight">
+          Пространства под события
+        </h2>
+        <p class="text-xs text-atelier-muted mt-2 font-sans leading-relaxed">
+          Проведение презентаций, модных вернисажей, частных ужинов, арт-лекций и киносъемок в окружении живых ремесленных объектов.
+        </p>
+      </div>
+
+      <!-- Halls Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16 font-mono">
+        
+        <div class="bg-atelier-card p-6 rounded-3xl border border-atelier-border hover:border-atelier-accent transition flex flex-col justify-between">
+          <div>
+            <span class="text-[10px] text-atelier-accent font-bold">// ЗАЛ 01</span>
+            <h3 class="font-display text-xl font-bold uppercase text-white mt-1 mb-2">Главный Атриум</h3>
+            <p class="text-xs text-atelier-muted font-sans mb-4">350 м², потолки 7м, профессиональный звук JBL Pro, экран 4K.</p>
+            <div class="text-[11px] text-gray-300 space-y-1">
+              <div>• Вместимость: до 200 чел</div>
+              <div>• Сцена и свет в комплекте</div>
+            </div>
+          </div>
+          <div class="mt-6 pt-4 border-t border-atelier-border flex items-center justify-between">
+            <span class="text-sm font-bold text-white">8 000 ₽/ч</span>
+            <button onclick="prefillRental('Главный Атриум', 8000)" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition">ВЫБРАТЬ</button>
+          </div>
+        </div>
+
+        <div class="bg-atelier-card p-6 rounded-3xl border border-atelier-border hover:border-atelier-accent transition flex flex-col justify-between">
+          <div>
+            <span class="text-[10px] text-atelier-accent font-bold">// ЗАЛ 02</span>
+            <h3 class="font-display text-xl font-bold uppercase text-white mt-1 mb-2">Лофт Мастерских</h3>
+            <p class="text-xs text-atelier-muted font-sans mb-4">140 м², открытая гончарная зона, барная стойка и коворкинг.</p>
+            <div class="text-[11px] text-gray-300 space-y-1">
+              <div>• Вместимость: до 45 чел</div>
+              <div>• Для воркшопов и лекций</div>
+            </div>
+          </div>
+          <div class="mt-6 pt-4 border-t border-atelier-border flex items-center justify-between">
+            <span class="text-sm font-bold text-white">4 500 ₽/ч</span>
+            <button onclick="prefillRental('Лофт Мастерских', 4500)" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition">ВЫБРАТЬ</button>
+          </div>
+        </div>
+
+        <div class="bg-atelier-card p-6 rounded-3xl border border-atelier-border hover:border-atelier-accent transition flex flex-col justify-between">
+          <div>
+            <span class="text-[10px] text-atelier-accent font-bold">// ЗАЛ 03</span>
+            <h3 class="font-display text-xl font-bold uppercase text-white mt-1 mb-2">Камерная Галерея</h3>
+            <p class="text-xs text-atelier-muted font-sans mb-4">95 м², идеальная акустика, направленный точечный свет для съемок.</p>
+            <div class="text-[11px] text-gray-300 space-y-1">
+              <div>• Вместимость: до 30 чел</div>
+              <div>• Закрытые показы, подкасты</div>
+            </div>
+          </div>
+          <div class="mt-6 pt-4 border-t border-atelier-border flex items-center justify-between">
+            <span class="text-sm font-bold text-white">3 500 ₽/ч</span>
+            <button onclick="prefillRental('Камерная Галерея', 3500)" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition">ВЫБРАТЬ</button>
+          </div>
+        </div>
+
+        <div class="bg-atelier-card p-6 rounded-3xl border border-atelier-border hover:border-atelier-accent transition flex flex-col justify-between">
+          <div>
+            <span class="text-[10px] text-atelier-accent font-bold">// ЗАЛ 04</span>
+            <h3 class="font-display text-xl font-bold uppercase text-white mt-1 mb-2">Арт-двор & Сад</h3>
+            <p class="text-xs text-atelier-muted font-sans mb-4">220 м² брусчатки, скульптуры под открытым небом, гриль-зона.</p>
+            <div class="text-[11px] text-gray-300 space-y-1">
+              <div>• Вместимость: до 120 чел</div>
+              <div>• Тепловые пушки и навесы</div>
+            </div>
+          </div>
+          <div class="mt-6 pt-4 border-t border-atelier-border flex items-center justify-between">
+            <span class="text-sm font-bold text-white">6 000 ₽/ч</span>
+            <button onclick="prefillRental('Арт-двор', 6000)" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition">ВЫБРАТЬ</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Live Rental Calculator Form -->
+      <div class="bg-atelier-card rounded-3xl border border-atelier-border p-6 sm:p-10 font-mono">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <div class="lg:col-span-5">
+            <span class="text-xs text-atelier-cyan uppercase block mb-1">// ТЕРМИНАЛ РАСЧЕТА</span>
+            <h3 class="font-display text-2xl font-bold uppercase text-white">Калькулятор сметы</h3>
+            <p class="text-xs text-atelier-muted mt-2 font-sans">
+              Расчет формируется моментально и передается напрямую в CRM администратора.
+            </p>
+            <div class="mt-6 p-6 bg-atelier-black rounded-2xl border border-atelier-border">
+              <span class="text-[10px] text-atelier-muted uppercase block">ИТОГОВАЯ ОЦЕНКА:</span>
+              <div class="font-display text-4xl font-extrabold text-atelier-accent mt-1" id="calc-total-display">24 000 ₽</div>
+              <span class="text-xs text-gray-400 mt-1 block" id="calc-breakdown-text">3 часа в Главном Атриуме</span>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7">
+            <form onsubmit="handleRentalSubmit(event)" class="space-y-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-[10px] uppercase text-atelier-muted mb-1">Выбор площадки</label>
+                  <select id="calc-hall" onchange="calculateRentalTotal()" class="w-full bg-atelier-slate border border-atelier-border rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-atelier-accent">
+                    <option value="8000" data-name="Главный Атриум">Главный Атриум (350 м²) — 8 000 ₽/ч</option>
+                    <option value="4500" data-name="Лофт Мастерских">Лофт Мастерских (140 м²) — 4 500 ₽/ч</option>
+                    <option value="3500" data-name="Камерная Галерея">Камерная Галерея (95 м²) — 3 500 ₽/ч</option>
+                    <option value="6000" data-name="Арт-двор">Арт-двор (220 м²) — 6 000 ₽/ч</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-[10px] uppercase text-atelier-muted mb-1">Длительность</label>
+                  <select id="calc-hours" onchange="calculateRentalTotal()" class="w-full bg-atelier-slate border border-atelier-border rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-atelier-accent">
+                    <option value="2">2 часа</option>
+                    <option value="3" selected>3 часа</option>
+                    <option value="4">4 часа</option>
+                    <option value="6">6 часов</option>
+                    <option value="8">8 часов (день)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <input type="text" id="rental-name" required placeholder="Ваше имя / Компания" class="w-full bg-atelier-slate border border-atelier-border rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-atelier-accent">
+                <input type="tel" id="rental-phone" required placeholder="Телефон +7 (999) 000-00-00" class="w-full bg-atelier-slate border border-atelier-border rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-atelier-accent">
+              </div>
+
+              <button type="submit" class="w-full py-4 bg-atelier-accent hover:bg-atelier-accentHover text-white font-bold text-xs uppercase tracking-wider rounded-xl transition shadow-xl shadow-atelier-accent/20 flex items-center justify-center gap-2">
+                <i data-lucide="send" class="w-4 h-4"></i>
+                <span>ОТПРАВИТЬ ЗАЯВКУ В CRM ПАНЕЛЬ</span>
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="py-12 border-t border-atelier-border bg-atelier-black font-mono text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-atelier-border">
+        <div class="flex items-center gap-3">
+          <span class="font-display font-black text-xl text-white">РЕМЕСЛО // ATELIER</span>
+          <span class="text-atelier-muted">САНКТ-ПЕТЕРБУРГ</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-atelier-muted">Переключить стиль:</span>
+          <a href="index.html" class="px-2.5 py-1 rounded bg-white/5 hover:bg-white/10 text-gray-300">🌙 Эрарта (Темный)</a>
+          <a href="light.html" class="px-2.5 py-1 rounded bg-white/5 hover:bg-white/10 text-amber-200">☀️ Сканди (Бежевый)</a>
+          <button onclick="openCrmModal()" class="px-2.5 py-1 rounded bg-atelier-accent text-white font-bold">CRM</button>
+        </div>
+      </div>
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-atelier-muted text-[11px]">
+        <div>© 2026 РЕМЕСЛО // ATELIER. Элитный концепт №3.</div>
+        <div>Официальный сайт арт-пространства. Все права защищены.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= BOOKING MODAL ================= -->
+  <div id="booking-modal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-atelier-slate border border-atelier-border max-w-lg w-full rounded-3xl p-6 sm:p-8 shadow-2xl relative font-mono text-xs">
+      <button onclick="closeBookingModal()" class="absolute top-5 right-5 text-gray-400 hover:text-white p-1">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+
+      <span class="text-atelier-accent uppercase tracking-widest text-[10px] block mb-1">// БРОНИРОВАНИЕ</span>
+      <h3 class="font-display text-2xl font-bold uppercase text-white mb-4" id="modal-title">Визит в Ателье</h3>
+
+      <form onsubmit="handleBookingSubmit(event)" class="space-y-4">
+        <input type="hidden" id="modal-service-category" value="Билет">
+        <input type="hidden" id="modal-service-name" value="Входной билет">
+
+        <div>
+          <label class="block text-[10px] uppercase text-atelier-muted mb-1">Выбранное событие</label>
+          <input type="text" id="modal-service-display" readonly class="w-full bg-atelier-card border border-atelier-border rounded-xl px-4 py-2.5 text-xs text-atelier-accent font-bold">
+        </div>
+
+        <div>
+          <label class="block text-[10px] uppercase text-atelier-muted mb-1">Имя *</label>
+          <input type="text" id="booking-name" required placeholder="Иван Иванов" class="w-full bg-atelier-card border border-atelier-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-atelier-accent">
+        </div>
+
+        <div>
+          <label class="block text-[10px] uppercase text-atelier-muted mb-1">Телефон *</label>
+          <input type="tel" id="booking-phone" required placeholder="+7 (999) 000-00-00" class="w-full bg-atelier-card border border-atelier-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-atelier-accent">
+        </div>
+
+        <button type="submit" class="w-full py-4 bg-atelier-accent hover:bg-atelier-accentHover text-white font-bold text-xs uppercase tracking-wider rounded-xl transition shadow-xl shadow-atelier-accent/20">
+          ПОДТВЕРДИТЬ БРОНЬ В CRM
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= CART DRAWER ================= -->
+  <div id="cart-drawer" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-md">
+    <div class="fixed top-0 right-0 bottom-0 max-w-md w-full bg-atelier-slate border-l border-atelier-border p-6 flex flex-col justify-between shadow-2xl font-mono text-xs">
+      <div>
+        <div class="flex items-center justify-between pb-4 border-b border-atelier-border">
+          <h3 class="font-display text-lg font-bold uppercase text-white">Корзина лавки</h3>
+          <button onclick="toggleCartDrawer()" class="text-gray-400 hover:text-white p-1">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+        <div id="cart-items-container" class="py-6 space-y-3 max-h-[55vh] overflow-y-auto"></div>
+      </div>
+
+      <div class="pt-4 border-t border-atelier-border">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-atelier-muted uppercase">Итого:</span>
+          <span class="font-display text-xl font-bold text-atelier-cyan" id="cart-total-display">0 ₽</span>
+        </div>
+        <input type="text" id="cart-client-name" placeholder="Ваше имя" class="w-full bg-atelier-card border border-atelier-border rounded-xl px-4 py-2 text-xs text-white mb-2">
+        <input type="tel" id="cart-client-phone" placeholder="Телефон" class="w-full bg-atelier-card border border-atelier-border rounded-xl px-4 py-2 text-xs text-white mb-3">
+        <button onclick="submitCartOrder()" class="w-full py-3.5 bg-atelier-cyan hover:bg-cyan-300 text-black font-bold uppercase tracking-wider rounded-xl transition">
+          ОФОРМИТЬ В CRM
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= CRM MODAL ================= -->
+  <div id="crm-modal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 font-mono text-xs">
+    <div class="bg-atelier-slate border border-atelier-border max-w-5xl w-full h-[90vh] rounded-3xl flex flex-col overflow-hidden shadow-2xl">
+      <div class="px-6 py-4 bg-atelier-card border-b border-atelier-border flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-atelier-accent/20 flex items-center justify-center text-atelier-accent">
+            <i data-lucide="terminal" class="w-4 h-4"></i>
+          </div>
+          <span class="font-bold text-white uppercase">CRM COMMAND CENTER // РЕМЕСЛО</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="exportLeadsToCsv()" class="px-3 py-1 bg-white/10 hover:bg-white/20 text-white rounded-lg text-[11px] font-bold">CSV ЭКСПОРТ</button>
+          <button onclick="closeCrmModal()" class="text-gray-400 hover:text-white p-1"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+      </div>
+
+      <div class="px-6 py-3 border-b border-atelier-border flex items-center justify-between bg-atelier-black">
+        <div class="flex gap-2">
+          <button onclick="filterCrmLeads('all', this)" class="crm-tab-btn px-3 py-1 bg-atelier-accent text-white font-bold rounded">ВСЕ (<span id="crm-total-count">0</span>)</button>
+          <button onclick="filterCrmLeads('new', this)" class="crm-tab-btn px-3 py-1 bg-atelier-card text-gray-400 border border-atelier-border rounded">НОВЫЕ (<span id="crm-new-count">0</span>)</button>
+        </div>
+        <button onclick="addMockLead()" class="px-2.5 py-1 text-atelier-accent bg-atelier-accent/10 border border-atelier-accent/30 rounded">+ ТЕСТОВЫЙ ЛИД</button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-6" id="crm-leads-container"></div>
+    </div>
+  </div>
+
+  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none font-mono"></div>
+
+  <!-- JavaScript Core -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      initCrmStore();
+      renderCrmLeads();
+      updateCartBadge();
+    });
+
+    function toggleMobileMenu() {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    }
+
+    // Material HUD Interactive Switcher
+    function switchAtelierMaterial(type) {
+      const hud = document.getElementById('material-info-hud');
+      const data = {
+        clay: '<span class="text-atelier-accent font-bold">● Шамотная глина:</span> Восстановительный дровяной обжиг. Изделия устойчивы к перепадам температур и имеют выраженную тактильную фактуру.',
+        glass: '<span class="text-atelier-cyan font-bold">● Гутное стекло:</span> Выдувание при 1200°C. Оптическое преломление, авторские пигменты и минеральные включения.',
+        wood: '<span class="text-amber-400 font-bold">● Горный карагач & дуб:</span> Естественный живой край (live edge), пропитка льняным маслом и пчелиным воском.',
+        metal: '<span class="text-atelier-accent font-bold">● Кованая сталь:</span> Традиционная ручная горячая ковка, чеканка фактуры и воронение против коррозии.'
+      };
+      hud.innerHTML = data[type] || data.clay;
+    }
+
+    // Web Audio API Ambient Sound Synthesizer
+    let audioCtx = null;
+    let isPlaying = false;
+    let noiseNode = null;
+
+    function toggleAmbientSound() {
+      const btn = document.getElementById('sound-btn');
+      const label = document.getElementById('sound-label');
+
+      if (!isPlaying) {
+        try {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          const bufferSize = audioCtx.sampleRate * 2;
+          const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+          const data = buffer.getChannelData(0);
+          for (let i = 0; i < bufferSize; i++) {
+            data[i] = (Math.random() * 2 - 1) * 0.015; // Soft warm ambient hum
+          }
+
+          noiseNode = audioCtx.createBufferSource();
+          noiseNode.buffer = buffer;
+          noiseNode.loop = true;
+
+          const filter = audioCtx.createBiquadFilter();
+          filter.type = 'lowpass';
+          filter.frequency.value = 400; // Mellow muffled kiln tone
+
+          noiseNode.connect(filter);
+          filter.connect(audioCtx.destination);
+          noiseNode.start();
+
+          isPlaying = true;
+          label.textContent = 'Звук студии: ON';
+          label.classList.add('text-atelier-accent');
+          showToast('Атмосферный звук мастерской запущен', 'info');
+        } catch(e) {
+          console.log(e);
+        }
+      } else {
+        if (noiseNode) noiseNode.stop();
+        isPlaying = false;
+        label.textContent = 'Звук студии: OFF';
+        label.classList.remove('text-atelier-accent');
+      }
+    }
+
+    // Rental Calculator
+    function calculateRentalTotal() {
+      const hallSelect = document.getElementById('calc-hall');
+      const hallRate = parseInt(hallSelect.value, 10);
+      const hours = parseInt(document.getElementById('calc-hours').value, 10);
+      const name = hallSelect.options[hallSelect.selectedIndex].getAttribute('data-name');
+      const total = hallRate * hours;
+      document.getElementById('calc-total-display').textContent = total.toLocaleString('ru-RU') + ' ₽';
+      document.getElementById('calc-breakdown-text').textContent = `${hours} ч. в ${name}`;
+      return { total, name, hours };
+    }
+
+    function prefillRental(hallName, rate) {
+      const hallSelect = document.getElementById('calc-hall');
+      for (let i = 0; i < hallSelect.options.length; i++) {
+        if (hallSelect.options[i].getAttribute('data-name').includes(hallName.split(' ')[0])) {
+          hallSelect.selectedIndex = i;
+          break;
+        }
+      }
+      calculateRentalTotal();
+      document.getElementById('rental').scrollIntoView({ behavior: 'smooth' });
+      showToast(`Зал «${hallName}» выбран в калькуляторе`, 'info');
+    }
+
+    function handleRentalSubmit(e) {
+      e.preventDefault();
+      const calc = calculateRentalTotal();
+      const name = document.getElementById('rental-name').value;
+      const phone = document.getElementById('rental-phone').value;
+
+      const lead = {
+        id: 'L-' + Date.now().toString().slice(-5),
+        timestamp: new Date().toLocaleString('ru-RU'),
+        category: 'Аренда',
+        title: `Аренда: ${calc.name} (${calc.hours} ч.)`,
+        client: name,
+        phone: phone,
+        amount: calc.total,
+        notes: 'Заявка через калькулятор Atelier v3',
+        status: 'new'
+      };
+
+      saveLeadToCrm(lead);
+      e.target.reset();
+      showToast('Заявка на аренду отправлена в CRM!', 'success');
+    }
+
+    // Booking Modal
+    function openBookingModal(category, serviceName) {
+      document.getElementById('modal-service-category').value = category;
+      document.getElementById('modal-service-name').value = serviceName;
+      document.getElementById('modal-service-display').value = `${category}: ${serviceName}`;
+      document.getElementById('booking-modal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeBookingModal() {
+      document.getElementById('booking-modal').classList.add('hidden');
+    }
+
+    function handleBookingSubmit(e) {
+      e.preventDefault();
+      const category = document.getElementById('modal-service-category').value;
+      const service = document.getElementById('modal-service-name').value;
+      const name = document.getElementById('booking-name').value;
+      const phone = document.getElementById('booking-phone').value;
+
+      const lead = {
+        id: 'L-' + Date.now().toString().slice(-5),
+        timestamp: new Date().toLocaleString('ru-RU'),
+        category: category,
+        title: service,
+        client: name,
+        phone: phone,
+        amount: 600,
+        notes: 'Бронь через концепт Atelier v3',
+        status: 'new'
+      };
+
+      saveLeadToCrm(lead);
+      closeBookingModal();
+      e.target.reset();
+      showToast('Бронирование сохранено в CRM!', 'success');
+    }
+
+    // Cart
+    let cart = [];
+    function toggleCartDrawer() {
+      document.getElementById('cart-drawer').classList.toggle('hidden');
+      renderCartItems();
+    }
+
+    function addToCart(title, price, category) {
+      cart.push({ title, price, category, qty: 1 });
+      updateCartBadge();
+      showToast(`«${title}» добавлен в корзину`, 'success');
+      toggleCartDrawer();
+    }
+
+    function updateCartBadge() {
+      document.getElementById('cart-counter').textContent = cart.length;
+    }
+
+    function renderCartItems() {
+      const container = document.getElementById('cart-items-container');
+      container.innerHTML = '';
+      if (cart.length === 0) {
+        container.innerHTML = '<div class="text-center py-8 text-gray-500 font-mono">Корзина пуста</div>';
+        document.getElementById('cart-total-display').textContent = '0 ₽';
+        return;
+      }
+      let total = 0;
+      cart.forEach((i, idx) => {
+        total += i.price;
+        const div = document.createElement('div');
+        div.className = 'p-3 bg-atelier-card rounded-xl border border-atelier-border flex items-center justify-between';
+        div.innerHTML = `
+          <div>
+            <div class="text-[10px] text-atelier-accent font-mono">${i.category}</div>
+            <div class="font-bold text-white text-xs">${i.title}</div>
+            <div class="text-xs text-gray-400 font-mono">${i.price.toLocaleString('ru-RU')} ₽</div>
+          </div>
+          <button onclick="cart.splice(${idx},1); updateCartBadge(); renderCartItems();" class="text-gray-500 hover:text-red-400 p-1">
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+          </button>
+        `;
+        container.appendChild(div);
+      });
+      document.getElementById('cart-total-display').textContent = total.toLocaleString('ru-RU') + ' ₽';
+      lucide.createIcons();
+    }
+
+    function submitCartOrder() {
+      const name = document.getElementById('cart-client-name').value;
+      const phone = document.getElementById('cart-client-phone').value;
+      if (!name || !phone) return showToast('Заполните имя и телефон', 'error');
+      if (cart.length === 0) return;
+
+      const total = cart.reduce((s, i) => s + i.price, 0);
+      const lead = {
+        id: 'L-' + Date.now().toString().slice(-5),
+        timestamp: new Date().toLocaleString('ru-RU'),
+        category: 'Лавка',
+        title: `Заказ из лавки (${cart.length} шт.)`,
+        client: name,
+        phone: phone,
+        amount: total,
+        notes: cart.map(i => i.title).join(', '),
+        status: 'new'
+      };
+      saveLeadToCrm(lead);
+      cart = [];
+      updateCartBadge();
+      toggleCartDrawer();
+      showToast('Заказ отправлен в CRM!', 'success');
+    }
+
+    // Shared CRM Engine
+    const CRM_STORAGE_KEY = 'remeslo_crm_leads';
+
+    function initCrmStore() {
+      if (!localStorage.getItem(CRM_STORAGE_KEY)) {
+        const initial = [
+          { id: 'L-98214', timestamp: '06.11.2026, 09:15', category: 'Аренда', title: 'Главный Атриум (4 ч.)', client: 'Мария Власова', phone: '+7 (911) 450-20-11', amount: 37000, notes: 'Презентация арт-коллекции', status: 'new' },
+          { id: 'L-98188', timestamp: '05.11.2026, 17:40', category: 'Лавка', title: 'Ваза «Тектоника»', client: 'Денис Орлов', phone: '+7 (921) 890-12-34', amount: 14500, notes: 'Самовывоз', status: 'done' }
+        ];
+        localStorage.setItem(CRM_STORAGE_KEY, JSON.stringify(initial));
+      }
+    }
+
+    function getCrmLeads() {
+      try { return JSON.parse(localStorage.getItem(CRM_STORAGE_KEY)) || []; } catch(e) { return []; }
+    }
+
+    function saveLeadToCrm(lead) {
+      const leads = getCrmLeads();
+      leads.unshift(lead);
+      localStorage.setItem(CRM_STORAGE_KEY, JSON.stringify(leads));
+      renderCrmLeads();
+    }
+
+    function renderCrmLeads() {
+      const leads = getCrmLeads();
+      const container = document.getElementById('crm-leads-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      document.getElementById('crm-total-count').textContent = leads.length;
+      document.getElementById('crm-new-count').textContent = leads.filter(l => l.status === 'new').length;
+      document.getElementById('crm-counter-badge').textContent = leads.filter(l => l.status === 'new').length;
+
+      leads.forEach(l => {
+        const d = document.createElement('div');
+        d.className = 'p-4 bg-atelier-card rounded-2xl border border-atelier-border mb-3 flex items-center justify-between';
+        d.innerHTML = `
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-[10px] text-atelier-accent font-bold">${l.id}</span>
+              <span class="text-[10px] text-gray-500">• ${l.timestamp}</span>
+              <span class="px-2 py-0.5 rounded text-[9px] bg-white/5 border border-white/10 uppercase">${l.category}</span>
+            </div>
+            <div class="font-bold text-white text-xs">${l.title}</div>
+            <div class="text-xs text-gray-400 mt-1">👤 ${l.client} | 📞 ${l.phone} | <span class="text-atelier-cyan font-bold">${l.amount} ₽</span></div>
+          </div>
+          <button onclick="deleteLead('${l.id}')" class="text-gray-500 hover:text-rose-400 p-2"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+        `;
+        container.appendChild(d);
+      });
+      lucide.createIcons();
+    }
+
+    function deleteLead(id) {
+      let leads = getCrmLeads().filter(l => l.id !== id);
+      localStorage.setItem(CRM_STORAGE_KEY, JSON.stringify(leads));
+      renderCrmLeads();
+    }
+
+    function addMockLead() {
+      saveLeadToCrm({
+        id: 'L-' + Math.floor(10000 + Math.random() * 90000),
+        timestamp: new Date().toLocaleString('ru-RU'),
+        category: 'Аренда',
+        title: 'Заявка: Камерная Галерея (3 ч.) под подкаст',
+        client: 'Артем Лебедев',
+        phone: '+7 (999) 777-66-55',
+        amount: 10500,
+        notes: 'Штатив и свет',
+        status: 'new'
+      });
+      showToast('Тестовый лид добавлен!', 'success');
+    }
+
+    function exportLeadsToCsv() {
+      const leads = getCrmLeads();
+      let csv = 'ID;Дата;Категория;Заголовок;Клиент;Телефон;Сумма\n';
+      leads.forEach(l => {
+        csv += `"${l.id}";"${l.timestamp}";"${l.category}";"${l.title}";"${l.client}";"${l.phone}";"${l.amount}"\n`;
+      });
+      const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'atelier_crm_leads.csv';
+      a.click();
+      showToast('CSV успешно скачан!', 'success');
+    }
+
+    function openCrmModal() {
+      document.getElementById('crm-modal').classList.remove('hidden');
+      renderCrmLeads();
+    }
+
+    function closeCrmModal() {
+      document.getElementById('crm-modal').classList.add('hidden');
+    }
+
+    // Toast
+    function showToast(msg, type = 'info') {
+      const c = document.getElementById('toast-container');
+      const t = document.createElement('div');
+      t.className = 'p-3 bg-atelier-card border border-atelier-border text-white rounded-xl shadow-xl text-xs flex items-center gap-2 pointer-events-auto';
+      t.innerHTML = `<span class="text-atelier-accent">●</span><span>${msg}</span>`;
+      c.appendChild(t);
+      setTimeout(() => t.remove(), 3500);
+    }
+  </script>
+</body>
+</html>

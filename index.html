@@ -97,11 +97,15 @@
         <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
         <span class="font-medium text-white">Официальный сайт арт-пространства</span>
         <span class="hidden md:inline text-gray-400">| Актуальное расписание выставок и цены</span>
-        <!-- Theme switcher pill in topbar -->
-        <a href="light.html" class="ml-2 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-400/15 hover:bg-amber-400/25 text-amber-300 border border-amber-400/30 text-[11px] font-semibold transition shadow-sm">
-          <span>☀️ Бежевый вариант дизайна</span>
-          <i data-lucide="arrow-right" class="w-3 h-3"></i>
-        </a>
+        <!-- Theme switcher pill matrix in topbar -->
+        <div class="ml-2 inline-flex items-center gap-1.5 p-0.5 rounded-full bg-white/5 border border-white/10 text-[11px] font-semibold">
+          <span class="px-2 py-0.5 rounded-full bg-white/15 text-white">🌙 Эрарта</span>
+          <a href="light.html" class="px-2 py-0.5 rounded-full text-amber-200 hover:text-white hover:bg-white/10 transition">☀️ Бежевый</a>
+          <a href="atelier.html" class="px-2 py-0.5 rounded-full text-orange-400 hover:text-white hover:bg-white/10 transition flex items-center gap-1">
+            <span>⚡ Ателье</span>
+            <span class="text-[9px] bg-orange-500/30 px-1 rounded text-orange-300">v3</span>
+          </a>
+        </div>
       </div>
       <div class="flex items-center gap-4">
         <span class="hidden sm:inline text-gray-400">Вт–Вс: 11:00 — 21:00 (Пн — закрыто)</span>
@@ -143,11 +147,16 @@
         </nav>
 
         <!-- Right Action Buttons -->
-        <div class="flex items-center gap-3">
-          <!-- Theme Switcher Button -->
-          <a href="light.html" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-stone-800/80 hover:bg-stone-700/80 text-amber-200 border border-amber-400/25 text-xs font-semibold tracking-wide transition" title="Переключить на светлый бежевый дизайн">
-            <span>☀️ Бежевый стиль</span>
-          </a>
+        <div class="flex items-center gap-2">
+          <!-- 3-Way Switcher in Header -->
+          <div class="hidden sm:inline-flex items-center gap-1 p-1 rounded-xl bg-brand-card border border-brand-border text-xs font-semibold">
+            <span class="px-2.5 py-1 rounded-lg bg-white/10 text-white">🌙 Темный</span>
+            <a href="light.html" class="px-2.5 py-1 rounded-lg text-amber-200 hover:text-white hover:bg-white/5 transition">☀️ Бежевый</a>
+            <a href="atelier.html" class="px-2.5 py-1 rounded-lg text-orange-400 hover:text-white hover:bg-white/5 transition flex items-center gap-1">
+              <span>⚡ Ателье</span>
+              <span class="text-[9px] bg-orange-500/20 text-orange-400 px-1 rounded">Новый</span>
+            </a>
+          </div>
 
           <!-- Cart Button -->
           <button onclick="toggleCartDrawer()" class="relative p-2.5 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 border border-brand-border transition" title="Корзина">
